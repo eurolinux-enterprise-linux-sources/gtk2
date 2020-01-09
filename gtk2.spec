@@ -19,7 +19,7 @@
 Summary: The GIMP ToolKit (GTK+), a library for creating GUIs for X
 Name: gtk2
 Version: %{base_version}
-Release: 6%{?dist}
+Release: 8%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
@@ -60,6 +60,9 @@ Patch39: 0001-Print-to-a-file-in-the-current-directory-by-default.patch
 Patch40: check-cancellable.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1126916
 Patch41: gtk2-entry-text-column.patch
+# https://bugzilla.gnome.org/show_bug.cgi?id=612611
+Patch42: 0001-Fix-interaction-between-scrolling-menus-and-automati.patch
+Patch43: translations.patch
 
 BuildRequires: atk-devel >= %{atk_version}
 BuildRequires: pango-devel >= %{pango_version}
@@ -181,6 +184,8 @@ This package contains developer documentation for the GTK+ widget toolkit.
 %patch39 -p1 -b .print-to-file
 %patch40 -p1 -b .check-cancellable
 %patch41 -p1 -b .entry-text-column
+%patch42 -p1 -b .scrolling-menus
+%patch43 -p1 -b .translations
 
 %build
 %configure --with-xinput=xfree 		\
@@ -392,6 +397,14 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %doc tmpdocs/examples
 
 %changelog
+* Fri Mar 18 2016 Matthias Clasen <mclasen@redhat.com> - 2.24.23-8
+- Update translations
+  Resolves: #1136857
+
+* Wed Jan 20 2016 Benjamin Otte <otte@redhat.com> - 2.24.23-7
+- Fix interaction between scrolling menus and automatic mnemonics
+  Resolves: #1147739
+
 * Fri Aug 29 2014 Marek Kasik <mkasik@redhat.com> - 2.24.23-6
 - Set "entry-text-column" property in constructor of GtkComboBoxText.
 - Fixes crash in evolution when creating new appointment.
