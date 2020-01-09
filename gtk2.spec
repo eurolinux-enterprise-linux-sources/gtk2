@@ -10,6 +10,7 @@
 %define cairo_version %{cairo_base_version}-1
 %define libpng_version 2:1.2.2-16
 %define xrandr_version 1.2.99.4-2
+%define x11_version 1.5.0-4.el6
 %define gdk_pixbuf2_base_version 2.24.1
 %define gdk_pixbuf2_version %{gdk_pixbuf_base_version}-1
 
@@ -19,7 +20,7 @@
 Summary: The GIMP ToolKit (GTK+), a library for creating GUIs for X
 Name: gtk2
 Version: %{base_version}
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
@@ -102,6 +103,7 @@ Requires(post): glib2 >= %{glib2_version}
 Requires(post): atk >= %{atk_version}
 Requires(post): pango >= %{pango_version}
 Requires: libXrandr >= %{xrandr_version}
+Requires: libX11 >= %{x11_version}
 
 %description
 GTK+ is a multi-platform toolkit for creating graphical user
@@ -397,6 +399,10 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %doc tmpdocs/examples
 
 %changelog
+* Mon Oct 10 2016 Matthias Clasen <mclasen@redhat.com> - 2.24.23-9
+- Bump the libX11 requirement
+  Resolves: #1069001
+
 * Fri Mar 18 2016 Matthias Clasen <mclasen@redhat.com> - 2.24.23-8
 - Update translations
   Resolves: #1136857
