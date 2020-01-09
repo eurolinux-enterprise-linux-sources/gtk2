@@ -481,6 +481,15 @@ gdk_window_class_init (GdkWindowObjectClass *klass)
 
 
   /* Properties */
+
+  /**
+   * GdkWindow:cursor:
+   *
+   * The mouse pointer for a #GdkWindow. See gdk_window_set_cursor() and
+   * gdk_window_get_cursor() for details.
+   *
+   * Since: 2.18
+   */
   g_object_class_install_property (object_class,
                                    PROP_CURSOR,
                                    g_param_spec_boxed ("cursor",
@@ -1264,7 +1273,7 @@ sync_native_window_stack_position (GdkWindow *window)
 
 /**
  * gdk_window_new:
- * @parent: a #GdkWindow, or %NULL to create the window as a child of
+ * @parent: (allow-none): a #GdkWindow, or %NULL to create the window as a child of
  *   the default root window for the default display.
  * @attributes: attributes of the new window
  * @attributes_mask: mask indicating which fields in @attributes are valid
@@ -1274,7 +1283,7 @@ sync_native_window_stack_position (GdkWindow *window)
  * more details.  Note: to use this on displays other than the default
  * display, @parent must be specified.
  *
- * Return value: the new #GdkWindow
+ * Return value: (transfer none): the new #GdkWindow
  **/
 GdkWindow*
 gdk_window_new (GdkWindow     *parent,
@@ -2219,6 +2228,8 @@ gdk_window_get_window_type (GdkWindow *window)
  * Check to see if a window is destroyed..
  *
  * Return value: %TRUE if the window is destroyed
+ *
+ * Since: 2.18
  **/
 gboolean
 gdk_window_is_destroyed (GdkWindow *window)
@@ -3398,8 +3409,6 @@ gdk_window_flush_if_exposing (GdkWindow *window)
 {
   GdkWindowObject *private;
   GdkWindowObject *impl_window;
-  GList *l;
-  GdkWindowRegionMove *move;
 
   private = (GdkWindowObject *) window;
   impl_window = gdk_window_get_impl_window (private);
@@ -3460,12 +3469,12 @@ gdk_window_get_offsets (GdkWindow *window,
 /**
  * gdk_window_get_internal_paint_info:
  * @window: a #GdkWindow
- * @real_drawable: location to store the drawable to which drawing should be
+ * @real_drawable: (out): location to store the drawable to which drawing should be
  *            done.
- * @x_offset: location to store the X offset between coordinates in @window,
+ * @x_offset: (out): location to store the X offset between coordinates in @window,
  *            and the underlying window system primitive coordinates for
  *            *@real_drawable.
- * @y_offset: location to store the Y offset between coordinates in @window,
+ * @y_offset: (out): location to store the Y offset between coordinates in @window,
  *            and the underlying window system primitive coordinates for
  *            *@real_drawable.
  *
@@ -5564,7 +5573,7 @@ gdk_window_invalidate_rect_full (GdkWindow          *window,
 /**
  * gdk_window_invalidate_rect:
  * @window: a #GdkWindow
- * @rect: rectangle to invalidate or %NULL to invalidate the whole
+ * @rect: (allow-none): rectangle to invalidate or %NULL to invalidate the whole
  *      window
  * @invalidate_children: whether to also invalidate child windows
  *
@@ -6216,18 +6225,18 @@ gdk_window_constrain_size (GdkGeometry *geometry,
 /**
  * gdk_window_get_pointer:
  * @window: a #GdkWindow
- * @x: return location for X coordinate of pointer or %NULL to not
+ * @x: (out) (allow-none): return location for X coordinate of pointer or %NULL to not
  *      return the X coordinate
- * @y: return location for Y coordinate of pointer or %NULL to not
+ * @y: (out) (allow-none):  return location for Y coordinate of pointer or %NULL to not
  *      return the Y coordinate
- * @mask: return location for modifier mask or %NULL to not return the
+ * @mask: (out) (allow-none): return location for modifier mask or %NULL to not return the
  *      modifier mask
  *
  * Obtains the current pointer position and modifier state.
  * The position is given in coordinates relative to the upper left
  * corner of @window.
  *
- * Return value: the window containing the pointer (as with
+ * Return value: (transfer none): the window containing the pointer (as with
  * gdk_window_at_pointer()), or %NULL if the window containing the
  * pointer isn't known to GDK
  **/
@@ -6276,8 +6285,8 @@ gdk_window_get_pointer (GdkWindow	  *window,
 
 /**
  * gdk_window_at_pointer:
- * @win_x: return location for origin of the window under the pointer
- * @win_y: return location for origin of the window under the pointer
+ * @win_x: (out) (allow-none): return location for origin of the window under the pointer
+ * @win_y: (out) (allow-none): return location for origin of the window under the pointer
  *
  * Obtains the window underneath the mouse pointer, returning the
  * location of that window in @win_x, @win_y. Returns %NULL if the
@@ -6288,7 +6297,7 @@ gdk_window_get_pointer (GdkWindow	  *window,
  * NOTE: For multihead-aware widgets or applications use
  * gdk_display_get_window_at_pointer() instead.
  *
- * Return value: window under the mouse pointer
+ * Return value: (transfer none): window under the mouse pointer
  **/
 GdkWindow*
 gdk_window_at_pointer (gint *win_x,
@@ -6768,7 +6777,7 @@ gdk_window_lower (GdkWindow *window)
 /**
  * gdk_window_restack:
  * @window: a #GdkWindow
- * @sibling: a #GdkWindow that is a sibling of @window, or %NULL
+ * @sibling: (allow-none): a #GdkWindow that is a sibling of @window, or %NULL
  * @above: a boolean
  *
  * Changes the position of  @window in the Z-order (stacking order), so that
@@ -7752,7 +7761,7 @@ gdk_window_set_background (GdkWindow      *window,
 /**
  * gdk_window_set_back_pixmap:
  * @window: a #GdkWindow
- * @pixmap: a #GdkPixmap, or %NULL
+ * @pixmap: (allow-none): a #GdkPixmap, or %NULL
  * @parent_relative: whether the tiling origin is at the origin of
  *   @window's parent
  *
@@ -8037,6 +8046,8 @@ gdk_window_get_origin (GdkWindow *window,
  * window coordinates. This is similar to
  * gdk_window_get_origin() but allows you go pass
  * in any position in the window, not just the origin.
+ *
+ * Since: 2.18
  */
 void
 gdk_window_get_root_coords (GdkWindow *window,
@@ -8320,7 +8331,7 @@ gdk_window_merge_child_shapes (GdkWindow *window)
 /**
  * gdk_window_input_shape_combine_mask:
  * @window: a #GdkWindow
- * @mask: shape mask, or %NULL
+ * @mask: (allow-none): shape mask, or %NULL
  * @x: X position of shape mask with respect to @window
  * @y: Y position of shape mask with respect to @window
  *

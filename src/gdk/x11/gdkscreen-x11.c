@@ -214,9 +214,9 @@ gdk_screen_get_number (GdkScreen *screen)
  * gdk_screen_get_root_window:
  * @screen: a #GdkScreen
  *
- * Gets the root window of @screen. 
- * 
- * Returns: the root window
+ * Gets the root window of @screen.
+ *
+ * Returns: (transfer none): the root window
  *
  * Since: 2.2
  **/
@@ -234,7 +234,7 @@ gdk_screen_get_root_window (GdkScreen *screen)
  *
  * Gets the default colormap for @screen.
  * 
- * Returns: the default #GdkColormap.
+ * Returns: (transfer none): the default #GdkColormap.
  *
  * Since: 2.2
  **/
@@ -352,6 +352,31 @@ gdk_screen_get_n_monitors (GdkScreen *screen)
   g_return_val_if_fail (GDK_IS_SCREEN (screen), 0);
 
   return GDK_SCREEN_X11 (screen)->n_monitors;
+}
+
+/**
+ * gdk_screen_get_primary_monitor:
+ * @screen: a #GdkScreen.
+ *
+ * Gets the primary monitor for @screen.  The primary monitor
+ * is considered the monitor where the 'main desktop' lives.
+ * While normal application windows typically allow the window
+ * manager to place the windows, specialized desktop applications
+ * such as panels should place themselves on the primary monitor.
+ *
+ * If no primary monitor is configured by the user, the return value
+ * will be 0, defaulting to the first monitor.
+ *
+ * Returns: An integer index for the primary monitor, or 0 if none is configured.
+ *
+ * Since: 2.20
+ */
+gint
+gdk_screen_get_primary_monitor (GdkScreen *screen)
+{
+  g_return_val_if_fail (GDK_IS_SCREEN (screen), 0);
+
+  return GDK_SCREEN_X11 (screen)->primary_monitor;
 }
 
 /**
@@ -502,8 +527,8 @@ gdk_screen_get_monitor_geometry (GdkScreen    *screen,
  * For setting an overall opacity for a top-level window, see
  * gdk_window_set_opacity().
 
- * Return value: a colormap to use for windows with an alpha channel
- *   or %NULL if the capability is not available.
+ * Return value: (transfer none): a colormap to use for windows with
+ *     an alpha channel or %NULL if the capability is not available.
  *
  * Since: 2.8
  **/
@@ -534,8 +559,8 @@ gdk_screen_get_rgba_colormap (GdkScreen *screen)
  * alpha channel. See the docs for gdk_screen_get_rgba_colormap()
  * for caveats.
  * 
- * Return value: a visual to use for windows with an alpha channel
- *   or %NULL if the capability is not available.
+ * Return value: (transfer none): a visual to use for windows with an
+ *     alpha channel or %NULL if the capability is not available.
  *
  * Since: 2.8
  **/
@@ -554,7 +579,7 @@ gdk_screen_get_rgba_visual (GdkScreen *screen)
 /**
  * gdk_x11_screen_get_xscreen:
  * @screen: a #GdkScreen.
- * @returns: an Xlib <type>Screen*</type>
+ * @returns: (transfer none): an Xlib <type>Screen*</type>
  *
  * Returns the screen of a #GdkScreen.
  *
@@ -722,6 +747,8 @@ init_randr13 (GdkScreen *screen)
   GdkScreenX11 *screen_x11 = GDK_SCREEN_X11 (screen);
   Display *dpy = GDK_SCREEN_XDISPLAY (screen);
   XRRScreenResources *resources;
+  RROutput primary_output;
+  RROutput first_output = None;
   int i;
   GArray *monitors;
   gboolean randr12_compat = FALSE;
@@ -733,7 +760,7 @@ init_randr13 (GdkScreen *screen)
 				            screen_x11->xroot_window);
   if (!resources)
     return FALSE;
-  
+
   monitors = g_array_sized_new (FALSE, TRUE, sizeof (GdkX11Monitor),
                                 resources->noutput);
 
@@ -743,7 +770,7 @@ init_randr13 (GdkScreen *screen)
 	XRRGetOutputInfo (dpy, resources, resources->outputs[i]);
 
       /* Non RandR1.2 X driver have output name "default" */
-      randr12_compat |= !g_strcmp0(output->name, "default");
+      randr12_compat |= !g_strcmp0 (output->name, "default");
 
       if (output->connection == RR_Disconnected)
         {
@@ -776,6 +803,9 @@ init_randr13 (GdkScreen *screen)
       XRRFreeOutputInfo (output);
     }
 
+  if (resources->noutput > 0)
+    first_output = resources->outputs[0];
+
   XRRFreeScreenResources (resources);
 
   /* non RandR 1.2 X driver doesn't return any usable multihead data */
@@ -794,9 +824,35 @@ init_randr13 (GdkScreen *screen)
   screen_x11->n_monitors = monitors->len;
   screen_x11->monitors = (GdkX11Monitor *)g_array_free (monitors, FALSE);
 
+  screen_x11->primary_monitor = 0;
+
+  primary_output = XRRGetOutputPrimary (screen_x11->xdisplay,
+                                        screen_x11->xroot_window);
+
+  for (i = 0; i < screen_x11->n_monitors; ++i)
+    {
+      if (screen_x11->monitors[i].output == primary_output)
+	{
+	  screen_x11->primary_monitor = i;
+	  break;
+	}
+
+      /* No RandR1.3+ available or no primary set, fall back to prefer LVDS as primary if present */
+      if (primary_output == None &&
+          g_ascii_strncasecmp (screen_x11->monitors[i].output_name, "LVDS", 4) == 0)
+	{
+	  screen_x11->primary_monitor = i;
+	  break;
+	}
+
+      /* No primary specified and no LVDS found */
+      if (screen_x11->monitors[i].output == first_output)
+	screen_x11->primary_monitor = i;
+    }
+
   return screen_x11->n_monitors > 0;
 #endif
-  
+
   return FALSE;
 }
 
@@ -835,7 +891,9 @@ init_solaris_xinerama (GdkScreen *screen)
 			     monitors[i].x, monitors[i].y,
 			     monitors[i].width, monitors[i].height);
     }
-  
+
+  screen_x11->primary_monitor = 0;
+
   return TRUE;
 #endif /* HAVE_SOLARIS_XINERAMA */
 
@@ -882,6 +940,8 @@ init_xfree_xinerama (GdkScreen *screen)
   
   XFree (monitors);
   
+  screen_x11->primary_monitor = 0;
+
   return TRUE;
 #endif /* HAVE_XFREE_XINERAMA */
   
@@ -974,6 +1034,7 @@ init_multihead (GdkScreen *screen)
   /* No multihead support of any kind for this screen */
   screen_x11->n_monitors = 1;
   screen_x11->monitors = g_new0 (GdkX11Monitor, 1);
+  screen_x11->primary_monitor = 0;
 
   init_monitor_geometry (screen_x11->monitors, 0, 0,
 			 WidthOfScreen (screen_x11->xscreen),
@@ -1110,7 +1171,10 @@ _gdk_x11_screen_size_changed (GdkScreen *screen,
   display_x11 = GDK_DISPLAY_X11 (gdk_screen_get_display (screen));
 
   if (display_x11->have_randr13 && event->type == ConfigureNotify)
-    return;
+    {
+      g_signal_emit_by_name (screen, "monitors-changed");
+      return;
+    }
 
   XRRUpdateConfiguration (event);
 #else

@@ -635,8 +635,8 @@ gtk_target_table_free (GtkTargetEntry *targets,
 
 /**
  * gtk_selection_owner_set_for_display:
- * @display: the #Gdkdisplay where the selection is set 
- * @widget: new selection owner (a #GdkWidget), or %NULL.
+ * @display: the #Gdkdisplay where the selection is set
+ * @widget: (allow-none): new selection owner (a #GdkWidget), or %NULL.
  * @selection: an interned atom representing the selection to claim.
  * @time_: timestamp with which to claim the selection
  *
@@ -660,7 +660,7 @@ gtk_selection_owner_set_for_display (GdkDisplay   *display,
 
   g_return_val_if_fail (GDK_IS_DISPLAY (display), FALSE);
   g_return_val_if_fail (selection != GDK_NONE, FALSE);
-  g_return_val_if_fail (widget == NULL || GTK_WIDGET_REALIZED (widget), FALSE);
+  g_return_val_if_fail (widget == NULL || gtk_widget_get_realized (widget), FALSE);
   g_return_val_if_fail (widget == NULL || gtk_widget_get_display (widget) == display, FALSE);
   
   if (widget == NULL)
@@ -738,7 +738,7 @@ gtk_selection_owner_set_for_display (GdkDisplay   *display,
 
 /**
  * gtk_selection_owner_set:
- * @widget:  a #GtkWidget, or %NULL.
+ * @widget: (allow-none):  a #GtkWidget, or %NULL.
  * @selection:  an interned atom representing the selection to claim
  * @time_: timestamp with which to claim the selection
  * 
@@ -754,7 +754,7 @@ gtk_selection_owner_set (GtkWidget *widget,
 {
   GdkDisplay *display;
   
-  g_return_val_if_fail (widget == NULL || GTK_WIDGET_REALIZED (widget), FALSE);
+  g_return_val_if_fail (widget == NULL || gtk_widget_get_realized (widget), FALSE);
   g_return_val_if_fail (selection != GDK_NONE, FALSE);
 
   if (widget)
@@ -1032,7 +1032,7 @@ gtk_selection_convert (GtkWidget *widget,
   if (initialize)
     gtk_selection_init ();
   
-  if (!GTK_WIDGET_REALIZED (widget))
+  if (!gtk_widget_get_realized (widget))
     gtk_widget_realize (widget);
   
   /* Check to see if there are already any retrievals in progress for
@@ -1756,10 +1756,11 @@ gtk_selection_data_set_uris (GtkSelectionData  *selection_data,
  * @selection_data: a #GtkSelectionData
  * 
  * Gets the contents of the selection data as array of URIs.
- * 
- * Return value: if the selection data contains a list of
+ *
+ * Return value:  (array zero-terminated=1) (element-type utf8) (transfer full): if
+ *   the selection data contains a list of
  *   URIs, a newly allocated %NULL-terminated string array
- *   containing the URIs, otherwise %NULL. If the result is 
+ *   containing the URIs, otherwise %NULL. If the result is
  *   non-%NULL it must be freed with g_strfreev().
  *
  * Since: 2.6
@@ -3064,7 +3065,7 @@ gtk_selection_default_handler (GtkWidget	*widget,
     {
       gtk_selection_data_set (data,
 			      gdk_atom_intern_static_string ("NULL"),
-			      32, "", 0);
+			      32, NULL, 0);
     }
   else
     {

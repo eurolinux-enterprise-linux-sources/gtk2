@@ -1047,7 +1047,7 @@ to_callback_do_write (j_compress_ptr cinfo, gsize length)
 	ToFunctionDestinationManager *destmgr;
 
 	destmgr	= (ToFunctionDestinationManager*) cinfo->dest;
-        if (!destmgr->save_func (destmgr->buffer,
+        if (!destmgr->save_func ((gchar *)destmgr->buffer,
 				 length,
 				 destmgr->error,
 				 destmgr->user_data)) {

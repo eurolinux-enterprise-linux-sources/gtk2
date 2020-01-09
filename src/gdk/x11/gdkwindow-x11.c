@@ -3441,8 +3441,6 @@ do_shape_combine_region (GdkWindow       *window,
 			 gint             offset_y,
 			 gint             shape)
 {
-  GdkWindowObject *private = (GdkWindowObject *)window;
-  
   if (GDK_WINDOW_DESTROYED (window))
     return;
 
@@ -4612,10 +4610,7 @@ _xwindow_get_shape (Display *xdisplay,
 			     window,
 			     shape_type, &rn, &ord);
 
-  if (xrl == NULL)
-    return NULL; /* XShape not supported */
-
-  if (rn == 0)
+  if (xrl == NULL || rn == 0)
     return gdk_region_new (); /* Empty */
 
   if (ord != YXBanded)
@@ -4654,7 +4649,7 @@ _gdk_windowing_get_shape_for_mask (GdkBitmap *mask)
   display = gdk_drawable_get_display (GDK_DRAWABLE (mask));
 
   window = XCreateSimpleWindow (GDK_DISPLAY_XDISPLAY (display),
-                                GDK_SCREEN_XROOTWIN (gdk_display_get_default_screen (display)),
+                                GDK_SCREEN_XROOTWIN (gdk_drawable_get_screen (mask)),
                                 -1, -1, 1, 1, 0,
                                 0, 0);
   XShapeCombineMask (GDK_DISPLAY_XDISPLAY (display),

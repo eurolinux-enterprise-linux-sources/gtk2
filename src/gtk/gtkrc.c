@@ -2028,13 +2028,13 @@ gtk_rc_get_style (GtkWidget *widget)
 /**
  * gtk_rc_get_style_by_paths:
  * @settings: a #GtkSettings object
- * @widget_path: the widget path to use when looking up the style, or %NULL
+ * @widget_path: (allow-none): the widget path to use when looking up the style, or %NULL
  *               if no matching against the widget path should be done
- * @class_path: the class path to use when looking up the style, or %NULL
+ * @class_path: (allow-none): the class path to use when looking up the style, or %NULL
  *               if no matching against the class path should be done.
  * @type: a type that will be used along with parent types of this type
  *        when matching against class styles, or #G_TYPE_NONE
- * 
+ *
  * Creates up a #GtkStyle from styles defined in a RC file by providing
  * the raw components used in matching. This function may be useful
  * when creating pseudo-widgets that should be themed like widgets but
@@ -3868,7 +3868,7 @@ gtk_rc_parse_color (GScanner *scanner,
 /**
  * gtk_rc_parse_color_full:
  * @scanner: a #GScanner
- * @style: a #GtkRcStyle, or %NULL
+ * @style: (allow-none): a #GtkRcStyle, or %NULL
  * @color: a pointer to a #GdkColor structure in which to store the result
  *
  * Parses a color in the <link linkend="color=format">format</link> expected

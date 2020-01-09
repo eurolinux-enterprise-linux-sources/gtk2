@@ -93,6 +93,7 @@ EXPORTS
 	gtk_action_create_menu
 	gtk_action_disconnect_accelerator
 	gtk_action_disconnect_proxy
+	gtk_action_get_always_show_image
 	gtk_action_get_accel_closure
 	gtk_action_get_accel_path
 	gtk_action_get_gicon
@@ -115,6 +116,7 @@ EXPORTS
 	gtk_action_new
 	gtk_action_set_accel_group
 	gtk_action_set_accel_path
+	gtk_action_set_always_show_image
 	gtk_action_set_gicon
 	gtk_action_set_icon_name
 	gtk_action_set_is_important
@@ -305,6 +307,7 @@ EXPORTS
 	gtk_text_buffer_target_info_get_type 
 	gtk_text_search_flags_get_type 
 	gtk_text_window_type_get_type 
+	gtk_tool_palette_drag_targets_get_type 
 	gtk_tree_model_flags_get_type 
 	gtk_tree_view_mode_get_type 
 	gtk_tree_view_grid_lines_get_type 
@@ -470,6 +473,8 @@ EXPORTS
 	gtk_cell_renderer_pixbuf_new
 	gtk_cell_renderer_spin_get_type 
 	gtk_cell_renderer_spin_new
+	gtk_cell_renderer_spinner_get_type 
+	gtk_cell_renderer_spinner_new
 	gtk_cell_renderer_progress_get_type 
 	gtk_cell_renderer_progress_new
 	gtk_cell_renderer_text_get_type 
@@ -820,6 +825,7 @@ EXPORTS
 	gtk_dialog_get_action_area
 	gtk_dialog_get_content_area
 	gtk_dialog_get_has_separator
+	gtk_dialog_get_widget_for_response
 	gtk_dialog_get_response_for_widget
 	gtk_dialog_get_type 
 	gtk_dialog_new
@@ -905,6 +911,7 @@ EXPORTS
 	gtk_status_icon_get_x11_window_id
 	gtk_status_icon_get_title
 	gtk_status_icon_set_title
+	gtk_status_icon_set_name
 	gtk_draw_arrow
 	gtk_draw_box
 	gtk_draw_box_gap
@@ -949,6 +956,7 @@ EXPORTS
 	gtk_paint_shadow
 	gtk_paint_shadow_gap
 	gtk_paint_slider
+	gtk_paint_spinner
 	gtk_paint_tab
 	gtk_paint_vline
 	gtk_border_new 
@@ -1003,6 +1011,7 @@ EXPORTS
 	gtk_entry_get_icon_storage_type
 	gtk_entry_get_icon_tooltip_markup
 	gtk_entry_get_icon_tooltip_text
+	gtk_entry_get_icon_window
 	gtk_entry_get_inner_border
 	gtk_entry_get_invisible_char
 	gtk_entry_get_layout
@@ -1016,6 +1025,7 @@ EXPORTS
 	gtk_entry_get_type 
 	gtk_entry_get_visibility
 	gtk_entry_get_width_chars
+	gtk_entry_get_text_window
 	gtk_entry_layout_index_to_text_index
 	gtk_entry_new
 	gtk_entry_new_with_buffer
@@ -1221,12 +1231,12 @@ EXPORTS
 	gtk_file_selection_set_filename_utf8
 	gtk_file_selection_set_select_multiple
 	gtk_file_selection_show_fileop_buttons
-	gtk_fixed_get_has_window
 	gtk_fixed_get_type 
 	gtk_fixed_move
 	gtk_fixed_new
 	gtk_fixed_put
 	gtk_fixed_set_has_window
+	gtk_fixed_get_has_window
 	gtk_font_button_get_font_name
 	gtk_font_button_get_show_size
 	gtk_font_button_get_show_style
@@ -1901,6 +1911,8 @@ EXPORTS
 	gtk_notebook_set_tab_reorderable
 	gtk_notebook_get_tab_detachable
 	gtk_notebook_set_tab_detachable
+	gtk_notebook_get_action_widget
+	gtk_notebook_set_action_widget
 	gtk_object_add_arg_type
 	gtk_object_get 
 	gtk_object_set 
@@ -1924,6 +1936,10 @@ EXPORTS
 	gtk_object_sink
 	gtk_object_destroy
 	gtk_object_get_type 
+	gtk_offscreen_window_get_type 
+	gtk_offscreen_window_new
+	gtk_offscreen_window_get_pixmap
+	gtk_offscreen_window_get_pixbuf
 	gtk_orientable_get_orientation
 	gtk_orientable_get_type 
 	gtk_orientable_set_orientation
@@ -1941,6 +1957,7 @@ EXPORTS
 	gtk_paned_add2
 	gtk_paned_get_child1
 	gtk_paned_get_child2
+	gtk_paned_get_handle_window
 	gtk_paned_get_position
 	gtk_paned_get_type 
 	gtk_paned_pack1
@@ -2032,6 +2049,7 @@ EXPORTS
 	gtk_print_context_get_height
 	gtk_print_context_get_dpi_x
 	gtk_print_context_get_dpi_y
+	gtk_print_context_get_hard_margins
 	gtk_print_context_get_pango_fontmap
 	gtk_print_context_create_pango_context
 	gtk_print_context_create_pango_layout
@@ -2222,8 +2240,12 @@ EXPORTS
 	gtk_range_get_flippable
 	gtk_range_get_inverted
 	gtk_range_get_lower_stepper_sensitivity
+	gtk_range_get_min_slider_size
+	gtk_range_get_range_rect
 	gtk_range_get_restrict_to_fill_level
 	gtk_range_get_show_fill_level
+	gtk_range_get_slider_range
+	gtk_range_get_slider_size_fixed
 	gtk_range_get_type 
 	gtk_range_get_update_policy
 	gtk_range_get_upper_stepper_sensitivity
@@ -2234,9 +2256,11 @@ EXPORTS
 	gtk_range_set_increments
 	gtk_range_set_inverted
 	gtk_range_set_lower_stepper_sensitivity
+	gtk_range_set_min_slider_size
 	gtk_range_set_range
 	gtk_range_set_restrict_to_fill_level
 	gtk_range_set_show_fill_level
+	gtk_range_set_slider_size_fixed
 	gtk_range_set_update_policy
 	gtk_range_set_upper_stepper_sensitivity
 	gtk_range_set_value
@@ -2572,8 +2596,13 @@ EXPORTS
 	gtk_spin_button_set_wrap
 	gtk_spin_button_spin
 	gtk_spin_button_update
+	gtk_spinner_get_type 
+	gtk_spinner_new
+	gtk_spinner_start
+	gtk_spinner_stop
 	gtk_statusbar_get_context_id
 	gtk_statusbar_get_has_resize_grip
+	gtk_statusbar_get_message_area
 	gtk_statusbar_get_type 
 	gtk_statusbar_new
 	gtk_statusbar_pop
@@ -2978,10 +3007,14 @@ EXPORTS
 	gtk_toolbar_set_tooltips
 	gtk_toolbar_unset_style
 	gtk_tool_shell_get_type 
+	gtk_tool_shell_get_ellipsize_mode
 	gtk_tool_shell_get_icon_size
 	gtk_tool_shell_get_orientation
 	gtk_tool_shell_get_style
 	gtk_tool_shell_get_relief_style
+	gtk_tool_shell_get_text_alignment
+	gtk_tool_shell_get_text_orientation
+	gtk_tool_shell_get_text_size_group
 	gtk_tool_shell_rebuild_menu
 	gtk_tool_button_get_icon_name
 	gtk_tool_button_get_icon_widget
@@ -2998,6 +3031,7 @@ EXPORTS
 	gtk_tool_button_set_label_widget
 	gtk_tool_button_set_stock_id
 	gtk_tool_button_set_use_underline
+	gtk_tool_item_get_ellipsize_mode
 	gtk_tool_item_get_expand
 	gtk_tool_item_get_homogeneous
 	gtk_tool_item_get_icon_size
@@ -3005,6 +3039,9 @@ EXPORTS
 	gtk_tool_item_get_orientation
 	gtk_tool_item_get_proxy_menu_item
 	gtk_tool_item_get_relief_style
+	gtk_tool_item_get_text_alignment
+	gtk_tool_item_get_text_orientation
+	gtk_tool_item_get_text_size_group
 	gtk_tool_item_get_toolbar_style
 	gtk_tool_item_get_type 
 	gtk_tool_item_get_use_drag_window
@@ -3024,11 +3061,53 @@ EXPORTS
 	gtk_tool_item_set_visible_horizontal
 	gtk_tool_item_set_visible_vertical
 	gtk_tool_item_toolbar_reconfigured
+	gtk_tool_item_group_get_type 
+	gtk_tool_item_group_new
+	gtk_tool_item_group_set_label
+	gtk_tool_item_group_set_label_widget
+	gtk_tool_item_group_set_collapsed
+	gtk_tool_item_group_set_ellipsize
+	gtk_tool_item_group_set_header_relief
+	gtk_tool_item_group_get_label
+	gtk_tool_item_group_get_label_widget
+	gtk_tool_item_group_get_ellipsize
+	gtk_tool_item_group_get_header_relief
+	gtk_tool_item_group_insert
+	gtk_tool_item_group_set_item_position
+	gtk_tool_item_group_get_item_position
+	gtk_tool_item_group_get_n_items
+	gtk_tool_item_group_get_nth_item
+	gtk_tool_item_group_get_drop_item
+	gtk_tool_item_group_get_collapsed
+	gtk_tool_palette_get_type 
+	gtk_tool_palette_new
+	gtk_tool_palette_set_group_position
+	gtk_tool_palette_set_exclusive
+	gtk_tool_palette_set_expand
+	gtk_tool_palette_get_group_position
+	gtk_tool_palette_get_exclusive
+	gtk_tool_palette_get_expand
+	gtk_tool_palette_set_icon_size
+	gtk_tool_palette_unset_icon_size
+	gtk_tool_palette_set_style
+	gtk_tool_palette_unset_style
+	gtk_tool_palette_get_icon_size
+	gtk_tool_palette_get_style
+	gtk_tool_palette_get_drop_item
+	gtk_tool_palette_get_drop_group
+	gtk_tool_palette_get_drag_item
+	gtk_tool_palette_set_drag_source
+	gtk_tool_palette_add_drag_dest
+	gtk_tool_palette_get_hadjustment
+	gtk_tool_palette_get_vadjustment
+	gtk_tool_palette_get_drag_target_item 
+	gtk_tool_palette_get_drag_target_group 
 	gtk_tooltip_get_type 
 	gtk_tooltip_set_custom
 	gtk_tooltip_set_icon
 	gtk_tooltip_set_icon_from_stock
 	gtk_tooltip_set_icon_from_icon_name
+	gtk_tooltip_set_icon_from_gicon
 	gtk_tooltip_set_markup
 	gtk_tooltip_set_text
 	gtk_tooltip_set_tip_area
@@ -3401,6 +3480,7 @@ EXPORTS
 	gtk_viewport_get_shadow_type
 	gtk_viewport_get_type 
 	gtk_viewport_get_vadjustment
+	gtk_viewport_get_bin_window
 	gtk_viewport_new
 	gtk_viewport_set_hadjustment
 	gtk_viewport_set_shadow_type
@@ -3470,6 +3550,7 @@ EXPORTS
 	gtk_widget_get_pointer
 	gtk_widget_get_receives_default
 	gtk_widget_get_root_window
+	gtk_widget_get_requisition
 	gtk_widget_get_screen
 	gtk_widget_get_sensitive
 	gtk_widget_get_settings
@@ -3489,6 +3570,7 @@ EXPORTS
 	gtk_widget_has_default
 	gtk_widget_has_focus
 	gtk_widget_has_grab
+	gtk_widget_has_rc_style
 	gtk_widget_has_screen
 	gtk_widget_hide
 	gtk_widget_hide_all
@@ -3574,6 +3656,7 @@ EXPORTS
 	gtk_widget_show_now
 	gtk_widget_size_allocate
 	gtk_widget_size_request
+	gtk_widget_style_attach
 	gtk_widget_style_get 
 	gtk_widget_style_get_property
 	gtk_widget_style_get_valist
@@ -3590,6 +3673,10 @@ EXPORTS
 	gtk_widget_get_can_default
 	gtk_widget_set_can_focus
 	gtk_widget_get_can_focus
+	gtk_widget_set_realized
+	gtk_widget_get_realized
+	gtk_widget_set_mapped
+	gtk_widget_get_mapped
 	gtk_window_activate_default
 	gtk_window_activate_focus
 	gtk_window_activate_key
@@ -3618,6 +3705,7 @@ EXPORTS
 	gtk_window_get_icon_list
 	gtk_window_get_icon_name
 	gtk_window_get_mnemonic_modifier
+	gtk_window_get_mnemonics_visible
 	gtk_window_get_modal
 	gtk_window_get_position
 	gtk_window_get_resizable
@@ -3631,6 +3719,7 @@ EXPORTS
 	gtk_window_get_transient_for
 	gtk_window_get_type 
 	gtk_window_get_type_hint
+	gtk_window_get_window_type
 	gtk_window_group_add_window
 	gtk_window_group_get_type 
 	gtk_window_group_new
@@ -3680,6 +3769,7 @@ EXPORTS
 	gtk_window_set_keep_above
 	gtk_window_set_keep_below
 	gtk_window_set_mnemonic_modifier
+	gtk_window_set_mnemonics_visible
 	gtk_window_set_modal
 	gtk_window_set_opacity
 	gtk_window_get_opacity

@@ -1,26 +1,28 @@
 # Note that this is NOT a relocatable package
 
-%define glib2_base_version 2.21.3
+%define glib2_base_version 2.23.6
 %define glib2_version %{glib2_base_version}-1
 %define pango_base_version 1.20.0
 %define pango_version %{pango_base_version}-1
-%define atk_base_version 1.13.0
-%define atk_version %{atk_base_version}-1
+%define atk_base_version 1.29.4
+%define atk_version %{atk_base_version}-2
 %define cairo_base_version 1.6.0
 %define cairo_version %{cairo_base_version}-1
 %define libpng_version 2:1.2.2-16
 %define xrandr_version 1.2.99.4-2
 
-%define base_version 2.18.9
+%define base_version 2.20.1
 %define bin_version 2.10.0
 
 Summary: The GIMP ToolKit (GTK+), a library for creating GUIs for X
 Name: gtk2
 Version: %{base_version}
-Release: 12%{?dist}
+Release: 4%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
-Source: http://download.gnome.org/sources/gtk+/2.18/gtk+-%{version}.tar.bz2
+URL: http://www.gtk.org
+#VCS: git:git://git.gnome.org/gtk+#gtk-2.20
+Source: http://download.gnome.org/sources/gtk+/2.20/gtk+-%{version}.tar.bz2
 Source1: update-gdk-pixbuf-loaders
 Source2: update-gtk-immodules
 Source3: im-cedilla.conf
@@ -32,35 +34,16 @@ Patch1: system-python.patch
 Patch2: icon-padding.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=599617
 Patch4: fresh-tooltips.patch
-# from upstream
-Patch5: allow-set-hint.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=599618
 Patch8: tooltip-positioning.patch
 # http://bugzilla.redhat.com/show_bug.cgi?id=529364
 Patch11: gtk2-remove-connecting-reason.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=592582
-Patch12: gtk2-preview.patch
-Patch13: gtk2-rotate-layout.patch
-Patch14: gtk2-landscape-pdf-print.patch
-# https://bugzilla.gnome.org/show_bug.cgi?id=600992
-Patch15: filesystemref.patch
-# from upstream
-Patch16: o-minus.patch
-# from upstream
-Patch17: strftime-format.patch
-# from upstream
-Patch18: 0001-Avoid-spurious-notifications-from-GtkEntry.patch
-# from upstream
-Patch19: 0001-Prevent-the-destruction-of-the-menu-label-on-page-re.patch
-# from upstream
-Patch20: 0002-Yet-another-fix-for-shape-handling.patch
+#Patch14: gtk2-landscape-pdf-print.patch
+# https://bugzilla.gnome.org/show_bug.cgi?id=611313
+Patch15: window-dragging.patch
 Patch23: gtk2-ppd-reading.patch
 # updated translations
-# https://bugzilla.redhat.com/show_bug.cgi?id=589238
-Patch24: gtk2-translations.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=636476
-Patch25: gtk2-translations-gu.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=625440
 Patch26: gtk2-translations-mr-te.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=647922
@@ -79,6 +62,12 @@ Patch32: 0001-Try-harder-to-discriminate-Shift-F10-and-F10.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=697437
 Patch33: gtk2-filechooser-size-column-hiding-additional.patch
+
+# RH bug #970594
+Patch34: gtk2-2.20.1-combo-item-names.patch
+
+# RH bug #979049
+Patch35: gtk2-2.20.1-treeview-expand.patch
 
 BuildRequires: atk-devel >= %{atk_version}
 BuildRequires: pango-devel >= %{pango_version}
@@ -112,9 +101,7 @@ Conflicts: redhat-artwork < 0.243-1
 Provides: gail = %{version}-%{release}
 Obsoletes: gail < 2.13.0-1
 
-URL: http://www.gtk.org
-
-# required for icon themes apis to work
+# required for icon theme apis to work
 Requires: hicolor-icon-theme
 
 # We need to prereq these so we can run gtk-query-immodules-2.0
@@ -193,21 +180,11 @@ This package contains developer documentation for the GTK+ widget toolkit.
 %patch1 -p1 -b .system-python
 %patch2 -p1 -b .icon-padding
 %patch4 -p1 -b .fresh-tooltips
-%patch5 -p1 -b .allow-set-hint
 %patch8 -p1 -b .tooltip-positioning
 %patch11 -p1 -b .remove-connecting-reason
-%patch12 -p1 -b .preview
-%patch13 -p1 -b .rotate-layout
-%patch14 -p1 -b .landscape-pdf-print
-%patch15 -p1 -b .filesystemref
-%patch16 -p1 -b .o-minus
-%patch17 -p1 -b .strftime-format
-%patch18 -p1 -b .spurious-notifications
-%patch19 -p1 -b .tab-dnd
-%patch20 -p1 -b .shape-input
+#%patch14 -p1 -b .landscape-pdf-print
+%patch15 -p1 -b .window-dragging
 %patch23 -p1 -b .ppd-reading
-%patch24 -p1 -b .translations
-%patch25 -p1 -b .translations-gu
 %patch26 -p1 -b .translations-mr-te
 %patch27 -p1 -b .filechooser-empty-location
 %patch28 -p1 -b .filechooser-wrap-filter-combo
@@ -216,12 +193,15 @@ This package contains developer documentation for the GTK+ widget toolkit.
 %patch31 -p1 -b .builder-dont-delay-construct-props
 %patch32 -p1 -b .xkeyboard-config-fix
 %patch33 -p1 -b .filechooser-size-column-additional
+%patch34 -p1 -b .combo-item-names
+%patch35 -p1 -b .treeview-expand
 
 %build
 %configure --with-xinput=xfree 		\
 	   --enable-debug		\
 	   --disable-gtk-doc 		\
 	   --disable-rebuilds 		\
+	   --disable-introspection	\
 	   --with-libjasper		\
 	   --with-included-loaders=png
 
@@ -246,7 +226,6 @@ awk '/^Overview of Changes/ { seen+=1 }
 { if (seen == 2) { print "For older news, see http://git.gnome.org/cgit/gtk+/plain/NEWS"; exit } }' NEWS > tmp; mv tmp NEWS
 
 %install
-rm -rf $RPM_BUILD_ROOT
 # Deriving /etc/gtk-2.0/$host location
 # NOTE: Duplicated below
 #
@@ -441,8 +420,38 @@ fi
 %doc tmpdocs/faq
 %doc tmpdocs/examples
 
-
 %changelog
+* Wed Sep 11 2013 Milan Crha <mcrha@redhat.com> - 2.20.1-4
+- Add patch for RH bug #979049 (GtkTreeView: make tree expanding/collapsing more robust)
+Resolves: #979049
+
+* Wed Jun 12 2013 Milan Crha <mcrha@redhat.com> - 2.20.1-3
+- Add patch for RH bug #970594 (a11y combo names not shown without string column in model)
+Resolves: #970594
+
+* Thu Jun 06 2013 Matthew Barnes <mbarnes@redhat.com> - 2.20.1-2
+- Rebase to 2.20.0 based on the Fedora 13 package.
+- Removed patches (merged into 2.20.0 tarball):
+  0001-Avoid-spurious-notifications-from-GtkEntry.patch
+  0001-Prevent-the-destruction-of-the-menu-label-on-page-re.patch
+  0002-Yet-another-fix-for-shape-handling.patch
+  allow-set-hint.patch
+  filesystemref.patch
+  gtk2-preview.patch
+  gtk2-rotate-layout.patch
+  o-minus.patch
+  strftime-format.patch
+- Removed translation patches that no longer apply:
+  gtk2-translations.patch
+  gtk2-translations-gu.patch
+- Fixed conflicts in patches:
+  gtk2-filechooser-empty-location.patch
+  gtk2-filechooser-size-column-hiding-additional.patch
+  gtk2-landscape-pdf-print.patch
+  icon-padding.patch
+  tooltip-positioning.patch
+Resolves: #883022
+
 * Thu Dec 20 2012 Cosimo Cecchi <cosimoc@redhat.com> - 2.18.9-12
 - Additional filechooser patch to make sure the size column is shown
   when switching from Recent Files to Search

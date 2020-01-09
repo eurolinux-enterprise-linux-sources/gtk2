@@ -52,12 +52,12 @@ noinst_PROGRAMS = $(am__EXEEXT_1) simple$(EXEEXT) flicker$(EXEEXT) \
 	testmenubars$(EXEEXT) testmountoperation$(EXEEXT) \
 	testmultidisplay$(EXEEXT) testmultiscreen$(EXEEXT) \
 	testnotebookdnd$(EXEEXT) testnouiprint$(EXEEXT) \
-	testoffscreen$(EXEEXT) testorientable$(EXEEXT) \
-	testprint$(EXEEXT) testrgb$(EXEEXT) testrecentchooser$(EXEEXT) \
-	testrecentchoosermenu$(EXEEXT) testrichtext$(EXEEXT) \
-	testscale$(EXEEXT) testselection$(EXEEXT) $(am__EXEEXT_2) \
-	testspinbutton$(EXEEXT) teststatusicon$(EXEEXT) \
-	testtext$(EXEEXT) testtoolbar$(EXEEXT) \
+	testoffscreen$(EXEEXT) testoffscreenwindow$(EXEEXT) \
+	testorientable$(EXEEXT) testprint$(EXEEXT) testrgb$(EXEEXT) \
+	testrecentchooser$(EXEEXT) testrecentchoosermenu$(EXEEXT) \
+	testrichtext$(EXEEXT) testscale$(EXEEXT) \
+	testselection$(EXEEXT) $(am__EXEEXT_2) testspinbutton$(EXEEXT) \
+	teststatusicon$(EXEEXT) testtext$(EXEEXT) testtoolbar$(EXEEXT) \
 	stresstest-toolbar$(EXEEXT) testtreeedit$(EXEEXT) \
 	testtreemodel$(EXEEXT) testtreeview$(EXEEXT) \
 	testtreefocus$(EXEEXT) testtreeflow$(EXEEXT) \
@@ -75,8 +75,8 @@ noinst_PROGRAMS = $(am__EXEEXT_1) simple$(EXEEXT) flicker$(EXEEXT) \
 @HAVE_CXX_TRUE@@HAVE_OBJC_TRUE@am__append_2 = -DHAVE_OBJC=1 -x objective-c++
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.in
+am__aclocal_m4_deps = $(top_srcdir)/m4/introspection.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -196,6 +196,8 @@ testnouiprint_OBJECTS = testnouiprint.$(OBJEXT)
 am_testoffscreen_OBJECTS = gtkoffscreenbox.$(OBJEXT) \
 	testoffscreen.$(OBJEXT)
 testoffscreen_OBJECTS = $(am_testoffscreen_OBJECTS)
+am_testoffscreenwindow_OBJECTS = testoffscreenwindow.$(OBJEXT)
+testoffscreenwindow_OBJECTS = $(am_testoffscreenwindow_OBJECTS)
 testorientable_SOURCES = testorientable.c
 testorientable_OBJECTS = testorientable.$(OBJEXT)
 am_testprint_OBJECTS = testprint.$(OBJEXT) \
@@ -250,8 +252,8 @@ am_testtreeview_OBJECTS = prop-editor.$(OBJEXT) testtreeview.$(OBJEXT)
 testtreeview_OBJECTS = $(am_testtreeview_OBJECTS)
 am_testvolumebutton_OBJECTS = testvolumebutton.$(OBJEXT)
 testvolumebutton_OBJECTS = $(am_testvolumebutton_OBJECTS)
-testwindows_SOURCES = testwindows.c
-testwindows_OBJECTS = testwindows.$(OBJEXT)
+am_testwindows_OBJECTS = testwindows.$(OBJEXT)
+testwindows_OBJECTS = $(am_testwindows_OBJECTS)
 testxinerama_SOURCES = testxinerama.c
 testxinerama_OBJECTS = testxinerama.$(OBJEXT)
 treestoretest_SOURCES = treestoretest.c
@@ -312,7 +314,8 @@ SOURCES = $(autotestkeywords_SOURCES) flicker.c pixbuf-lowmem.c \
 	testimage.c testinput.c testmenubars.c testmenus.c \
 	$(testmerge_SOURCES) testmountoperation.c testmultidisplay.c \
 	testmultiscreen.c testnotebookdnd.c testnouiprint.c \
-	$(testoffscreen_SOURCES) testorientable.c $(testprint_SOURCES) \
+	$(testoffscreen_SOURCES) $(testoffscreenwindow_SOURCES) \
+	testorientable.c $(testprint_SOURCES) \
 	$(testrecentchooser_SOURCES) $(testrecentchoosermenu_SOURCES) \
 	testrgb.c testrichtext.c testscale.c testselection.c \
 	$(testsocket_SOURCES) $(testsocket_child_SOURCES) \
@@ -322,7 +325,7 @@ SOURCES = $(autotestkeywords_SOURCES) flicker.c pixbuf-lowmem.c \
 	testtreecolumnsizing.c $(testtreeedit_SOURCES) testtreeflow.c \
 	testtreefocus.c $(testtreemodel_SOURCES) testtreesort.c \
 	$(testtreeview_SOURCES) $(testvolumebutton_SOURCES) \
-	testwindows.c testxinerama.c treestoretest.c
+	$(testwindows_SOURCES) testxinerama.c treestoretest.c
 DIST_SOURCES = $(am__autotestkeywords_SOURCES_DIST) flicker.c \
 	pixbuf-lowmem.c pixbuf-random.c pixbuf-randomly-modified.c \
 	pixbuf-read.c pixbuf-threads.c print-editor.c simple.c \
@@ -337,7 +340,8 @@ DIST_SOURCES = $(am__autotestkeywords_SOURCES_DIST) flicker.c \
 	$(testiconview_SOURCES) testimage.c testinput.c testmenubars.c \
 	testmenus.c $(testmerge_SOURCES) testmountoperation.c \
 	testmultidisplay.c testmultiscreen.c testnotebookdnd.c \
-	testnouiprint.c $(testoffscreen_SOURCES) testorientable.c \
+	testnouiprint.c $(testoffscreen_SOURCES) \
+	$(testoffscreenwindow_SOURCES) testorientable.c \
 	$(testprint_SOURCES) $(testrecentchooser_SOURCES) \
 	$(testrecentchoosermenu_SOURCES) testrgb.c testrichtext.c \
 	testscale.c testselection.c $(testsocket_SOURCES) \
@@ -348,7 +352,7 @@ DIST_SOURCES = $(am__autotestkeywords_SOURCES_DIST) flicker.c \
 	$(testtreeedit_SOURCES) testtreeflow.c testtreefocus.c \
 	$(testtreemodel_SOURCES) testtreesort.c \
 	$(testtreeview_SOURCES) $(testvolumebutton_SOURCES) \
-	testwindows.c testxinerama.c treestoretest.c
+	$(testwindows_SOURCES) testxinerama.c treestoretest.c
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -472,6 +476,14 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
 INTLLIBS = @INTLLIBS@
+INTROSPECTION_CFLAGS = @INTROSPECTION_CFLAGS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_LIBS = @INTROSPECTION_LIBS@
+INTROSPECTION_MAKEFILE = @INTROSPECTION_MAKEFILE@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBJASPER = @LIBJASPER@
@@ -684,6 +696,7 @@ testmultiscreen_DEPENDENCIES = $(TEST_DEPS)
 testnotebookdnd_DEPENDENCIES = $(TEST_DEPS)
 testnouiprint_DEPENDENCIES = $(TEST_DEPS)
 testoffscreen_DEPENDENCIES = $(TEST_DEPS)
+testoffscreenwindow_DEPENDENCIES = $(TEST_DEPS)
 testorientable_DEPENDENCIES = $(TEST_DEPS)
 testprint_DEPENDENCIES = $(TEST_DEPS)
 testrecentchooser_DEPENDENCIES = $(TEST_DEPS)
@@ -746,6 +759,7 @@ testmultiscreen_LDADD = $(LDADDS)
 testnotebookdnd_LDADD = $(LDADDS)
 testnouiprint_LDADD = $(LDADDS)
 testoffscreen_LDADD = $(LDADDS)
+testoffscreenwindow_LDADD = $(LDADDS)
 testorientable_LDADD = $(LDADDS)
 testprint_LDADD = $(LDADDS)
 testrecentchooser_LDADD = $(LDADDS)
@@ -880,7 +894,10 @@ testoffscreen_SOURCES = \
 	gtkoffscreenbox.h	\
 	testoffscreen.c
 
-testwindow_SOURCES = \
+testoffscreenwindow_SOURCES = \
+	testoffscreenwindow.c
+
+testwindows_SOURCES = \
 	testwindows.c
 
 all: all-am
@@ -1055,6 +1072,9 @@ testnouiprint$(EXEEXT): $(testnouiprint_OBJECTS) $(testnouiprint_DEPENDENCIES)
 testoffscreen$(EXEEXT): $(testoffscreen_OBJECTS) $(testoffscreen_DEPENDENCIES) 
 	@rm -f testoffscreen$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testoffscreen_OBJECTS) $(testoffscreen_LDADD) $(LIBS)
+testoffscreenwindow$(EXEEXT): $(testoffscreenwindow_OBJECTS) $(testoffscreenwindow_DEPENDENCIES) 
+	@rm -f testoffscreenwindow$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(testoffscreenwindow_OBJECTS) $(testoffscreenwindow_LDADD) $(LIBS)
 testorientable$(EXEEXT): $(testorientable_OBJECTS) $(testorientable_DEPENDENCIES) 
 	@rm -f testorientable$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testorientable_OBJECTS) $(testorientable_LDADD) $(LIBS)
@@ -1188,6 +1208,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testnotebookdnd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testnouiprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testoffscreen.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testoffscreenwindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testorientable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testprintfileoperation.Po@am__quote@

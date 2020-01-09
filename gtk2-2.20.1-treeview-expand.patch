@@ -1,0 +1,20 @@
+diff -up gtk+-2.20.1/gtk/gtktreeview.c.treeview-expand gtk+-2.20.1/gtk/gtktreeview.c
+--- gtk+-2.20.1/gtk/gtktreeview.c.treeview-expand	2010-05-03 01:33:18.000000000 +0200
++++ gtk+-2.20.1/gtk/gtktreeview.c	2013-09-11 08:15:42.642362611 +0200
+@@ -3039,7 +3039,6 @@ gtk_tree_view_button_release (GtkWidget
+ 
+   if (event->button == 1)
+     {
+-      gtk_grab_remove (widget);
+       if (tree_view->priv->button_pressed_node == tree_view->priv->prelight_node &&
+           GTK_TREE_VIEW_FLAG_SET (tree_view, GTK_TREE_VIEW_ARROW_PRELIT))
+ 	{
+@@ -3063,6 +3062,8 @@ gtk_tree_view_button_release (GtkWidget
+ 
+       tree_view->priv->button_pressed_tree = NULL;
+       tree_view->priv->button_pressed_node = NULL;
++
++      gtk_grab_remove (widget);
+     }
+ 
+   return TRUE;

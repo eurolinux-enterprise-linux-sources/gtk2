@@ -39,17 +39,20 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-DIST_COMMON = $(libgdk_pixbufinclude_HEADERS) $(noinst_HEADERS) \
+DIST_COMMON = $(am__dist_gir_DATA_DIST) \
+	$(libgdk_pixbufinclude_HEADERS) $(noinst_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/gdk-pixbuf-features.h.in $(srcdir)/gdk_pixbuf.rc.in \
 	$(top_srcdir)/Makefile.decl ChangeLog
 noinst_PROGRAMS = test-gdk-pixbuf$(EXEEXT)
 bin_PROGRAMS = gdk-pixbuf-csource$(EXEEXT) \
 	gdk-pixbuf-query-loaders$(EXEEXT)
+@HAVE_INTROSPECTION_TRUE@am__append_1 = GdkPixbuf-2.0.gir
+@HAVE_INTROSPECTION_TRUE@am__append_2 = $(dist_gir_DATA) $(typelibs_DATA)
 subdir = gdk-pixbuf
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.in
+am__aclocal_m4_deps = $(top_srcdir)/m4/introspection.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -78,7 +81,9 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(loaderdir)" \
-	"$(DESTDIR)$(bindir)" "$(DESTDIR)$(libgdk_pixbufincludedir)"
+	"$(DESTDIR)$(bindir)" "$(DESTDIR)$(girdir)" \
+	"$(DESTDIR)$(typelibsdir)" \
+	"$(DESTDIR)$(libgdk_pixbufincludedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES) $(loader_LTLIBRARIES) \
 	$(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
@@ -309,6 +314,17 @@ libpixbufloader_pnm_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 @BUILD_DYNAMIC_MODULES_TRUE@@INCLUDE_PNM_FALSE@am_libpixbufloader_pnm_la_rpath =  \
 @BUILD_DYNAMIC_MODULES_TRUE@@INCLUDE_PNM_FALSE@	-rpath \
 @BUILD_DYNAMIC_MODULES_TRUE@@INCLUDE_PNM_FALSE@	$(loaderdir)
+libpixbufloader_qtif_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
+am_libpixbufloader_qtif_la_OBJECTS = io-qtif.lo
+libpixbufloader_qtif_la_OBJECTS =  \
+	$(am_libpixbufloader_qtif_la_OBJECTS)
+libpixbufloader_qtif_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(libpixbufloader_qtif_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
+@BUILD_DYNAMIC_MODULES_TRUE@@INCLUDE_QTIF_FALSE@am_libpixbufloader_qtif_la_rpath =  \
+@BUILD_DYNAMIC_MODULES_TRUE@@INCLUDE_QTIF_FALSE@	-rpath \
+@BUILD_DYNAMIC_MODULES_TRUE@@INCLUDE_QTIF_FALSE@	$(loaderdir)
 libpixbufloader_ras_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
 am_libpixbufloader_ras_la_OBJECTS = io-ras.lo
 libpixbufloader_ras_la_OBJECTS = $(am_libpixbufloader_ras_la_OBJECTS)
@@ -470,6 +486,11 @@ am_libstatic_pixbufloader_pnm_la_OBJECTS = io-pnm.lo
 libstatic_pixbufloader_pnm_la_OBJECTS =  \
 	$(am_libstatic_pixbufloader_pnm_la_OBJECTS)
 @INCLUDE_PNM_TRUE@am_libstatic_pixbufloader_pnm_la_rpath =
+libstatic_pixbufloader_qtif_la_LIBADD =
+am_libstatic_pixbufloader_qtif_la_OBJECTS = io-qtif.lo
+libstatic_pixbufloader_qtif_la_OBJECTS =  \
+	$(am_libstatic_pixbufloader_qtif_la_OBJECTS)
+@INCLUDE_QTIF_TRUE@am_libstatic_pixbufloader_qtif_la_rpath =
 libstatic_pixbufloader_ras_la_LIBADD =
 am_libstatic_pixbufloader_ras_la_OBJECTS = io-ras.lo
 libstatic_pixbufloader_ras_la_OBJECTS =  \
@@ -554,6 +575,7 @@ SOURCES = $(libgdk_pixbuf_2_0_la_SOURCES) \
 	$(libpixbufloader_pcx_la_SOURCES) \
 	$(libpixbufloader_png_la_SOURCES) \
 	$(libpixbufloader_pnm_la_SOURCES) \
+	$(libpixbufloader_qtif_la_SOURCES) \
 	$(libpixbufloader_ras_la_SOURCES) \
 	$(libpixbufloader_tga_la_SOURCES) \
 	$(libpixbufloader_tiff_la_SOURCES) \
@@ -577,6 +599,7 @@ SOURCES = $(libgdk_pixbuf_2_0_la_SOURCES) \
 	$(libstatic_pixbufloader_pcx_la_SOURCES) \
 	$(libstatic_pixbufloader_png_la_SOURCES) \
 	$(libstatic_pixbufloader_pnm_la_SOURCES) \
+	$(libstatic_pixbufloader_qtif_la_SOURCES) \
 	$(libstatic_pixbufloader_ras_la_SOURCES) \
 	$(libstatic_pixbufloader_tga_la_SOURCES) \
 	$(libstatic_pixbufloader_tiff_la_SOURCES) \
@@ -603,6 +626,7 @@ DIST_SOURCES = $(libgdk_pixbuf_2_0_la_SOURCES) \
 	$(libpixbufloader_pcx_la_SOURCES) \
 	$(libpixbufloader_png_la_SOURCES) \
 	$(libpixbufloader_pnm_la_SOURCES) \
+	$(libpixbufloader_qtif_la_SOURCES) \
 	$(libpixbufloader_ras_la_SOURCES) \
 	$(libpixbufloader_tga_la_SOURCES) \
 	$(libpixbufloader_tiff_la_SOURCES) \
@@ -626,6 +650,7 @@ DIST_SOURCES = $(libgdk_pixbuf_2_0_la_SOURCES) \
 	$(libstatic_pixbufloader_pcx_la_SOURCES) \
 	$(libstatic_pixbufloader_png_la_SOURCES) \
 	$(libstatic_pixbufloader_pnm_la_SOURCES) \
+	$(libstatic_pixbufloader_qtif_la_SOURCES) \
 	$(libstatic_pixbufloader_ras_la_SOURCES) \
 	$(libstatic_pixbufloader_tga_la_SOURCES) \
 	$(libstatic_pixbufloader_tiff_la_SOURCES) \
@@ -641,7 +666,8 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-pdf-recursive install-ps-recursive install-recursive \
 	installcheck-recursive installdirs-recursive pdf-recursive \
 	ps-recursive uninstall-recursive
-DATA = $(noinst_DATA)
+am__dist_gir_DATA_DIST = GdkPixbuf-2.0.gir
+DATA = $(dist_gir_DATA) $(noinst_DATA) $(typelibs_DATA)
 HEADERS = $(libgdk_pixbufinclude_HEADERS) $(noinst_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
@@ -797,6 +823,14 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
 INTLLIBS = @INTLLIBS@
+INTROSPECTION_CFLAGS = @INTROSPECTION_CFLAGS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_LIBS = @INTROSPECTION_LIBS@
+INTROSPECTION_MAKEFILE = @INTROSPECTION_MAKEFILE@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBJASPER = @LIBJASPER@
@@ -951,6 +985,7 @@ XVFB_START = \
 	|| { echo "Gtk+Tests:ERROR: Failed to start Xvfb environment for X11 target tests."; exit 1; } \
 	&& DISPLAY=:$$XID && export DISPLAY
 
+INTROSPECTION_GIRS = $(am__append_1)
 SUBDIRS = pixops
 @PLATFORM_WIN32_TRUE@no_undefined = -no-undefined
 @OS_WIN32_TRUE@gdk_pixbuf_def = gdk_pixbuf.def
@@ -1093,6 +1128,14 @@ libstatic_pixbufloader_jasper_la_SOURCES = io-jasper.c
 libpixbufloader_jasper_la_SOURCES = io-jasper.c
 libpixbufloader_jasper_la_LDFLAGS = -avoid-version -module $(no_undefined)
 libpixbufloader_jasper_la_LIBADD = $(LIBJASPER) $(module_libs)
+
+#
+# The QTIF loader
+#
+libstatic_pixbufloader_qtif_la_SOURCES = io-qtif.c
+libpixbufloader_qtif_la_SOURCES = io-qtif.c
+libpixbufloader_qtif_la_LDFLAGS = -avoid-version -module $(no_undefined)
+libpixbufloader_qtif_la_LIBADD = $(module_libs)
 
 # When building the GDI+ loader statically, we put the "common" objects
 # only in one of the archives to avoid duplicate definitions
@@ -1268,6 +1311,8 @@ libpixbufloader_jasper_la_LIBADD = $(LIBJASPER) $(module_libs)
 @INCLUDE_ICNS_FALSE@ICNS_LIB = libpixbufloader-icns.la
 @HAVE_JASPER_TRUE@@INCLUDE_JASPER_TRUE@STATIC_JASPER_LIB = libstatic-pixbufloader-jasper.la
 @HAVE_JASPER_TRUE@@INCLUDE_JASPER_FALSE@JASPER_LIB = libpixbufloader-jasper.la
+@INCLUDE_QTIF_TRUE@STATIC_QTIF_LIB = libstatic-pixbufloader-qtif.la
+@INCLUDE_QTIF_FALSE@QTIF_LIB = libpixbufloader-qtif.la
 @BUILD_DYNAMIC_MODULES_TRUE@loader_LTLIBRARIES = \
 @BUILD_DYNAMIC_MODULES_TRUE@	$(PNG_LIB)	\
 @BUILD_DYNAMIC_MODULES_TRUE@	$(BMP_LIB)	\
@@ -1285,6 +1330,7 @@ libpixbufloader_jasper_la_LIBADD = $(LIBJASPER) $(module_libs)
 @BUILD_DYNAMIC_MODULES_TRUE@	$(ICNS_LIB)	\
 @BUILD_DYNAMIC_MODULES_TRUE@	$(PCX_LIB)	\
 @BUILD_DYNAMIC_MODULES_TRUE@	$(JASPER_LIB)	\
+@BUILD_DYNAMIC_MODULES_TRUE@	$(QTIF_LIB)	\
 @BUILD_DYNAMIC_MODULES_TRUE@	$(GDIPLUS_LIBS)
 
 noinst_LTLIBRARIES = \
@@ -1304,6 +1350,7 @@ noinst_LTLIBRARIES = \
 	$(STATIC_ICNS_LIB)	\
 	$(STATIC_PCX_LIB)	\
 	$(STATIC_JASPER_LIB)	\
+	$(STATIC_QTIF_LIB)	\
 	$(STATIC_GDIPLUS_LIBS)
 
 builtin_objs = @INCLUDED_LOADER_OBJ@
@@ -1390,11 +1437,24 @@ BUILT_SOURCES = \
 	gdk-pixbuf-marshal.c	\
 	gdk-pixbuf-features.h
 
-CLEANFILES = tmp-gdk-pixbuf-enum-types.h xgen-gmh xgen-gmc
+CLEANFILES = tmp-gdk-pixbuf-enum-types.h xgen-gmh xgen-gmc \
+	$(am__append_2)
 MAINTAINERCLEANFILES = gdk-pixbuf-aliasdef.c gdk-pixbuf-enum-types.h \
 	gdk-pixbuf-enum-types.c gdk-pixbuf-marshal.h \
 	gdk-pixbuf-marshal.c gdk-pixbuf.loaders s-enum-types-h \
 	stamp-gdk-pixbuf-marshal.h
+@HAVE_INTROSPECTION_TRUE@GdkPixbuf_2_0_gir_SCANNERFLAGS = --strip-prefix=Gdk
+@HAVE_INTROSPECTION_TRUE@GdkPixbuf_2_0_gir_INCLUDES = GModule-2.0 Gio-2.0
+@HAVE_INTROSPECTION_TRUE@GdkPixbuf_2_0_gir_LIBS = libgdk_pixbuf-2.0.la
+@HAVE_INTROSPECTION_TRUE@GdkPixbuf_2_0_gir_CFLAGS = $(INCLUDES)
+@HAVE_INTROSPECTION_TRUE@GdkPixbuf_2_0_gir_FILES = \
+@HAVE_INTROSPECTION_TRUE@    $(addprefix $(srcdir)/,$(libgdk_pixbufinclude_HEADERS)) \
+@HAVE_INTROSPECTION_TRUE@    $(addprefix $(srcdir)/,$(libgdk_pixbuf_2_0_la_SOURCES))
+
+@HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
+@HAVE_INTROSPECTION_TRUE@dist_gir_DATA = $(INTROSPECTION_GIRS)
+@HAVE_INTROSPECTION_TRUE@typelibsdir = $(libdir)/girepository-1.0
+@HAVE_INTROSPECTION_TRUE@typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 @CROSS_COMPILING_FALSE@RUN_QUERY_LOADER_TEST = test -z "$(DESTDIR)"
 @CROSS_COMPILING_TRUE@RUN_QUERY_LOADER_TEST = false
 all: $(BUILT_SOURCES)
@@ -1543,6 +1603,8 @@ libpixbufloader-png.la: $(libpixbufloader_png_la_OBJECTS) $(libpixbufloader_png_
 	$(AM_V_CCLD)$(libpixbufloader_png_la_LINK) $(am_libpixbufloader_png_la_rpath) $(libpixbufloader_png_la_OBJECTS) $(libpixbufloader_png_la_LIBADD) $(LIBS)
 libpixbufloader-pnm.la: $(libpixbufloader_pnm_la_OBJECTS) $(libpixbufloader_pnm_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpixbufloader_pnm_la_LINK) $(am_libpixbufloader_pnm_la_rpath) $(libpixbufloader_pnm_la_OBJECTS) $(libpixbufloader_pnm_la_LIBADD) $(LIBS)
+libpixbufloader-qtif.la: $(libpixbufloader_qtif_la_OBJECTS) $(libpixbufloader_qtif_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(libpixbufloader_qtif_la_LINK) $(am_libpixbufloader_qtif_la_rpath) $(libpixbufloader_qtif_la_OBJECTS) $(libpixbufloader_qtif_la_LIBADD) $(LIBS)
 libpixbufloader-ras.la: $(libpixbufloader_ras_la_OBJECTS) $(libpixbufloader_ras_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpixbufloader_ras_la_LINK) $(am_libpixbufloader_ras_la_rpath) $(libpixbufloader_ras_la_OBJECTS) $(libpixbufloader_ras_la_LIBADD) $(LIBS)
 libpixbufloader-tga.la: $(libpixbufloader_tga_la_OBJECTS) $(libpixbufloader_tga_la_DEPENDENCIES) 
@@ -1589,6 +1651,8 @@ libstatic-pixbufloader-png.la: $(libstatic_pixbufloader_png_la_OBJECTS) $(libsta
 	$(AM_V_CCLD)$(LINK) $(am_libstatic_pixbufloader_png_la_rpath) $(libstatic_pixbufloader_png_la_OBJECTS) $(libstatic_pixbufloader_png_la_LIBADD) $(LIBS)
 libstatic-pixbufloader-pnm.la: $(libstatic_pixbufloader_pnm_la_OBJECTS) $(libstatic_pixbufloader_pnm_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(LINK) $(am_libstatic_pixbufloader_pnm_la_rpath) $(libstatic_pixbufloader_pnm_la_OBJECTS) $(libstatic_pixbufloader_pnm_la_LIBADD) $(LIBS)
+libstatic-pixbufloader-qtif.la: $(libstatic_pixbufloader_qtif_la_OBJECTS) $(libstatic_pixbufloader_qtif_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(LINK) $(am_libstatic_pixbufloader_qtif_la_rpath) $(libstatic_pixbufloader_qtif_la_OBJECTS) $(libstatic_pixbufloader_qtif_la_LIBADD) $(LIBS)
 libstatic-pixbufloader-ras.la: $(libstatic_pixbufloader_ras_la_OBJECTS) $(libstatic_pixbufloader_ras_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(LINK) $(am_libstatic_pixbufloader_ras_la_rpath) $(libstatic_pixbufloader_ras_la_OBJECTS) $(libstatic_pixbufloader_ras_la_LIBADD) $(LIBS)
 libstatic-pixbufloader-tga.la: $(libstatic_pixbufloader_tga_la_OBJECTS) $(libstatic_pixbufloader_tga_la_DEPENDENCIES) 
@@ -1702,6 +1766,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/io-pcx.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/io-png.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/io-pnm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/io-qtif.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/io-ras.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/io-tga.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/io-tiff.Plo@am__quote@
@@ -1740,6 +1805,46 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-dist_girDATA: $(dist_gir_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(girdir)" || $(MKDIR_P) "$(DESTDIR)$(girdir)"
+	@list='$(dist_gir_DATA)'; test -n "$(girdir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(girdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(girdir)" || exit $$?; \
+	done
+
+uninstall-dist_girDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_gir_DATA)'; test -n "$(girdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(girdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(girdir)" && rm -f $$files
+install-typelibsDATA: $(typelibs_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(typelibsdir)" || $(MKDIR_P) "$(DESTDIR)$(typelibsdir)"
+	@list='$(typelibs_DATA)'; test -n "$(typelibsdir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(typelibsdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(typelibsdir)" || exit $$?; \
+	done
+
+uninstall-typelibsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(typelibs_DATA)'; test -n "$(typelibsdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(typelibsdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(typelibsdir)" && rm -f $$files
 install-libgdk_pixbufincludeHEADERS: $(libgdk_pixbufinclude_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libgdk_pixbufincludedir)" || $(MKDIR_P) "$(DESTDIR)$(libgdk_pixbufincludedir)"
@@ -2057,7 +2162,7 @@ install-binPROGRAMS: install-libLTLIBRARIES
 
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(loaderdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libgdk_pixbufincludedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(loaderdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(libgdk_pixbufincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -2113,8 +2218,9 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-libgdk_pixbufincludeHEADERS \
-	install-loaderLTLIBRARIES
+install-data-am: install-dist_girDATA \
+	install-libgdk_pixbufincludeHEADERS install-loaderLTLIBRARIES \
+	install-typelibsDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 install-dvi: install-dvi-recursive
@@ -2161,9 +2267,10 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
-	uninstall-libgdk_pixbufincludeHEADERS \
-	uninstall-loaderLTLIBRARIES uninstall-local
+uninstall-am: uninstall-binPROGRAMS uninstall-dist_girDATA \
+	uninstall-libLTLIBRARIES uninstall-libgdk_pixbufincludeHEADERS \
+	uninstall-loaderLTLIBRARIES uninstall-local \
+	uninstall-typelibsDATA
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) all check \
 	check-am ctags-recursive install install-am install-data-am \
@@ -2177,19 +2284,21 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-local distclean-tags distdir dvi dvi-am html html-am \
 	info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-data-hook install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-libgdk_pixbufincludeHEADERS \
-	install-loaderLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
-	uninstall-libgdk_pixbufincludeHEADERS \
-	uninstall-loaderLTLIBRARIES uninstall-local
+	install-data install-data-am install-data-hook \
+	install-dist_girDATA install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-libLTLIBRARIES \
+	install-libgdk_pixbufincludeHEADERS install-loaderLTLIBRARIES \
+	install-man install-pdf install-pdf-am install-ps \
+	install-ps-am install-strip install-typelibsDATA installcheck \
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-recursive uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-dist_girDATA \
+	uninstall-libLTLIBRARIES uninstall-libgdk_pixbufincludeHEADERS \
+	uninstall-loaderLTLIBRARIES uninstall-local \
+	uninstall-typelibsDATA
 
 # call as: $(XVFB_START) && someprogram
 
@@ -2244,6 +2353,7 @@ test-report perf-report full-report:	${TEST_PROGS}
 .PHONY: test test-report perf-report full-report
 # run make test as part of make check
 check-local: test
+-include $(INTROSPECTION_MAKEFILE)
 
 @OS_WIN32_TRUE@gdk_pixbuf-win32-res.o : gdk_pixbuf.rc
 @OS_WIN32_TRUE@	$(WINDRES) gdk_pixbuf.rc $@
@@ -2325,6 +2435,8 @@ distclean-local:
 	if test $(srcdir) != .; then \
 	  rm -f $(MAINTAINERCLEANFILES); \
 	fi
+
+@HAVE_INTROSPECTION_TRUE@GdkPixbuf-2.0.gir: libgdk_pixbuf-2.0.la Makefile
 
 # Running this if cross compiling or if DESTDIR is set is going to
 # not work at all, so skip it

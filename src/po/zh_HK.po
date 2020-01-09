@@ -1,17 +1,14 @@
-# Chinese (Hong Kong) translation of gtk+ 2.x
-# Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Free Software Foundation, Inc.
-# Chih-Wei Huang <cwhuang@linux.org.tw>, 2000.
-# 辛立仁 <hsin@med.cgu.edu.tw>, 2000, 2004.
-# Woodman Tuen <wmtuen@gmail.com>, 2005.
-# Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>, 2005, 2008.
-# Abel Cheung <abel@oaka.org>, 2001-03, 05-06.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gtk+ 2.17.12\n"
+"Project-Id-Version: gtk+ 2.19.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-17 10:53-0400\n"
-"PO-Revision-Date: 2009-09-19 20:59+0800\n"
+"POT-Creation-Date: 2010-05-02 21:21-0400\n"
+"PO-Revision-Date: 2010-03-20 20:06+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +75,7 @@ msgstr "準備設定的 Gdk 偵錯旗標"
 #. Placeholder in --gdk-no-debug=FLAGS in --help output
 #. Placeholder in --gtk-debug=FLAGS in --help output
 #. Placeholder in --gtk-no-debug=FLAGS in --help output
-#: gdk/gdk.c:165 gdk/gdk.c:168 gtk/gtkmain.c:457 gtk/gtkmain.c:460
+#: gdk/gdk.c:165 gdk/gdk.c:168 gtk/gtkmain.c:459 gtk/gtkmain.c:462
 msgid "FLAGS"
 msgstr "旗標"
 
@@ -272,19 +269,19 @@ msgctxt "keyboard label"
 msgid "Delete"
 msgstr "Delete"
 
-#: gdk-pixbuf/gdk-pixbuf-animation.c:133 gdk-pixbuf/gdk-pixbuf-io.c:975
-#: gdk-pixbuf/gdk-pixbuf-io.c:1235 tests/testfilechooser.c:222
+#: gdk-pixbuf/gdk-pixbuf-animation.c:133 gdk-pixbuf/gdk-pixbuf-io.c:982
+#: gdk-pixbuf/gdk-pixbuf-io.c:1242 tests/testfilechooser.c:222
 #, c-format
 msgid "Failed to open file '%s': %s"
 msgstr "開啟檔案「%s」失敗：%s"
 
-#: gdk-pixbuf/gdk-pixbuf-animation.c:146 gdk-pixbuf/gdk-pixbuf-io.c:987
+#: gdk-pixbuf/gdk-pixbuf-animation.c:146 gdk-pixbuf/gdk-pixbuf-io.c:994
 #, c-format
 msgid "Image file '%s' contains no data"
 msgstr "圖片檔‘%s’沒有內容"
 
-#: gdk-pixbuf/gdk-pixbuf-animation.c:188 gdk-pixbuf/gdk-pixbuf-io.c:1023
-#: gdk-pixbuf/gdk-pixbuf-io.c:1287 tests/testfilechooser.c:267
+#: gdk-pixbuf/gdk-pixbuf-animation.c:188 gdk-pixbuf/gdk-pixbuf-io.c:1030
+#: gdk-pixbuf/gdk-pixbuf-io.c:1294 tests/testfilechooser.c:267
 #, c-format
 msgid ""
 "Failed to load image '%s': reason not known, probably a corrupt image file"
@@ -297,76 +294,76 @@ msgid ""
 "animation file"
 msgstr "無法載入動畫檔‘%s’：原因不明，可能動畫檔已經損毀"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:708
+#: gdk-pixbuf/gdk-pixbuf-io.c:715
 #, c-format
 msgid "Unable to load image-loading module: %s: %s"
 msgstr "無法載入用來載入圖片的模組：%s：%s"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:723
+#: gdk-pixbuf/gdk-pixbuf-io.c:730
 #, c-format
 msgid ""
 "Image-loading module %s does not export the proper interface; perhaps it's "
 "from a different GTK version?"
 msgstr "圖片載入模組 %s 沒有匯出正確的介面；它是否屬於另一個 GTK 版本？"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:732 gdk-pixbuf/gdk-pixbuf-io.c:783
+#: gdk-pixbuf/gdk-pixbuf-io.c:739 gdk-pixbuf/gdk-pixbuf-io.c:790
 #, c-format
 msgid "Image type '%s' is not supported"
 msgstr "不支援圖片類型‘%s’"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:856
+#: gdk-pixbuf/gdk-pixbuf-io.c:863
 #, c-format
 msgid "Couldn't recognize the image file format for file '%s'"
 msgstr "無法識別圖片檔‘%s’的圖片格式"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:864
+#: gdk-pixbuf/gdk-pixbuf-io.c:871
 msgid "Unrecognized image file format"
 msgstr "無法識別的圖片檔格式"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:1032
+#: gdk-pixbuf/gdk-pixbuf-io.c:1039
 #, c-format
 msgid "Failed to load image '%s': %s"
 msgstr "無法載入圖片‘%s’：%s"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:1666 gdk-pixbuf/io-gdip-utils.c:961
+#: gdk-pixbuf/gdk-pixbuf-io.c:1673 gdk-pixbuf/io-gdip-utils.c:961
 #, c-format
 msgid "Error writing to image file: %s"
 msgstr "寫入圖片檔時發生錯誤 (%s)"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:1711 gdk-pixbuf/gdk-pixbuf-io.c:1841
+#: gdk-pixbuf/gdk-pixbuf-io.c:1718 gdk-pixbuf/gdk-pixbuf-io.c:1848
 #, c-format
 msgid "This build of gdk-pixbuf does not support saving the image format: %s"
 msgstr "此 gdk-pixbuf 版本不支援儲存以下的圖片格式：%s"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:1745
+#: gdk-pixbuf/gdk-pixbuf-io.c:1752
 msgid "Insufficient memory to save image to callback"
 msgstr "記憶體不足以儲存圖片到 callback"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:1758
+#: gdk-pixbuf/gdk-pixbuf-io.c:1765
 msgid "Failed to open temporary file"
 msgstr "無法開啟暫存檔"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:1784
+#: gdk-pixbuf/gdk-pixbuf-io.c:1791
 msgid "Failed to read from temporary file"
 msgstr "無法讀入暫存檔"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:2018
+#: gdk-pixbuf/gdk-pixbuf-io.c:2044
 #, c-format
 msgid "Failed to open '%s' for writing: %s"
 msgstr "無法開啟‘%s’以供寫入資料：%s"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:2043
+#: gdk-pixbuf/gdk-pixbuf-io.c:2070
 #, c-format
 msgid ""
 "Failed to close '%s' while writing image, all data may not have been saved: %"
 "s"
 msgstr "寫入圖片後無法關閉‘%s’，資料可能無法完整地儲存：%s"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:2263 gdk-pixbuf/gdk-pixbuf-io.c:2314
+#: gdk-pixbuf/gdk-pixbuf-io.c:2290 gdk-pixbuf/gdk-pixbuf-io.c:2341
 msgid "Insufficient memory to save image into a buffer"
 msgstr "記憶體不足以將圖片寫入緩衝區"
 
-#: gdk-pixbuf/gdk-pixbuf-io.c:2360
+#: gdk-pixbuf/gdk-pixbuf-io.c:2387
 msgid "Error writing to image stream"
 msgstr "寫入圖片串流時發生錯誤"
 
@@ -395,10 +392,11 @@ msgid "Image pixel data corrupt"
 msgstr "圖片像素資料損毀"
 
 #: gdk-pixbuf/gdk-pixdata.c:432
-#, c-format
+#, fuzzy, c-format
 msgid "failed to allocate image buffer of %u byte"
 msgid_plural "failed to allocate image buffer of %u bytes"
-msgstr[0] "無法分配 %u 位元組的圖片緩衝區"
+msgstr[0] "無法分配 %d 位元組的檔案讀取緩衝區"
+msgstr[1] "無法分配 %d 位元組的檔案讀取緩衝區"
 
 #: gdk-pixbuf/io-ani.c:244
 msgid "Unexpected icon chunk in animation"
@@ -711,7 +709,7 @@ msgstr "PCX 圖片格式"
 msgid "Bits per channel of PNG image is invalid."
 msgstr "PNG 圖片中每個色板所佔的位元數目無效。"
 
-#: gdk-pixbuf/io-png.c:136 gdk-pixbuf/io-png.c:618
+#: gdk-pixbuf/io-png.c:136 gdk-pixbuf/io-png.c:642
 msgid "Transformed PNG has zero width or height."
 msgstr "變換後的 PNG 闊度及高度均為零。"
 
@@ -732,11 +730,11 @@ msgstr "變換後的 PNG 色板數目不受支援，正確數字應為 3 或 4�
 msgid "Fatal error in PNG image file: %s"
 msgstr "PNG 圖片檔中有嚴重錯誤：%s"
 
-#: gdk-pixbuf/io-png.c:310
+#: gdk-pixbuf/io-png.c:316
 msgid "Insufficient memory to load PNG file"
 msgstr "記憶體不足以載入 PNG 檔"
 
-#: gdk-pixbuf/io-png.c:633
+#: gdk-pixbuf/io-png.c:657
 #, c-format
 msgid ""
 "Insufficient memory to store a %ld by %ld image; try exiting some "
@@ -745,44 +743,49 @@ msgstr ""
 "記憶體不足以載入大小為 %ld×%ld 的圖片；\n"
 "請嘗試退出其它應用程式來減低記憶體使用量"
 
-#: gdk-pixbuf/io-png.c:684
+#: gdk-pixbuf/io-png.c:720
 msgid "Fatal error reading PNG image file"
 msgstr "讀入 PNG 圖片檔時發生嚴重錯誤"
 
-#: gdk-pixbuf/io-png.c:733
+#: gdk-pixbuf/io-png.c:769
 #, c-format
 msgid "Fatal error reading PNG image file: %s"
 msgstr "讀入 PNG 圖片檔時發生嚴重錯誤：%s"
 
-#: gdk-pixbuf/io-png.c:825
+#: gdk-pixbuf/io-png.c:863
 msgid ""
 "Keys for PNG text chunks must have at least 1 and at most 79 characters."
 msgstr "PNG text 區段的關鍵字必須在 1 至 79 字符之內。"
 
-#: gdk-pixbuf/io-png.c:833
+#: gdk-pixbuf/io-png.c:872
 msgid "Keys for PNG text chunks must be ASCII characters."
 msgstr "PNG text 區段的關鍵字必須是 ASCII 字符。"
 
-#: gdk-pixbuf/io-png.c:846 gdk-pixbuf/io-gdip-png.c:56
+#: gdk-pixbuf/io-png.c:886 gdk-pixbuf/io-tiff.c:738
+#, c-format
+msgid "Color profile has invalid length %d."
+msgstr "顏色設定組合有無效的長度 %d。"
+
+#: gdk-pixbuf/io-png.c:899 gdk-pixbuf/io-gdip-png.c:56
 #, c-format
 msgid ""
 "PNG compression level must be a value between 0 and 9; value '%s' could not "
 "be parsed."
 msgstr "PNG 壓縮程度必須在 0 至 9 之間；無法理解數值「%s」。"
 
-#: gdk-pixbuf/io-png.c:858 gdk-pixbuf/io-gdip-png.c:68
+#: gdk-pixbuf/io-png.c:912 gdk-pixbuf/io-gdip-png.c:68
 #, c-format
 msgid ""
 "PNG compression level must be a value between 0 and 9; value '%d' is not "
 "allowed."
 msgstr "PNG 壓縮程度必須在 0 至 9 之間；不允許使用數值「%d」。"
 
-#: gdk-pixbuf/io-png.c:896
+#: gdk-pixbuf/io-png.c:951
 #, c-format
 msgid "Value for PNG text chunk %s cannot be converted to ISO-8859-1 encoding."
 msgstr "PNG text 區段的內容 %s 無法轉換為 ISO-8859-1 編碼。"
 
-#: gdk-pixbuf/io-png.c:1045 gdk-pixbuf/io-gdip-png.c:133
+#: gdk-pixbuf/io-png.c:1112 gdk-pixbuf/io-gdip-png.c:133
 msgid "The PNG image format"
 msgstr "PNG 圖片格式"
 
@@ -846,6 +849,50 @@ msgstr "記憶體不足以載入 PNM 檔"
 msgid "The PNM/PBM/PGM/PPM image format family"
 msgstr "PNM/PBM/PGM/PPM 圖片格式集合"
 
+#: gdk-pixbuf/io-qtif.c:128
+msgid "Input file descriptor is NULL."
+msgstr "輸入的檔案描述子為 NULL。"
+
+#: gdk-pixbuf/io-qtif.c:143
+msgid "Failed to read QTIF header"
+msgstr "讀取 QTIF 檔頭失敗"
+
+#: gdk-pixbuf/io-qtif.c:152 gdk-pixbuf/io-qtif.c:182 gdk-pixbuf/io-qtif.c:446
+#, c-format
+msgid "QTIF atom size too large (%d bytes)"
+msgstr "QTIF atom 大小過大 (%d 位元組)"
+
+#: gdk-pixbuf/io-qtif.c:172
+#, c-format
+msgid "Failed to allocate %d bytes for file read buffer"
+msgstr "無法分配 %d 位元組的檔案讀取緩衝區"
+
+#: gdk-pixbuf/io-qtif.c:196
+#, c-format
+msgid "File error when reading QTIF atom: %s"
+msgstr "當讀取 QTIF atom 時發生錯誤：%s"
+
+#: gdk-pixbuf/io-qtif.c:233
+#, c-format
+msgid "Failed to skip the next %d bytes with seek()."
+msgstr "無法以 seek() 略過下 %d 個位元組。"
+
+#: gdk-pixbuf/io-qtif.c:257
+msgid "Failed to allocate QTIF context structure."
+msgstr "分配 QTIF 脈絡結構失敗。"
+
+#: gdk-pixbuf/io-qtif.c:317
+msgid "Failed to create GdkPixbufLoader object."
+msgstr "無法建立 GdkPixbufLoader 物件。"
+
+#: gdk-pixbuf/io-qtif.c:421
+msgid "Failed to find an image data atom."
+msgstr "找不到圖片資料 atom。"
+
+#: gdk-pixbuf/io-qtif.c:602
+msgid "The QTIF image format"
+msgstr "QTIF 圖片格式"
+
 #: gdk-pixbuf/io-ras.c:126
 msgid "RAS image has bogus header data"
 msgstr "RAS 圖片中有冗餘的標頭資料"
@@ -887,9 +934,8 @@ msgid "Cannot allocate new pixbuf"
 msgstr "無法分配新的 pixbuf"
 
 #: gdk-pixbuf/io-tga.c:686
-#, fuzzy
 msgid "Image is corrupted or truncated"
-msgstr "GIF 檔案被截斷或是不完整。"
+msgstr "圖片損毀或是被截斷。"
 
 #: gdk-pixbuf/io-tga.c:693
 msgid "Cannot allocate colormap structure"
@@ -929,55 +975,59 @@ msgstr "檔案內有冗餘的資料"
 msgid "The Targa image format"
 msgstr "Targa 圖片格式"
 
-#: gdk-pixbuf/io-tiff.c:160
+#: gdk-pixbuf/io-tiff.c:165
 msgid "Could not get image width (bad TIFF file)"
 msgstr "無法取得圖片闊度（TIFF 檔損毀）"
 
-#: gdk-pixbuf/io-tiff.c:167
+#: gdk-pixbuf/io-tiff.c:172
 msgid "Could not get image height (bad TIFF file)"
 msgstr "無法取得圖片高度（TIFF 檔損毀）"
 
-#: gdk-pixbuf/io-tiff.c:175
+#: gdk-pixbuf/io-tiff.c:180
 msgid "Width or height of TIFF image is zero"
 msgstr "TIFF 圖片的闊度或高度為零"
 
-#: gdk-pixbuf/io-tiff.c:184 gdk-pixbuf/io-tiff.c:193
+#: gdk-pixbuf/io-tiff.c:189 gdk-pixbuf/io-tiff.c:198
 msgid "Dimensions of TIFF image too large"
 msgstr "TIFF 圖片的尺寸太大"
 
-#: gdk-pixbuf/io-tiff.c:217 gdk-pixbuf/io-tiff.c:229 gdk-pixbuf/io-tiff.c:541
+#: gdk-pixbuf/io-tiff.c:222 gdk-pixbuf/io-tiff.c:234 gdk-pixbuf/io-tiff.c:561
 msgid "Insufficient memory to open TIFF file"
 msgstr "記憶體不足以開啟 TIFF 檔"
 
-#: gdk-pixbuf/io-tiff.c:275
+#: gdk-pixbuf/io-tiff.c:295
 msgid "Failed to load RGB data from TIFF file"
 msgstr "無法載入 TIFF 檔裏的 RGB 資料"
 
-#: gdk-pixbuf/io-tiff.c:331
+#: gdk-pixbuf/io-tiff.c:351
 msgid "Failed to open TIFF image"
 msgstr "無法開啟 TIFF 圖片"
 
-#: gdk-pixbuf/io-tiff.c:343 gdk-pixbuf/io-tiff.c:722
+#: gdk-pixbuf/io-tiff.c:363 gdk-pixbuf/io-tiff.c:778
 msgid "TIFFClose operation failed"
 msgstr "TIFFClose 操作失敗"
 
-#: gdk-pixbuf/io-tiff.c:473 gdk-pixbuf/io-tiff.c:486
+#: gdk-pixbuf/io-tiff.c:493 gdk-pixbuf/io-tiff.c:506
 msgid "Failed to load TIFF image"
 msgstr "無法載入 TIFF 圖片"
 
-#: gdk-pixbuf/io-tiff.c:670
+#: gdk-pixbuf/io-tiff.c:692
 msgid "Failed to save TIFF image"
 msgstr "無法儲存 TIFF 圖片"
 
-#: gdk-pixbuf/io-tiff.c:708
+#: gdk-pixbuf/io-tiff.c:727
+msgid "TIFF compression doesn't refer to a valid codec."
+msgstr "TIFF 壓縮並未參照到有效的編解碼器。"
+
+#: gdk-pixbuf/io-tiff.c:767
 msgid "Failed to write TIFF data"
 msgstr "無法寫入 TIFF 資料"
 
-#: gdk-pixbuf/io-tiff.c:760
+#: gdk-pixbuf/io-tiff.c:814
 msgid "Couldn't write to TIFF file"
 msgstr "無法寫入 TIFF 檔案"
 
-#: gdk-pixbuf/io-tiff.c:815
+#: gdk-pixbuf/io-tiff.c:869
 msgid "The TIFF image format"
 msgstr "TIFF 圖片格式"
 
@@ -1137,66 +1187,66 @@ msgstr "顏色"
 msgid "Make X calls synchronous"
 msgstr "使用同步方式調用 X 函數"
 
-#: gdk/x11/gdkapplaunchcontext-x11.c:311
+#: gdk/x11/gdkapplaunchcontext-x11.c:313
 #, c-format
 msgid "Starting %s"
 msgstr "準備啟動 %s"
 
-#: gdk/x11/gdkapplaunchcontext-x11.c:313
+#: gdk/x11/gdkapplaunchcontext-x11.c:315
 #, c-format
 msgid "Opening %s"
 msgstr "正在開啟 %s"
 
-#: gdk/x11/gdkapplaunchcontext-x11.c:316
+#: gdk/x11/gdkapplaunchcontext-x11.c:318
 #, c-format
 msgid "Opening %d Item"
 msgid_plural "Opening %d Items"
 msgstr[0] "正在開啟 %d 個項目"
 
-#: gtk/gtkaboutdialog.c:182
+#: gtk/gtkaboutdialog.c:242
 msgid "Could not show link"
 msgstr "無法顯示連結"
 
-#: gtk/gtkaboutdialog.c:305 gtk/gtkaboutdialog.c:2231
+#: gtk/gtkaboutdialog.c:365 gtk/gtkaboutdialog.c:2263
 msgid "License"
 msgstr "授權條款"
 
-#: gtk/gtkaboutdialog.c:306
+#: gtk/gtkaboutdialog.c:366
 msgid "The license of the program"
 msgstr "程式的授權條款"
 
 #. Add the credits button
-#: gtk/gtkaboutdialog.c:566
+#: gtk/gtkaboutdialog.c:625
 msgid "C_redits"
 msgstr "鳴謝(_R)"
 
 #. Add the license button
-#: gtk/gtkaboutdialog.c:580
+#: gtk/gtkaboutdialog.c:639
 msgid "_License"
 msgstr "授權條款(_L)"
 
-#: gtk/gtkaboutdialog.c:858
+#: gtk/gtkaboutdialog.c:917
 #, c-format
 msgid "About %s"
 msgstr "關於 %s"
 
-#: gtk/gtkaboutdialog.c:2154
+#: gtk/gtkaboutdialog.c:2186
 msgid "Credits"
 msgstr "鳴謝"
 
-#: gtk/gtkaboutdialog.c:2183
+#: gtk/gtkaboutdialog.c:2215
 msgid "Written by"
 msgstr "程式編寫"
 
-#: gtk/gtkaboutdialog.c:2186
+#: gtk/gtkaboutdialog.c:2218
 msgid "Documented by"
 msgstr "文件編寫"
 
-#: gtk/gtkaboutdialog.c:2198
+#: gtk/gtkaboutdialog.c:2230
 msgid "Translated by"
 msgstr "翻譯"
 
-#: gtk/gtkaboutdialog.c:2202
+#: gtk/gtkaboutdialog.c:2234
 msgid "Artwork by"
 msgstr "美工設計"
 
@@ -1205,7 +1255,7 @@ msgstr "美工設計"
 #. * translated on keyboards used for your language, don't translate
 #. * this.
 #.
-#: gtk/gtkaccellabel.c:91
+#: gtk/gtkaccellabel.c:146
 msgctxt "keyboard label"
 msgid "Shift"
 msgstr "Shift"
@@ -1215,7 +1265,7 @@ msgstr "Shift"
 #. * translated on keyboards used for your language, don't translate
 #. * this.
 #.
-#: gtk/gtkaccellabel.c:97
+#: gtk/gtkaccellabel.c:152
 msgctxt "keyboard label"
 msgid "Ctrl"
 msgstr "Ctrl"
@@ -1225,7 +1275,7 @@ msgstr "Ctrl"
 #. * translated on keyboards used for your language, don't translate
 #. * this.
 #.
-#: gtk/gtkaccellabel.c:103
+#: gtk/gtkaccellabel.c:158
 msgctxt "keyboard label"
 msgid "Alt"
 msgstr "Alt"
@@ -1235,7 +1285,7 @@ msgstr "Alt"
 #. * translated on keyboards used for your language, don't translate
 #. * this.
 #.
-#: gtk/gtkaccellabel.c:671
+#: gtk/gtkaccellabel.c:743
 msgctxt "keyboard label"
 msgid "Super"
 msgstr "Super"
@@ -1245,7 +1295,7 @@ msgstr "Super"
 #. * translated on keyboards used for your language, don't translate
 #. * this.
 #.
-#: gtk/gtkaccellabel.c:684
+#: gtk/gtkaccellabel.c:756
 msgctxt "keyboard label"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1255,17 +1305,17 @@ msgstr "Hyper"
 #. * translated on keyboards used for your language, don't translate
 #. * this.
 #.
-#: gtk/gtkaccellabel.c:698
+#: gtk/gtkaccellabel.c:770
 msgctxt "keyboard label"
 msgid "Meta"
 msgstr "Meta"
 
-#: gtk/gtkaccellabel.c:715
+#: gtk/gtkaccellabel.c:787
 msgctxt "keyboard label"
 msgid "Space"
 msgstr "Space"
 
-#: gtk/gtkaccellabel.c:718
+#: gtk/gtkaccellabel.c:790
 msgctxt "keyboard label"
 msgid "Backslash"
 msgstr "Backslash"
@@ -1498,7 +1548,7 @@ msgstr "調色盤(_P)："
 msgid "Color Wheel"
 msgstr "色彩圓盤"
 
-#: gtk/gtkcolorsel.c:976
+#: gtk/gtkcolorsel.c:958
 msgid ""
 "The previously-selected color, for comparison to the color you're selecting "
 "now. You can drag this color to a palette entry, or select this color as "
@@ -1507,17 +1557,27 @@ msgstr ""
 "之前選擇的顏色，用來和目前選擇的顏色作比較。你可以將本顏色拖曳至色盤項目；\n"
 "或以它作為目前選擇的顏色，方法是將它拖曳並覆蓋目前選擇的顏色。"
 
-#: gtk/gtkcolorsel.c:980
+#: gtk/gtkcolorsel.c:961
 msgid ""
 "The color you've chosen. You can drag this color to a palette entry to save "
 "it for use in the future."
-msgstr "所選擇的顏色；你可以將此顏色拖曳到色盤並將之儲存供日後使用。"
+msgstr "你所選擇的顏色。你可以將此顏色拖曳到色盤並將之儲存供日後使用。"
 
-#: gtk/gtkcolorsel.c:1363
+#: gtk/gtkcolorsel.c:966
+msgid ""
+"The previously-selected color, for comparison to the color you're selecting "
+"now."
+msgstr "前一次選取的顏色，可用來和你現在選取的顏色做比較。"
+
+#: gtk/gtkcolorsel.c:969
+msgid "The color you've chosen."
+msgstr "你所選擇的顏色。"
+
+#: gtk/gtkcolorsel.c:1382
 msgid "_Save color here"
 msgstr "在這裏儲存顏色(_S)"
 
-#: gtk/gtkcolorsel.c:1568
+#: gtk/gtkcolorsel.c:1587
 msgid ""
 "Click this palette entry to make it the current color. To change this entry, "
 "drag a color swatch here or right-click it and select \"Save color here.\""
@@ -1561,47 +1621,47 @@ msgstr "打印機邊界..."
 msgid "Custom Size %d"
 msgstr "自選大小 %d"
 
-#: gtk/gtkcustompaperunixdialog.c:1053
+#: gtk/gtkcustompaperunixdialog.c:1054
 msgid "_Width:"
 msgstr "闊度(_W):"
 
-#: gtk/gtkcustompaperunixdialog.c:1065
+#: gtk/gtkcustompaperunixdialog.c:1066
 msgid "_Height:"
 msgstr "高度(_H):"
 
-#: gtk/gtkcustompaperunixdialog.c:1077
+#: gtk/gtkcustompaperunixdialog.c:1078
 msgid "Paper Size"
 msgstr "紙張大小"
 
-#: gtk/gtkcustompaperunixdialog.c:1086
+#: gtk/gtkcustompaperunixdialog.c:1087
 msgid "_Top:"
 msgstr "上(_T):"
 
-#: gtk/gtkcustompaperunixdialog.c:1098
+#: gtk/gtkcustompaperunixdialog.c:1099
 msgid "_Bottom:"
 msgstr "下(_B):"
 
-#: gtk/gtkcustompaperunixdialog.c:1110
+#: gtk/gtkcustompaperunixdialog.c:1111
 msgid "_Left:"
 msgstr "左(_L):"
 
-#: gtk/gtkcustompaperunixdialog.c:1122
+#: gtk/gtkcustompaperunixdialog.c:1123
 msgid "_Right:"
 msgstr "右(_R):"
 
-#: gtk/gtkcustompaperunixdialog.c:1163
+#: gtk/gtkcustompaperunixdialog.c:1164
 msgid "Paper Margins"
 msgstr "紙張邊界"
 
-#: gtk/gtkentry.c:8589 gtk/gtktextview.c:7849
+#: gtk/gtkentry.c:8698 gtk/gtktextview.c:7881
 msgid "Input _Methods"
 msgstr "輸入法(_M)"
 
-#: gtk/gtkentry.c:8603 gtk/gtktextview.c:7863
+#: gtk/gtkentry.c:8712 gtk/gtktextview.c:7895
 msgid "_Insert Unicode Control Character"
 msgstr "插入統一碼控制字符(_I)"
 
-#: gtk/gtkentry.c:9974
+#: gtk/gtkentry.c:10091
 msgid "Caps Lock is on"
 msgstr "Cpas Lock 已開啟"
 
@@ -1609,7 +1669,7 @@ msgstr "Cpas Lock 已開啟"
 msgid "Select A File"
 msgstr "選取檔案"
 
-#: gtk/gtkfilechooserbutton.c:65 gtk/gtkfilechooserdefault.c:1933
+#: gtk/gtkfilechooserbutton.c:65 gtk/gtkfilechooserdefault.c:1839
 msgid "Desktop"
 msgstr "桌面"
 
@@ -1617,7 +1677,7 @@ msgstr "桌面"
 msgid "(None)"
 msgstr "（沒有）"
 
-#: gtk/gtkfilechooserbutton.c:2016
+#: gtk/gtkfilechooserbutton.c:2021
 msgid "Other..."
 msgstr "其它..."
 
@@ -1625,23 +1685,23 @@ msgstr "其它..."
 msgid "Type name of new folder"
 msgstr "請輸入新資料夾名稱"
 
-#: gtk/gtkfilechooserdefault.c:1059
+#: gtk/gtkfilechooserdefault.c:965
 msgid "Could not retrieve information about the file"
 msgstr "無法取得關於檔案的資訊"
 
-#: gtk/gtkfilechooserdefault.c:1070
+#: gtk/gtkfilechooserdefault.c:976
 msgid "Could not add a bookmark"
 msgstr "無法加入書籤"
 
-#: gtk/gtkfilechooserdefault.c:1081
+#: gtk/gtkfilechooserdefault.c:987
 msgid "Could not remove bookmark"
 msgstr "無法移除書籤"
 
-#: gtk/gtkfilechooserdefault.c:1092
+#: gtk/gtkfilechooserdefault.c:998
 msgid "The folder could not be created"
 msgstr "無法建立資料夾"
 
-#: gtk/gtkfilechooserdefault.c:1105
+#: gtk/gtkfilechooserdefault.c:1011
 msgid ""
 "The folder could not be created, as a file with the same name already "
 "exists.  Try using a different name for the folder, or rename the file first."
@@ -1649,11 +1709,11 @@ msgstr ""
 "此資料夾無法建立，因為已有相同名稱的檔案存在。嘗試使用不同的資料夾名稱，或者"
 "先重新命名該檔案。"
 
-#: gtk/gtkfilechooserdefault.c:1116
+#: gtk/gtkfilechooserdefault.c:1022
 msgid "Invalid file name"
 msgstr "無效的檔案名稱"
 
-#: gtk/gtkfilechooserdefault.c:1126
+#: gtk/gtkfilechooserdefault.c:1032
 msgid "The folder contents could not be displayed"
 msgstr "無法顯示資料夾內容"
 
@@ -1661,208 +1721,217 @@ msgstr "無法顯示資料夾內容"
 #. * is a hostname. Nautilus and the panel contain the same string
 #. * to translate.
 #.
-#: gtk/gtkfilechooserdefault.c:1676
+#: gtk/gtkfilechooserdefault.c:1582
 #, c-format
 msgid "%1$s on %2$s"
 msgstr "%1$s 於 %2$s"
 
-#: gtk/gtkfilechooserdefault.c:1852
+#: gtk/gtkfilechooserdefault.c:1758
 msgid "Search"
 msgstr "搜尋"
 
-#: gtk/gtkfilechooserdefault.c:1876 gtk/gtkfilechooserdefault.c:10353
+#: gtk/gtkfilechooserdefault.c:1782 gtk/gtkfilechooserdefault.c:9458
 msgid "Recently Used"
 msgstr "最近使用的"
 
-#: gtk/gtkfilechooserdefault.c:2512
+#: gtk/gtkfilechooserdefault.c:2422
 msgid "Select which types of files are shown"
 msgstr "選擇顯示哪種類型的檔案"
 
-#: gtk/gtkfilechooserdefault.c:2941
+#: gtk/gtkfilechooserdefault.c:2781
 #, c-format
 msgid "Add the folder '%s' to the bookmarks"
 msgstr "將資料夾‘%s’加入書籤"
 
-#: gtk/gtkfilechooserdefault.c:2982
+#: gtk/gtkfilechooserdefault.c:2825
 #, c-format
 msgid "Add the current folder to the bookmarks"
 msgstr "將目前的資料夾加入書籤"
 
-#: gtk/gtkfilechooserdefault.c:2984
+#: gtk/gtkfilechooserdefault.c:2827
 #, c-format
 msgid "Add the selected folders to the bookmarks"
 msgstr "將已選的資料夾加入書籤"
 
-#: gtk/gtkfilechooserdefault.c:3022
+#: gtk/gtkfilechooserdefault.c:2865
 #, c-format
 msgid "Remove the bookmark '%s'"
 msgstr "移除書籤‘%s’"
 
-#: gtk/gtkfilechooserdefault.c:3024
+#: gtk/gtkfilechooserdefault.c:2867
 #, c-format
 msgid "Bookmark '%s' cannot be removed"
 msgstr "無法移除書籤「%s」"
 
-#: gtk/gtkfilechooserdefault.c:3031 gtk/gtkfilechooserdefault.c:4057
+#: gtk/gtkfilechooserdefault.c:2874 gtk/gtkfilechooserdefault.c:3898
 msgid "Remove the selected bookmark"
 msgstr "移除已選的書籤"
 
-#: gtk/gtkfilechooserdefault.c:3753
+#: gtk/gtkfilechooserdefault.c:3594
 msgid "Remove"
 msgstr "移除"
 
-#: gtk/gtkfilechooserdefault.c:3762
+#: gtk/gtkfilechooserdefault.c:3603
 msgid "Rename..."
 msgstr "重新命名..."
 
 #. Accessible object name for the file chooser's shortcuts pane
-#: gtk/gtkfilechooserdefault.c:3925
+#: gtk/gtkfilechooserdefault.c:3766
 msgid "Places"
 msgstr "位置"
 
 #. Column header for the file chooser's shortcuts pane
-#: gtk/gtkfilechooserdefault.c:3982
+#: gtk/gtkfilechooserdefault.c:3823
 msgid "_Places"
 msgstr "位置(_P)"
 
-#: gtk/gtkfilechooserdefault.c:4038
+#: gtk/gtkfilechooserdefault.c:3879
 msgid "_Add"
 msgstr "加入(_A)"
 
-#: gtk/gtkfilechooserdefault.c:4045
+#: gtk/gtkfilechooserdefault.c:3886
 msgid "Add the selected folder to the Bookmarks"
 msgstr "將已選的資料夾加入書籤"
 
-#: gtk/gtkfilechooserdefault.c:4050
+#: gtk/gtkfilechooserdefault.c:3891
 msgid "_Remove"
 msgstr "移除(_R)"
 
-#: gtk/gtkfilechooserdefault.c:4186
+#: gtk/gtkfilechooserdefault.c:4026
 msgid "Could not select file"
 msgstr "無法選取檔案"
 
-#: gtk/gtkfilechooserdefault.c:4361
+#: gtk/gtkfilechooserdefault.c:4201
 msgid "_Add to Bookmarks"
 msgstr "加入書籤(_A)"
 
-#: gtk/gtkfilechooserdefault.c:4374
+#: gtk/gtkfilechooserdefault.c:4214
 msgid "Show _Hidden Files"
 msgstr "顯示隱藏檔(_H)"
 
-#: gtk/gtkfilechooserdefault.c:4381
+#: gtk/gtkfilechooserdefault.c:4221
 msgid "Show _Size Column"
 msgstr "顯示大小欄位(_S)"
 
-#: gtk/gtkfilechooserdefault.c:4673 gtk/gtkfilesel.c:730
+#: gtk/gtkfilechooserdefault.c:4441 gtk/gtkfilesel.c:730
 msgid "Files"
 msgstr "檔案"
 
-#: gtk/gtkfilechooserdefault.c:4722
+#: gtk/gtkfilechooserdefault.c:4492
 msgid "Name"
 msgstr "名稱"
 
-#: gtk/gtkfilechooserdefault.c:4747
+#: gtk/gtkfilechooserdefault.c:4515
 msgid "Size"
 msgstr "大小"
 
-#: gtk/gtkfilechooserdefault.c:4763
+#: gtk/gtkfilechooserdefault.c:4529
 msgid "Modified"
 msgstr "已修改"
 
 #. Label
-#: gtk/gtkfilechooserdefault.c:5019 gtk/gtkprinteroptionwidget.c:800
+#: gtk/gtkfilechooserdefault.c:4784 gtk/gtkprinteroptionwidget.c:802
 msgid "_Name:"
 msgstr "名稱(_N):"
 
-#: gtk/gtkfilechooserdefault.c:5062
+#: gtk/gtkfilechooserdefault.c:4827
 msgid "_Browse for other folders"
 msgstr "瀏覽其它資料夾(_B)"
 
-#: gtk/gtkfilechooserdefault.c:5334
+#: gtk/gtkfilechooserdefault.c:5099
 msgid "Type a file name"
 msgstr "輸入檔案名稱"
 
 #. Create Folder
-#: gtk/gtkfilechooserdefault.c:5375
+#: gtk/gtkfilechooserdefault.c:5140
 msgid "Create Fo_lder"
 msgstr "建立資料夾(_L)"
 
-#: gtk/gtkfilechooserdefault.c:5385
+#: gtk/gtkfilechooserdefault.c:5150
 msgid "_Location:"
 msgstr "位置(_L):"
 
-#: gtk/gtkfilechooserdefault.c:5589
+#: gtk/gtkfilechooserdefault.c:5354
 msgid "Save in _folder:"
 msgstr "儲存於資料夾(_F):"
 
-#: gtk/gtkfilechooserdefault.c:5591
+#: gtk/gtkfilechooserdefault.c:5356
 msgid "Create in _folder:"
 msgstr "新增於資料夾(_F)："
 
-#: gtk/gtkfilechooserdefault.c:7347
+#: gtk/gtkfilechooserdefault.c:6423
+#, c-format
+msgid "Could not read the contents of %s"
+msgstr "無法讀取 %s 的內容"
+
+#: gtk/gtkfilechooserdefault.c:6427
+msgid "Could not read the contents of the folder"
+msgstr "無法讀取資料夾的內容"
+
+#: gtk/gtkfilechooserdefault.c:6520 gtk/gtkfilechooserdefault.c:6588
+#: gtk/gtkfilechooserdefault.c:6733
+msgid "Unknown"
+msgstr "不明"
+
+#: gtk/gtkfilechooserdefault.c:6535
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#: gtk/gtkfilechooserdefault.c:6537
+msgid "Yesterday at %H:%M"
+msgstr "昨天的 %H:%M"
+
+#: gtk/gtkfilechooserdefault.c:7203
 msgid "Cannot change to folder because it is not local"
 msgstr "無法進入資料夾，因為它不是本地資料夾"
 
-#: gtk/gtkfilechooserdefault.c:7978 gtk/gtkfilechooserdefault.c:7999
+#: gtk/gtkfilechooserdefault.c:7800 gtk/gtkfilechooserdefault.c:7821
 #, c-format
 msgid "Shortcut %s already exists"
 msgstr "捷徑 %s 已經存在"
 
-#: gtk/gtkfilechooserdefault.c:8089
+#: gtk/gtkfilechooserdefault.c:7911
 #, c-format
 msgid "Shortcut %s does not exist"
 msgstr "捷徑 %s 不存在"
 
-#: gtk/gtkfilechooserdefault.c:8351 gtk/gtkprintunixdialog.c:480
+#: gtk/gtkfilechooserdefault.c:8166 gtk/gtkprintunixdialog.c:480
 #, c-format
 msgid "A file named \"%s\" already exists.  Do you want to replace it?"
 msgstr "名為「%s」的檔案已存在。是否要取代它？"
 
-#: gtk/gtkfilechooserdefault.c:8354 gtk/gtkprintunixdialog.c:484
+#: gtk/gtkfilechooserdefault.c:8169 gtk/gtkprintunixdialog.c:484
 #, c-format
 msgid ""
 "The file already exists in \"%s\".  Replacing it will overwrite its contents."
 msgstr "該檔案已存在於「%s」。取代它會覆蓋它的內容。"
 
-#: gtk/gtkfilechooserdefault.c:8359 gtk/gtkprintunixdialog.c:491
+#: gtk/gtkfilechooserdefault.c:8174 gtk/gtkprintunixdialog.c:491
 msgid "_Replace"
 msgstr "取代(_R)"
 
-#: gtk/gtkfilechooserdefault.c:9121
+#: gtk/gtkfilechooserdefault.c:8826
 msgid "Could not start the search process"
 msgstr "無法開始搜尋程序"
 
-#: gtk/gtkfilechooserdefault.c:9122
+#: gtk/gtkfilechooserdefault.c:8827
 msgid ""
 "The program was not able to create a connection to the indexer daemon.  "
 "Please make sure it is running."
 msgstr "此程式無法建立至 indexer 伺服程式的連線。請確認它是否已執行。"
 
-#: gtk/gtkfilechooserdefault.c:9136
+#: gtk/gtkfilechooserdefault.c:8841
 msgid "Could not send the search request"
 msgstr "無法傳送搜尋要求"
 
-#: gtk/gtkfilechooserdefault.c:9614
+#: gtk/gtkfilechooserdefault.c:9030
 msgid "Search:"
 msgstr "搜尋："
 
-#: gtk/gtkfilechooserdefault.c:10597
+#: gtk/gtkfilechooserdefault.c:9634
 #, c-format
 msgid "Could not mount %s"
 msgstr "無法掛載 %s"
-
-#: gtk/gtkfilechooserdefault.c:11455 gtk/gtkfilechooserdefault.c:11477
-#: gtk/gtkfilechooserdefault.c:11548
-msgid "Unknown"
-msgstr "不明"
-
-#: gtk/gtkfilechooserdefault.c:11495
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#: gtk/gtkfilechooserdefault.c:11497
-msgid "Yesterday at %H:%M"
-msgstr "昨天的 %H:%M"
 
 #. Translators: this is shown in the feedback for Tab-completion in a file
 #. * chooser's text entry, when the user enters an invalid path.
@@ -2047,11 +2116,11 @@ msgstr ""
 msgid "Invalid UTF-8"
 msgstr "無效的 UTF-8 資料"
 
-#: gtk/gtkfilesel.c:3933
+#: gtk/gtkfilesel.c:3935
 msgid "Name too long"
 msgstr "名稱過長"
 
-#: gtk/gtkfilesel.c:3935
+#: gtk/gtkfilesel.c:3937
 msgid "Couldn't convert filename"
 msgstr "無法轉換檔案名稱"
 
@@ -2063,14 +2132,6 @@ msgstr "無法轉換檔案名稱"
 #: gtk/gtkfilesystem.c:52
 msgid "File System"
 msgstr "檔案系統"
-
-#: gtk/gtkfilesystemmodel.c:700
-msgid "Could not obtain root folder"
-msgstr "無法取得根資料夾"
-
-#: gtk/gtkfilesystemmodel.c:1301
-msgid "(Empty)"
-msgstr "(空的)"
 
 #: gtk/gtkfontbutton.c:144 gtk/gtkfontbutton.c:266
 msgid "Pick a Font"
@@ -2112,18 +2173,18 @@ msgstr "預覽(_P)："
 msgid "Font Selection"
 msgstr "字型選擇"
 
-#: gtk/gtkgamma.c:408
+#: gtk/gtkgamma.c:410
 msgid "Gamma"
 msgstr "Gamma"
 
-#: gtk/gtkgamma.c:418
+#: gtk/gtkgamma.c:420
 msgid "_Gamma value"
 msgstr "_Gamma 值"
 
 #. Remove this icon source so we don't keep trying to
 #. * load it.
 #.
-#: gtk/gtkiconfactory.c:1399
+#: gtk/gtkiconfactory.c:1401
 #, c-format
 msgid "Error loading icon: %s"
 msgstr "載入圖示時發生錯誤：%s"
@@ -2154,12 +2215,17 @@ msgstr "載入圖示失敗"
 msgid "Simple"
 msgstr "簡易"
 
-#: gtk/gtkimmulticontext.c:538
+#: gtk/gtkimmulticontext.c:563
 msgctxt "input method menu"
 msgid "System"
 msgstr "系統"
 
-#: gtk/gtkimmulticontext.c:622
+#: gtk/gtkimmulticontext.c:573
+msgctxt "input method menu"
+msgid "None"
+msgstr "沒有"
+
+#: gtk/gtkimmulticontext.c:656
 #, c-format
 msgctxt "input method menu"
 msgid "System (%s)"
@@ -2245,12 +2311,12 @@ msgid "Cl_ear"
 msgstr "清除(_E)"
 
 #. Open Link
-#: gtk/gtklabel.c:5530
+#: gtk/gtklabel.c:5685
 msgid "_Open Link"
 msgstr "開啟連結(_O)"
 
 #. Copy Link Address
-#: gtk/gtklabel.c:5542
+#: gtk/gtklabel.c:5697
 msgid "Copy _Link Address"
 msgstr "複製連結位址(_L)"
 
@@ -2263,27 +2329,27 @@ msgid "Invalid URI"
 msgstr "無效的 URI"
 
 #. Description of --gtk-module=MODULES in --help output
-#: gtk/gtkmain.c:450
+#: gtk/gtkmain.c:452
 msgid "Load additional GTK+ modules"
 msgstr "載入額外的 GTK+ 模組"
 
 #. Placeholder in --gtk-module=MODULES in --help output
-#: gtk/gtkmain.c:451
+#: gtk/gtkmain.c:453
 msgid "MODULES"
 msgstr "模組"
 
 #. Description of --g-fatal-warnings in --help output
-#: gtk/gtkmain.c:453
+#: gtk/gtkmain.c:455
 msgid "Make all warnings fatal"
 msgstr "把所有的警告訊息都當成嚴重錯誤"
 
 #. Description of --gtk-debug=FLAGS in --help output
-#: gtk/gtkmain.c:456
+#: gtk/gtkmain.c:458
 msgid "GTK+ debugging flags to set"
 msgstr "準備設定的 GTK+ 偵錯旗標"
 
 #. Description of --gtk-no-debug=FLAGS in --help output
-#: gtk/gtkmain.c:459
+#: gtk/gtkmain.c:461
 msgid "GTK+ debugging flags to unset"
 msgstr "準備去除的 GTK+ 偵錯旗標"
 
@@ -2292,20 +2358,20 @@ msgstr "準備去除的 GTK+ 偵錯旗標"
 #. * Do *not* translate it to "predefinito:LTR", if it
 #. * it isn't default:LTR or default:RTL it will not work
 #.
-#: gtk/gtkmain.c:711
+#: gtk/gtkmain.c:713
 msgid "default:LTR"
 msgstr "default:LTR"
 
-#: gtk/gtkmain.c:777
+#: gtk/gtkmain.c:778
 #, c-format
 msgid "Cannot open display: %s"
 msgstr "無法開啟畫面：%s"
 
-#: gtk/gtkmain.c:814
+#: gtk/gtkmain.c:815
 msgid "GTK+ Options"
 msgstr "GTK+ 選項"
 
-#: gtk/gtkmain.c:814
+#: gtk/gtkmain.c:815
 msgid "Show GTK+ Options"
 msgstr "顯示 GTK+ 選項"
 
@@ -2350,12 +2416,12 @@ msgstr "永遠記住密碼(_F)"
 msgid "Unknown Application (pid %d)"
 msgstr "不明的應用程式（pid %d）"
 
-#: gtk/gtkmountoperation.c:1063
+#: gtk/gtkmountoperation.c:1064
 #, c-format
 msgid "Unable to end process"
 msgstr "無法終止程序"
 
-#: gtk/gtkmountoperation.c:1100
+#: gtk/gtkmountoperation.c:1101
 msgid "_End Process"
 msgstr "終止程序(_E)"
 
@@ -2390,7 +2456,7 @@ msgstr "Z Shell"
 msgid "Cannot end process with pid %d: %s"
 msgstr "不能結束 pid 為 %d 的程序：%s"
 
-#: gtk/gtknotebook.c:4430 gtk/gtknotebook.c:6957
+#: gtk/gtknotebook.c:4704 gtk/gtknotebook.c:7269
 #, c-format
 msgid "Page %u"
 msgstr "第 %u 頁"
@@ -2454,15 +2520,15 @@ msgstr "向下路徑"
 msgid "File System Root"
 msgstr "檔案系統根"
 
-#: gtk/gtkprintbackend.c:742
+#: gtk/gtkprintbackend.c:749
 msgid "Authentication"
 msgstr "驗證"
 
-#: gtk/gtkprinteroptionwidget.c:693
+#: gtk/gtkprinteroptionwidget.c:695
 msgid "Not available"
 msgstr "不存在"
 
-#: gtk/gtkprinteroptionwidget.c:812
+#: gtk/gtkprinteroptionwidget.c:814
 msgid "_Save in folder:"
 msgstr "儲存在資料夾中(_S)："
 
@@ -2470,154 +2536,153 @@ msgstr "儲存在資料夾中(_S)："
 #. * jobs. %s gets replaced by the application name, %d gets replaced
 #. * by the job number.
 #.
-#: gtk/gtkprintoperation.c:186
+#: gtk/gtkprintoperation.c:190
 #, c-format
 msgid "%s job #%d"
 msgstr "%s 的工作 #%d"
 
-#: gtk/gtkprintoperation.c:1644
+#: gtk/gtkprintoperation.c:1687
 msgctxt "print operation status"
 msgid "Initial state"
 msgstr "初始化狀態"
 
-#: gtk/gtkprintoperation.c:1645
+#: gtk/gtkprintoperation.c:1688
 msgctxt "print operation status"
 msgid "Preparing to print"
 msgstr "正在準備打印"
 
-#: gtk/gtkprintoperation.c:1646
+#: gtk/gtkprintoperation.c:1689
 msgctxt "print operation status"
 msgid "Generating data"
 msgstr "正在產生資料"
 
-#: gtk/gtkprintoperation.c:1647
+#: gtk/gtkprintoperation.c:1690
 msgctxt "print operation status"
 msgid "Sending data"
 msgstr "正在傳送資料"
 
-#: gtk/gtkprintoperation.c:1648
+#: gtk/gtkprintoperation.c:1691
 msgctxt "print operation status"
 msgid "Waiting"
 msgstr "正在等待"
 
-#: gtk/gtkprintoperation.c:1649
+#: gtk/gtkprintoperation.c:1692
 msgctxt "print operation status"
 msgid "Blocking on issue"
 msgstr "因問題被阻擋"
 
-#: gtk/gtkprintoperation.c:1650
+#: gtk/gtkprintoperation.c:1693
 msgctxt "print operation status"
 msgid "Printing"
 msgstr "正在打印"
 
-#: gtk/gtkprintoperation.c:1651
+#: gtk/gtkprintoperation.c:1694
 msgctxt "print operation status"
 msgid "Finished"
 msgstr "已完成"
 
-#: gtk/gtkprintoperation.c:1652
+#: gtk/gtkprintoperation.c:1695
 msgctxt "print operation status"
 msgid "Finished with error"
 msgstr "已完成但發生錯誤"
 
-#: gtk/gtkprintoperation.c:2234
+#: gtk/gtkprintoperation.c:2254
 #, c-format
 msgid "Preparing %d"
 msgstr "正在準備 %d"
 
-#: gtk/gtkprintoperation.c:2236 gtk/gtkprintoperation.c:2846
+#: gtk/gtkprintoperation.c:2256 gtk/gtkprintoperation.c:2875
 #, c-format
 msgid "Preparing"
 msgstr "正在準備"
 
-#: gtk/gtkprintoperation.c:2239
+#: gtk/gtkprintoperation.c:2259
 #, c-format
 msgid "Printing %d"
 msgstr "正在打印 %d"
 
-#: gtk/gtkprintoperation.c:2876
+#: gtk/gtkprintoperation.c:2905
 #, c-format
 msgid "Error creating print preview"
 msgstr "建立打印預覽時發生錯誤"
 
-#: gtk/gtkprintoperation.c:2879
+#: gtk/gtkprintoperation.c:2908
 #, c-format
 msgid "The most probable reason is that a temporary file could not be created."
 msgstr "最可能的原因是無法建立暫存檔案。"
 
-#: gtk/gtkprintoperation-unix.c:281
+#: gtk/gtkprintoperation-unix.c:297 gtk/gtkprintoperation-unix.c:314
 #, c-format
 msgid "Error launching preview"
 msgstr "執行預覽時發生錯誤"
 
-#: gtk/gtkprintoperation-unix.c:325
+#: gtk/gtkprintoperation-unix.c:358
 #, c-format
 msgid "Error printing"
 msgstr "打印錯誤"
 
-#: gtk/gtkprintoperation-unix.c:461 gtk/gtkprintoperation-win32.c:1430
+#: gtk/gtkprintoperation-unix.c:494 gtk/gtkprintoperation-win32.c:1447
 msgid "Application"
 msgstr "應用程式"
 
-#: gtk/gtkprintoperation-win32.c:595
+#: gtk/gtkprintoperation-win32.c:612
 msgid "Printer offline"
 msgstr "打印機離線"
 
-#: gtk/gtkprintoperation-win32.c:597
+#: gtk/gtkprintoperation-win32.c:614
 msgid "Out of paper"
 msgstr "沒有紙"
 
 #. Translators: this is a printer status.
-#: gtk/gtkprintoperation-win32.c:599
-#: modules/printbackends/cups/gtkprintbackendcups.c:1963
+#: gtk/gtkprintoperation-win32.c:616
+#: modules/printbackends/cups/gtkprintbackendcups.c:1997
 msgid "Paused"
 msgstr "已暫停"
 
-#: gtk/gtkprintoperation-win32.c:601
+#: gtk/gtkprintoperation-win32.c:618
 msgid "Need user intervention"
 msgstr "需要使用者干預"
 
-#: gtk/gtkprintoperation-win32.c:701
+#: gtk/gtkprintoperation-win32.c:718
 msgid "Custom size"
 msgstr "自選大小"
 
-#: gtk/gtkprintoperation-win32.c:1522
+#: gtk/gtkprintoperation-win32.c:1539
 msgid "No printer found"
 msgstr "找不到打印機"
 
-#: gtk/gtkprintoperation-win32.c:1549
+#: gtk/gtkprintoperation-win32.c:1566
 msgid "Invalid argument to CreateDC"
 msgstr "給 CreateDC 的引數無效"
 
-#: gtk/gtkprintoperation-win32.c:1583 gtk/gtkprintoperation-win32.c:1808
+#: gtk/gtkprintoperation-win32.c:1602 gtk/gtkprintoperation-win32.c:1829
 msgid "Error from StartDoc"
 msgstr "來自 StartDoc 的錯誤"
 
-#: gtk/gtkprintoperation-win32.c:1665 gtk/gtkprintoperation-win32.c:1688
-#: gtk/gtkprintoperation-win32.c:1736
+#: gtk/gtkprintoperation-win32.c:1684 gtk/gtkprintoperation-win32.c:1707
+#: gtk/gtkprintoperation-win32.c:1755
 msgid "Not enough free memory"
 msgstr "記憶體不足"
 
-#: gtk/gtkprintoperation-win32.c:1741
+#: gtk/gtkprintoperation-win32.c:1760
 msgid "Invalid argument to PrintDlgEx"
 msgstr "給 PrintDlgEx 的參數無效"
 
-#: gtk/gtkprintoperation-win32.c:1746
+#: gtk/gtkprintoperation-win32.c:1765
 msgid "Invalid pointer to PrintDlgEx"
 msgstr "給 PrintDlgEx 的指標無效"
 
-#: gtk/gtkprintoperation-win32.c:1751
+#: gtk/gtkprintoperation-win32.c:1770
 msgid "Invalid handle to PrintDlgEx"
 msgstr "給 PrintDlgEx 的處理無效"
 
-#: gtk/gtkprintoperation-win32.c:1756
+#: gtk/gtkprintoperation-win32.c:1775
 msgid "Unspecified error"
 msgstr "無法指定的錯誤"
 
 #: gtk/gtkprintunixdialog.c:614
-#, fuzzy
 msgid "Getting printer information failed"
-msgstr "正在取得打印機資訊..."
+msgstr "無法取得打印機資訊"
 
 #: gtk/gtkprintunixdialog.c:1862
 msgid "Getting printer information..."
@@ -2697,42 +2762,42 @@ msgstr "一般"
 #. * multiple pages on a sheet when printing
 #.
 #: gtk/gtkprintunixdialog.c:3010
-#: modules/printbackends/cups/gtkprintbackendcups.c:3471
+#: modules/printbackends/cups/gtkprintbackendcups.c:3505
 msgid "Left to right, top to bottom"
 msgstr "由左至右，由上至下"
 
 #: gtk/gtkprintunixdialog.c:3010
-#: modules/printbackends/cups/gtkprintbackendcups.c:3471
+#: modules/printbackends/cups/gtkprintbackendcups.c:3505
 msgid "Left to right, bottom to top"
 msgstr "由左至右，由下至上"
 
 #: gtk/gtkprintunixdialog.c:3011
-#: modules/printbackends/cups/gtkprintbackendcups.c:3472
+#: modules/printbackends/cups/gtkprintbackendcups.c:3506
 msgid "Right to left, top to bottom"
 msgstr "由右至左，由上至下"
 
 #: gtk/gtkprintunixdialog.c:3011
-#: modules/printbackends/cups/gtkprintbackendcups.c:3472
+#: modules/printbackends/cups/gtkprintbackendcups.c:3506
 msgid "Right to left, bottom to top"
 msgstr "由右至左，由下至上"
 
 #: gtk/gtkprintunixdialog.c:3012
-#: modules/printbackends/cups/gtkprintbackendcups.c:3473
+#: modules/printbackends/cups/gtkprintbackendcups.c:3507
 msgid "Top to bottom, left to right"
 msgstr "由上至下，由左至右"
 
 #: gtk/gtkprintunixdialog.c:3012
-#: modules/printbackends/cups/gtkprintbackendcups.c:3473
+#: modules/printbackends/cups/gtkprintbackendcups.c:3507
 msgid "Top to bottom, right to left"
 msgstr "由上至下，由右至左"
 
 #: gtk/gtkprintunixdialog.c:3013
-#: modules/printbackends/cups/gtkprintbackendcups.c:3474
+#: modules/printbackends/cups/gtkprintbackendcups.c:3508
 msgid "Bottom to top, left to right"
 msgstr "由下至上，由左至右"
 
 #: gtk/gtkprintunixdialog.c:3013
-#: modules/printbackends/cups/gtkprintbackendcups.c:3474
+#: modules/printbackends/cups/gtkprintbackendcups.c:3508
 msgid "Bottom to top, right to left"
 msgstr "由下至上，由右至左"
 
@@ -2740,7 +2805,7 @@ msgstr "由下至上，由右至左"
 #. * dialog that controls in what order multiple pages are arranged
 #.
 #: gtk/gtkprintunixdialog.c:3017 gtk/gtkprintunixdialog.c:3030
-#: modules/printbackends/cups/gtkprintbackendcups.c:3506
+#: modules/printbackends/cups/gtkprintbackendcups.c:3540
 msgid "Page Ordering"
 msgstr "頁面順序"
 
@@ -3047,23 +3112,33 @@ msgstr "%d. %s"
 msgid "Unable to find an item with URI '%s'"
 msgstr "無法找到有 URI ‘%s’ 的項目"
 
+#: gtk/gtkspinner.c:458
+#, fuzzy
+msgctxt "throbbing progress animation widget"
+msgid "Spinner"
+msgstr "Super"
+
+#: gtk/gtkspinner.c:459
+msgid "Provides visual indication of progress"
+msgstr "顯示視覺化的進度指示"
+
 #. KEEP IN SYNC with gtkiconfactory.c stock icons, when appropriate
-#: gtk/gtkstock.c:288
+#: gtk/gtkstock.c:314
 msgctxt "Stock label"
 msgid "Information"
 msgstr "Information"
 
-#: gtk/gtkstock.c:289
+#: gtk/gtkstock.c:315
 msgctxt "Stock label"
 msgid "Warning"
 msgstr "警告"
 
-#: gtk/gtkstock.c:290
+#: gtk/gtkstock.c:316
 msgctxt "Stock label"
 msgid "Error"
 msgstr "錯誤"
 
-#: gtk/gtkstock.c:291
+#: gtk/gtkstock.c:317
 msgctxt "Stock label"
 msgid "Question"
 msgstr "問題"
@@ -3071,479 +3146,479 @@ msgstr "問題"
 #. FIXME these need accelerators when appropriate, and
 #. * need the mnemonics to be rationalized
 #.
-#: gtk/gtkstock.c:296
+#: gtk/gtkstock.c:322
 msgctxt "Stock label"
 msgid "_About"
 msgstr "關於(_A)"
 
-#: gtk/gtkstock.c:297
+#: gtk/gtkstock.c:323
 msgctxt "Stock label"
 msgid "_Add"
 msgstr "加入(_A)"
 
-#: gtk/gtkstock.c:298
+#: gtk/gtkstock.c:324
 msgctxt "Stock label"
 msgid "_Apply"
 msgstr "套用(_A)"
 
-#: gtk/gtkstock.c:299
+#: gtk/gtkstock.c:325
 msgctxt "Stock label"
 msgid "_Bold"
 msgstr "粗體(_B)"
 
-#: gtk/gtkstock.c:300
+#: gtk/gtkstock.c:326
 msgctxt "Stock label"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: gtk/gtkstock.c:301
+#: gtk/gtkstock.c:327
 msgctxt "Stock label"
 msgid "_CD-Rom"
 msgstr "_CD-ROM"
 
-#: gtk/gtkstock.c:302
+#: gtk/gtkstock.c:328
 msgctxt "Stock label"
 msgid "_Clear"
 msgstr "清除(_C)"
 
-#: gtk/gtkstock.c:303
+#: gtk/gtkstock.c:329
 msgctxt "Stock label"
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: gtk/gtkstock.c:304
+#: gtk/gtkstock.c:330
 msgctxt "Stock label"
 msgid "C_onnect"
 msgstr "連線(_O)"
 
-#: gtk/gtkstock.c:305
+#: gtk/gtkstock.c:331
 msgctxt "Stock label"
 msgid "_Convert"
 msgstr "轉換(_C)"
 
-#: gtk/gtkstock.c:306
+#: gtk/gtkstock.c:332
 msgctxt "Stock label"
 msgid "_Copy"
 msgstr "複製(_C)"
 
-#: gtk/gtkstock.c:307
+#: gtk/gtkstock.c:333
 msgctxt "Stock label"
 msgid "Cu_t"
 msgstr "剪下(_T)"
 
-#: gtk/gtkstock.c:308
+#: gtk/gtkstock.c:334
 msgctxt "Stock label"
 msgid "_Delete"
 msgstr "刪除(_D)"
 
-#: gtk/gtkstock.c:309
+#: gtk/gtkstock.c:335
 msgctxt "Stock label"
 msgid "_Discard"
 msgstr "放棄(_D)"
 
-#: gtk/gtkstock.c:310
+#: gtk/gtkstock.c:336
 msgctxt "Stock label"
 msgid "_Disconnect"
 msgstr "斷線(_D)"
 
-#: gtk/gtkstock.c:311
+#: gtk/gtkstock.c:337
 msgctxt "Stock label"
 msgid "_Execute"
 msgstr "執行(_E)"
 
-#: gtk/gtkstock.c:312
+#: gtk/gtkstock.c:338
 msgctxt "Stock label"
 msgid "_Edit"
 msgstr "編輯(_E)"
 
-#: gtk/gtkstock.c:313
+#: gtk/gtkstock.c:339
 msgctxt "Stock label"
 msgid "_Find"
 msgstr "尋找(_F)"
 
-#: gtk/gtkstock.c:314
+#: gtk/gtkstock.c:340
 msgctxt "Stock label"
 msgid "Find and _Replace"
 msgstr "尋找與取代(_R)"
 
-#: gtk/gtkstock.c:315
+#: gtk/gtkstock.c:341
 msgctxt "Stock label"
 msgid "_Floppy"
 msgstr "軟碟(_F)"
 
 # (Abel) 「全螢幕模式」佔 gtktoolbar 按鈕的位置太闊了
-#: gtk/gtkstock.c:316
+#: gtk/gtkstock.c:342
 msgctxt "Stock label"
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
 # (Abel) 「離開全螢幕模式」佔 gtktoolbar 按鈕的位置太闊了
-#: gtk/gtkstock.c:317
+#: gtk/gtkstock.c:343
 msgctxt "Stock label"
 msgid "_Leave Fullscreen"
 msgstr "離開全螢幕(_L)"
 
 #. This is a navigation label as in "go to the bottom of the page"
-#: gtk/gtkstock.c:319
+#: gtk/gtkstock.c:345
 msgctxt "Stock label, navigation"
 msgid "_Bottom"
 msgstr "頁尾(_B)"
 
 #. This is a navigation label as in "go to the first page"
-#: gtk/gtkstock.c:321
+#: gtk/gtkstock.c:347
 msgctxt "Stock label, navigation"
 msgid "_First"
 msgstr "第一頁(_F)"
 
 #. This is a navigation label as in "go to the last page"
-#: gtk/gtkstock.c:323
+#: gtk/gtkstock.c:349
 msgctxt "Stock label, navigation"
 msgid "_Last"
 msgstr "最後頁(_L)"
 
 #. This is a navigation label as in "go to the top of the page"
-#: gtk/gtkstock.c:325
+#: gtk/gtkstock.c:351
 msgctxt "Stock label, navigation"
 msgid "_Top"
 msgstr "頁首(_T)"
 
 #. This is a navigation label as in "go back"
-#: gtk/gtkstock.c:327
+#: gtk/gtkstock.c:353
 msgctxt "Stock label, navigation"
 msgid "_Back"
-msgstr "向後(_B)"
+msgstr "上一步(_B)"
 
 #. This is a navigation label as in "go down"
-#: gtk/gtkstock.c:329
+#: gtk/gtkstock.c:355
 msgctxt "Stock label, navigation"
 msgid "_Down"
 msgstr "向下(_D)"
 
 #. This is a navigation label as in "go forward"
-#: gtk/gtkstock.c:331
+#: gtk/gtkstock.c:357
 msgctxt "Stock label, navigation"
 msgid "_Forward"
-msgstr "向前(_F)"
+msgstr "下一步(_F)"
 
 #. This is a navigation label as in "go up"
-#: gtk/gtkstock.c:333
+#: gtk/gtkstock.c:359
 msgctxt "Stock label, navigation"
 msgid "_Up"
 msgstr "向上(_U)"
 
-#: gtk/gtkstock.c:334
+#: gtk/gtkstock.c:360
 msgctxt "Stock label"
 msgid "_Harddisk"
 msgstr "硬碟(_H)"
 
-#: gtk/gtkstock.c:335
+#: gtk/gtkstock.c:361
 msgctxt "Stock label"
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: gtk/gtkstock.c:336
+#: gtk/gtkstock.c:362
 msgctxt "Stock label"
 msgid "_Home"
 msgstr "首頁(_H)"
 
-#: gtk/gtkstock.c:337
+#: gtk/gtkstock.c:363
 msgctxt "Stock label"
 msgid "Increase Indent"
 msgstr "增加縮排"
 
-#: gtk/gtkstock.c:338
+#: gtk/gtkstock.c:364
 msgctxt "Stock label"
 msgid "Decrease Indent"
 msgstr "減少縮排"
 
-#: gtk/gtkstock.c:339
+#: gtk/gtkstock.c:365
 msgctxt "Stock label"
 msgid "_Index"
 msgstr "索引(_I)"
 
-#: gtk/gtkstock.c:340
+#: gtk/gtkstock.c:366
 msgctxt "Stock label"
 msgid "_Information"
 msgstr "資訊(_I)"
 
-#: gtk/gtkstock.c:341
+#: gtk/gtkstock.c:367
 msgctxt "Stock label"
 msgid "_Italic"
 msgstr "斜體(_I)"
 
-#: gtk/gtkstock.c:342
+#: gtk/gtkstock.c:368
 msgctxt "Stock label"
 msgid "_Jump to"
 msgstr "跳轉到(_J)"
 
 #. This is about text justification, "centered text"
-#: gtk/gtkstock.c:344
+#: gtk/gtkstock.c:370
 msgctxt "Stock label"
 msgid "_Center"
 msgstr "置中(_C)"
 
 #. This is about text justification
-#: gtk/gtkstock.c:346
+#: gtk/gtkstock.c:372
 msgctxt "Stock label"
 msgid "_Fill"
 msgstr "左右填滿(_F)"
 
 #. This is about text justification, "left-justified text"
-#: gtk/gtkstock.c:348
+#: gtk/gtkstock.c:374
 msgctxt "Stock label"
 msgid "_Left"
 msgstr "靠左(_L)"
 
 #. This is about text justification, "right-justified text"
-#: gtk/gtkstock.c:350
+#: gtk/gtkstock.c:376
 msgctxt "Stock label"
 msgid "_Right"
 msgstr "靠右(_R)"
 
 #. Media label, as in "fast forward"
-#: gtk/gtkstock.c:353
+#: gtk/gtkstock.c:379
 msgctxt "Stock label, media"
 msgid "_Forward"
 msgstr "快轉(_F)"
 
 #. Media label, as in "next song"
-#: gtk/gtkstock.c:355
+#: gtk/gtkstock.c:381
 msgctxt "Stock label, media"
 msgid "_Next"
 msgstr "下一首(_N)"
 
 #. Media label, as in "pause music"
-#: gtk/gtkstock.c:357
+#: gtk/gtkstock.c:383
 msgctxt "Stock label, media"
 msgid "P_ause"
 msgstr "暫停(_A)"
 
 #. Media label, as in "play music"
-#: gtk/gtkstock.c:359
+#: gtk/gtkstock.c:385
 msgctxt "Stock label, media"
 msgid "_Play"
 msgstr "播放(_P)"
 
 #. Media label, as in  "previous song"
-#: gtk/gtkstock.c:361
+#: gtk/gtkstock.c:387
 msgctxt "Stock label, media"
 msgid "Pre_vious"
 msgstr "上一首(_V)"
 
 #. Media label
-#: gtk/gtkstock.c:363
+#: gtk/gtkstock.c:389
 msgctxt "Stock label, media"
 msgid "_Record"
 msgstr "錄音(_R)"
 
 #. Media label
-#: gtk/gtkstock.c:365
+#: gtk/gtkstock.c:391
 msgctxt "Stock label, media"
 msgid "R_ewind"
 msgstr "倒轉(_E)"
 
 #. Media label
-#: gtk/gtkstock.c:367
+#: gtk/gtkstock.c:393
 msgctxt "Stock label, media"
 msgid "_Stop"
 msgstr "停止(_S)"
 
-#: gtk/gtkstock.c:368
+#: gtk/gtkstock.c:394
 msgctxt "Stock label"
 msgid "_Network"
 msgstr "網絡(_N)"
 
-#: gtk/gtkstock.c:369
+#: gtk/gtkstock.c:395
 msgctxt "Stock label"
 msgid "_New"
 msgstr "新增(_N)"
 
-#: gtk/gtkstock.c:370
+#: gtk/gtkstock.c:396
 msgctxt "Stock label"
 msgid "_No"
 msgstr "否(_N)"
 
-#: gtk/gtkstock.c:371
+#: gtk/gtkstock.c:397
 msgctxt "Stock label"
 msgid "_OK"
 msgstr "確定(_O)"
 
-#: gtk/gtkstock.c:372
+#: gtk/gtkstock.c:398
 msgctxt "Stock label"
 msgid "_Open"
 msgstr "開啟(_O)"
 
 #. Page orientation
-#: gtk/gtkstock.c:374
+#: gtk/gtkstock.c:400
 msgctxt "Stock label"
 msgid "Landscape"
 msgstr "橫向"
 
 #. Page orientation
-#: gtk/gtkstock.c:376
+#: gtk/gtkstock.c:402
 msgctxt "Stock label"
 msgid "Portrait"
 msgstr "直向"
 
 #. Page orientation
-#: gtk/gtkstock.c:378
+#: gtk/gtkstock.c:404
 msgctxt "Stock label"
 msgid "Reverse landscape"
 msgstr "橫向倒轉"
 
 #. Page orientation
-#: gtk/gtkstock.c:380
+#: gtk/gtkstock.c:406
 msgctxt "Stock label"
 msgid "Reverse portrait"
 msgstr "直向倒轉"
 
-#: gtk/gtkstock.c:381
+#: gtk/gtkstock.c:407
 msgctxt "Stock label"
 msgid "Page Set_up"
 msgstr "頁面設定(_U)"
 
-#: gtk/gtkstock.c:382
+#: gtk/gtkstock.c:408
 msgctxt "Stock label"
 msgid "_Paste"
 msgstr "貼上(_P)"
 
-#: gtk/gtkstock.c:383
+#: gtk/gtkstock.c:409
 msgctxt "Stock label"
 msgid "_Preferences"
 msgstr "偏好設定(_P)"
 
-#: gtk/gtkstock.c:384
+#: gtk/gtkstock.c:410
 msgctxt "Stock label"
 msgid "_Print"
 msgstr "打印(_P)"
 
-#: gtk/gtkstock.c:385
+#: gtk/gtkstock.c:411
 msgctxt "Stock label"
 msgid "Print Pre_view"
 msgstr "預覽打印(_V)"
 
-#: gtk/gtkstock.c:386
+#: gtk/gtkstock.c:412
 msgctxt "Stock label"
 msgid "_Properties"
 msgstr "屬性(_P)"
 
-#: gtk/gtkstock.c:387
+#: gtk/gtkstock.c:413
 msgctxt "Stock label"
 msgid "_Quit"
 msgstr "結束(_Q)"
 
-#: gtk/gtkstock.c:388
+#: gtk/gtkstock.c:414
 msgctxt "Stock label"
 msgid "_Redo"
 msgstr "取消復原(_R)"
 
-#: gtk/gtkstock.c:389
+#: gtk/gtkstock.c:415
 msgctxt "Stock label"
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
-#: gtk/gtkstock.c:390
+#: gtk/gtkstock.c:416
 msgctxt "Stock label"
 msgid "_Remove"
 msgstr "移除(_R)"
 
-#: gtk/gtkstock.c:391
+#: gtk/gtkstock.c:417
 msgctxt "Stock label"
 msgid "_Revert"
 msgstr "還原(_R)"
 
-#: gtk/gtkstock.c:392
+#: gtk/gtkstock.c:418
 msgctxt "Stock label"
 msgid "_Save"
 msgstr "儲存(_S)"
 
-#: gtk/gtkstock.c:393
+#: gtk/gtkstock.c:419
 msgctxt "Stock label"
 msgid "Save _As"
 msgstr "另存新檔(_A)"
 
-#: gtk/gtkstock.c:394
+#: gtk/gtkstock.c:420
 msgctxt "Stock label"
 msgid "Select _All"
 msgstr "全部選取(_A)"
 
-#: gtk/gtkstock.c:395
+#: gtk/gtkstock.c:421
 msgctxt "Stock label"
 msgid "_Color"
 msgstr "顏色(_C)"
 
-#: gtk/gtkstock.c:396
+#: gtk/gtkstock.c:422
 msgctxt "Stock label"
 msgid "_Font"
 msgstr "字型(_F)"
 
 #. Sorting direction
-#: gtk/gtkstock.c:398
+#: gtk/gtkstock.c:424
 msgctxt "Stock label"
 msgid "_Ascending"
 msgstr "遞增(_A)"
 
 #. Sorting direction
-#: gtk/gtkstock.c:400
+#: gtk/gtkstock.c:426
 msgctxt "Stock label"
 msgid "_Descending"
 msgstr "遞減(_D)"
 
-#: gtk/gtkstock.c:401
+#: gtk/gtkstock.c:427
 msgctxt "Stock label"
 msgid "_Spell Check"
 msgstr "拼字檢查(_S)"
 
-#: gtk/gtkstock.c:402
+#: gtk/gtkstock.c:428
 msgctxt "Stock label"
 msgid "_Stop"
 msgstr "停止(_S)"
 
 #. Font variant
-#: gtk/gtkstock.c:404
+#: gtk/gtkstock.c:430
 msgctxt "Stock label"
 msgid "_Strikethrough"
 msgstr "刪除線(_S)"
 
-#: gtk/gtkstock.c:405
+#: gtk/gtkstock.c:431
 msgctxt "Stock label"
 msgid "_Undelete"
 msgstr "還原刪除(_U)"
 
 #. Font variant
-#: gtk/gtkstock.c:407
+#: gtk/gtkstock.c:433
 msgctxt "Stock label"
 msgid "_Underline"
 msgstr "底線(_U)"
 
-#: gtk/gtkstock.c:408
+#: gtk/gtkstock.c:434
 msgctxt "Stock label"
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: gtk/gtkstock.c:409
+#: gtk/gtkstock.c:435
 msgctxt "Stock label"
 msgid "_Yes"
 msgstr "是(_Y)"
 
 #. Zoom
-#: gtk/gtkstock.c:411
+#: gtk/gtkstock.c:437
 msgctxt "Stock label"
 msgid "_Normal Size"
 msgstr "一般大小(_N)"
 
 #. Zoom
-#: gtk/gtkstock.c:413
+#: gtk/gtkstock.c:439
 msgctxt "Stock label"
 msgid "Best _Fit"
 msgstr "最適大小(_F)"
 
-#: gtk/gtkstock.c:414
+#: gtk/gtkstock.c:440
 msgctxt "Stock label"
 msgid "Zoom _In"
 msgstr "拉近(_I)"
 
-#: gtk/gtkstock.c:415
+#: gtk/gtkstock.c:441
 msgctxt "Stock label"
 msgid "Zoom _Out"
 msgstr "拉遠(_O)"
@@ -3711,17 +3786,17 @@ msgstr "無法在 module_path 中找出佈景主題引擎：‘%s’，"
 msgid "--- No Tip ---"
 msgstr "--- 無提示 ---"
 
-#: gtk/gtkuimanager.c:1491
+#: gtk/gtkuimanager.c:1505
 #, c-format
 msgid "Unexpected start tag '%s' on line %d char %d"
 msgstr "第 %2$d 行第 %3$d 字有非預設的開始標記‘%1$s’"
 
-#: gtk/gtkuimanager.c:1581
+#: gtk/gtkuimanager.c:1595
 #, c-format
 msgid "Unexpected character data on line %d char %d"
 msgstr "第 %d 行第 %d 字有非預設的字符資料"
 
-#: gtk/gtkuimanager.c:2413
+#: gtk/gtkuimanager.c:2427
 msgid "Empty"
 msgstr "空的"
 
@@ -3772,987 +3847,822 @@ msgctxt "volume percentage"
 msgid "%d %%"
 msgstr "%d %%"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:5
+#: gtk/paper_names_offsets.c:4
 msgctxt "paper size"
 msgid "asme_f"
 msgstr "asme_f"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:7
+#: gtk/paper_names_offsets.c:5
 msgctxt "paper size"
 msgid "A0x2"
 msgstr "A0x2"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:9
+#: gtk/paper_names_offsets.c:6
 msgctxt "paper size"
 msgid "A0"
 msgstr "A0"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:11
+#: gtk/paper_names_offsets.c:7
 msgctxt "paper size"
 msgid "A0x3"
 msgstr "A0x3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:13
+#: gtk/paper_names_offsets.c:8
 msgctxt "paper size"
 msgid "A1"
 msgstr "A1"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:15
+#: gtk/paper_names_offsets.c:9
 msgctxt "paper size"
 msgid "A10"
 msgstr "A10"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:17
+#: gtk/paper_names_offsets.c:10
 msgctxt "paper size"
 msgid "A1x3"
 msgstr "A1x3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:19
+#: gtk/paper_names_offsets.c:11
 msgctxt "paper size"
 msgid "A1x4"
 msgstr "A1x4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:21
+#: gtk/paper_names_offsets.c:12
 msgctxt "paper size"
 msgid "A2"
 msgstr "A2"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:23
+#: gtk/paper_names_offsets.c:13
 msgctxt "paper size"
 msgid "A2x3"
 msgstr "A2x3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:25
+#: gtk/paper_names_offsets.c:14
 msgctxt "paper size"
 msgid "A2x4"
 msgstr "A2x4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:27
+#: gtk/paper_names_offsets.c:15
 msgctxt "paper size"
 msgid "A2x5"
 msgstr "A2x5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:29
+#: gtk/paper_names_offsets.c:16
 msgctxt "paper size"
 msgid "A3"
 msgstr "A3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:31
+#: gtk/paper_names_offsets.c:17
 msgctxt "paper size"
 msgid "A3 Extra"
 msgstr "A3 Extra"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:33
+#: gtk/paper_names_offsets.c:18
 msgctxt "paper size"
 msgid "A3x3"
 msgstr "A3x3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:35
+#: gtk/paper_names_offsets.c:19
 msgctxt "paper size"
 msgid "A3x4"
 msgstr "A3x4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:37
+#: gtk/paper_names_offsets.c:20
 msgctxt "paper size"
 msgid "A3x5"
 msgstr "A3x5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:39
+#: gtk/paper_names_offsets.c:21
 msgctxt "paper size"
 msgid "A3x6"
 msgstr "A3x6"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:41
+#: gtk/paper_names_offsets.c:22
 msgctxt "paper size"
 msgid "A3x7"
 msgstr "A3x7"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:43
+#: gtk/paper_names_offsets.c:23
 msgctxt "paper size"
 msgid "A4"
 msgstr "A4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:45
+#: gtk/paper_names_offsets.c:24
 msgctxt "paper size"
 msgid "A4 Extra"
 msgstr "提醒間隔每"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:47
+#: gtk/paper_names_offsets.c:25
 msgctxt "paper size"
 msgid "A4 Tab"
 msgstr "轉為獨立視窗(_D)"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:49
+#: gtk/paper_names_offsets.c:26
 msgctxt "paper size"
 msgid "A4x3"
 msgstr "A4x3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:51
+#: gtk/paper_names_offsets.c:27
 msgctxt "paper size"
 msgid "A4x4"
 msgstr "A4x4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:53
+#: gtk/paper_names_offsets.c:28
 msgctxt "paper size"
 msgid "A4x5"
 msgstr "A4x5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:55
+#: gtk/paper_names_offsets.c:29
 msgctxt "paper size"
 msgid "A4x6"
 msgstr "A4x6"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:57
+#: gtk/paper_names_offsets.c:30
 msgctxt "paper size"
 msgid "A4x7"
 msgstr "A4x7"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:59
+#: gtk/paper_names_offsets.c:31
 msgctxt "paper size"
 msgid "A4x8"
 msgstr "A4x8"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:61
+#: gtk/paper_names_offsets.c:32
 msgctxt "paper size"
 msgid "A4x9"
 msgstr "A4x9"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:63
+#: gtk/paper_names_offsets.c:33
 msgctxt "paper size"
 msgid "A5"
 msgstr "A5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:65
+#: gtk/paper_names_offsets.c:34
 msgctxt "paper size"
 msgid "A5 Extra"
 msgstr "提醒間隔每"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:67
+#: gtk/paper_names_offsets.c:35
 msgctxt "paper size"
 msgid "A6"
 msgstr "A6"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:69
+#: gtk/paper_names_offsets.c:36
 msgctxt "paper size"
 msgid "A7"
 msgstr "A7"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:71
+#: gtk/paper_names_offsets.c:37
 msgctxt "paper size"
 msgid "A8"
 msgstr "A8"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:73
+#: gtk/paper_names_offsets.c:38
 msgctxt "paper size"
 msgid "A9"
 msgstr "A9"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:75
+#: gtk/paper_names_offsets.c:39
 msgctxt "paper size"
 msgid "B0"
 msgstr "B0"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:77
+#: gtk/paper_names_offsets.c:40
 msgctxt "paper size"
 msgid "B1"
 msgstr "B1"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:79
+#: gtk/paper_names_offsets.c:41
 msgctxt "paper size"
 msgid "B10"
 msgstr "B10"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:81
+#: gtk/paper_names_offsets.c:42
 msgctxt "paper size"
 msgid "B2"
 msgstr "B2"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:83
+#: gtk/paper_names_offsets.c:43
 msgctxt "paper size"
 msgid "B3"
 msgstr "B3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:85
+#: gtk/paper_names_offsets.c:44
 msgctxt "paper size"
 msgid "B4"
 msgstr "B4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:87
+#: gtk/paper_names_offsets.c:45
 msgctxt "paper size"
 msgid "B5"
 msgstr "B5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:89
+#: gtk/paper_names_offsets.c:46
 msgctxt "paper size"
 msgid "B5 Extra"
 msgstr "提醒間隔每"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:91
+#: gtk/paper_names_offsets.c:47
 msgctxt "paper size"
 msgid "B6"
 msgstr "B6"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:93
+#: gtk/paper_names_offsets.c:48
 msgctxt "paper size"
 msgid "B6/C4"
 msgstr "B6/C4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:95
+#: gtk/paper_names_offsets.c:49
 msgctxt "paper size"
 msgid "B7"
 msgstr "B7"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:97
+#: gtk/paper_names_offsets.c:50
 msgctxt "paper size"
 msgid "B8"
 msgstr "B8"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:99
+#: gtk/paper_names_offsets.c:51
 msgctxt "paper size"
 msgid "B9"
 msgstr "B9"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:101
+#: gtk/paper_names_offsets.c:52
 msgctxt "paper size"
 msgid "C0"
 msgstr "C0"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:103
+#: gtk/paper_names_offsets.c:53
 msgctxt "paper size"
 msgid "C1"
 msgstr "C1"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:105
+#: gtk/paper_names_offsets.c:54
 msgctxt "paper size"
 msgid "C10"
 msgstr "C10"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:107
+#: gtk/paper_names_offsets.c:55
 msgctxt "paper size"
 msgid "C2"
 msgstr "C2"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:109
+#: gtk/paper_names_offsets.c:56
 msgctxt "paper size"
 msgid "C3"
 msgstr "C3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:111
+#: gtk/paper_names_offsets.c:57
 msgctxt "paper size"
 msgid "C4"
 msgstr "C4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:113
+#: gtk/paper_names_offsets.c:58
 msgctxt "paper size"
 msgid "C5"
 msgstr "C5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:115
+#: gtk/paper_names_offsets.c:59
 msgctxt "paper size"
 msgid "C6"
 msgstr "C6"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:117
+#: gtk/paper_names_offsets.c:60
 msgctxt "paper size"
 msgid "C6/C5"
 msgstr "C6/C5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:119
+#: gtk/paper_names_offsets.c:61
 msgctxt "paper size"
 msgid "C7"
 msgstr "C7"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:121
+#: gtk/paper_names_offsets.c:62
 msgctxt "paper size"
 msgid "C7/C6"
 msgstr "C7/C6"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:123
+#: gtk/paper_names_offsets.c:63
 msgctxt "paper size"
 msgid "C8"
 msgstr "C8"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:125
+#: gtk/paper_names_offsets.c:64
 msgctxt "paper size"
 msgid "C9"
 msgstr "C9"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:127
+#: gtk/paper_names_offsets.c:65
 msgctxt "paper size"
 msgid "DL Envelope"
 msgstr "DL 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:129
+#: gtk/paper_names_offsets.c:66
 msgctxt "paper size"
 msgid "RA0"
 msgstr "RA0"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:131
+#: gtk/paper_names_offsets.c:67
 msgctxt "paper size"
 msgid "RA1"
 msgstr "RA1"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:133
+#: gtk/paper_names_offsets.c:68
 msgctxt "paper size"
 msgid "RA2"
 msgstr "RA2"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:135
+#: gtk/paper_names_offsets.c:69
 msgctxt "paper size"
 msgid "SRA0"
 msgstr "SRA0"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:137
+#: gtk/paper_names_offsets.c:70
 msgctxt "paper size"
 msgid "SRA1"
 msgstr "SRA1"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:139
+#: gtk/paper_names_offsets.c:71
 msgctxt "paper size"
 msgid "SRA2"
 msgstr "SRA2"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:141
+#: gtk/paper_names_offsets.c:72
 msgctxt "paper size"
 msgid "JB0"
 msgstr "JB0"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:143
+#: gtk/paper_names_offsets.c:73
 msgctxt "paper size"
 msgid "JB1"
 msgstr "JB1"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:145
+#: gtk/paper_names_offsets.c:74
 msgctxt "paper size"
 msgid "JB10"
 msgstr "JB10"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:147
+#: gtk/paper_names_offsets.c:75
 msgctxt "paper size"
 msgid "JB2"
 msgstr "JB2"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:149
+#: gtk/paper_names_offsets.c:76
 msgctxt "paper size"
 msgid "JB3"
 msgstr "JB3"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:151
+#: gtk/paper_names_offsets.c:77
 msgctxt "paper size"
 msgid "JB4"
 msgstr "JB4"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:153
+#: gtk/paper_names_offsets.c:78
 msgctxt "paper size"
 msgid "JB5"
 msgstr "JB5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:155
+#: gtk/paper_names_offsets.c:79
 msgctxt "paper size"
 msgid "JB6"
 msgstr "JB6"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:157
+#: gtk/paper_names_offsets.c:80
 msgctxt "paper size"
 msgid "JB7"
 msgstr "JB7"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:159
+#: gtk/paper_names_offsets.c:81
 msgctxt "paper size"
 msgid "JB8"
 msgstr "JB8"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:161
+#: gtk/paper_names_offsets.c:82
 msgctxt "paper size"
 msgid "JB9"
 msgstr "JB9"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:163
+#: gtk/paper_names_offsets.c:83
 msgctxt "paper size"
 msgid "jis exec"
 msgstr "jis exec"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:165
+#: gtk/paper_names_offsets.c:84
 msgctxt "paper size"
 msgid "Choukei 2 Envelope"
 msgstr "Choukei 2 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:167
+#: gtk/paper_names_offsets.c:85
 msgctxt "paper size"
 msgid "Choukei 3 Envelope"
 msgstr "Choukei 3 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:169
+#: gtk/paper_names_offsets.c:86
 msgctxt "paper size"
 msgid "Choukei 4 Envelope"
 msgstr "Choukei 4 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:171
+#: gtk/paper_names_offsets.c:87
 msgctxt "paper size"
 msgid "hagaki (postcard)"
 msgstr "hagaki（明信片）"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:173
+#: gtk/paper_names_offsets.c:88
 msgctxt "paper size"
 msgid "kahu Envelope"
 msgstr "kahu 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:175
+#: gtk/paper_names_offsets.c:89
 msgctxt "paper size"
 msgid "kaku2 Envelope"
 msgstr "kahu2 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:177
+#: gtk/paper_names_offsets.c:90
 msgctxt "paper size"
 msgid "oufuku (reply postcard)"
 msgstr "oufuku (明信片回覆)"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:179
+#: gtk/paper_names_offsets.c:91
 msgctxt "paper size"
 msgid "you4 Envelope"
 msgstr "you4 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:181
+#: gtk/paper_names_offsets.c:92
 msgctxt "paper size"
 msgid "10x11"
 msgstr "10x11"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:183
+#: gtk/paper_names_offsets.c:93
 msgctxt "paper size"
 msgid "10x13"
 msgstr "10x13"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:185
+#: gtk/paper_names_offsets.c:94
 msgctxt "paper size"
 msgid "10x14"
 msgstr "10x14"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:187 gtk/paper_names_offsets.c:189
+#: gtk/paper_names_offsets.c:95 gtk/paper_names_offsets.c:96
 msgctxt "paper size"
 msgid "10x15"
 msgstr "10x15"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:191
+#: gtk/paper_names_offsets.c:97
 msgctxt "paper size"
 msgid "11x12"
 msgstr "11x12"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:193
+#: gtk/paper_names_offsets.c:98
 msgctxt "paper size"
 msgid "11x15"
 msgstr "11x15"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:195
+#: gtk/paper_names_offsets.c:99
 msgctxt "paper size"
 msgid "12x19"
 msgstr "12x19"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:197
+#: gtk/paper_names_offsets.c:100
 msgctxt "paper size"
 msgid "5x7"
 msgstr "5x7"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:199
+#: gtk/paper_names_offsets.c:101
 msgctxt "paper size"
 msgid "6x9 Envelope"
 msgstr "6x9 英吋信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:201
+#: gtk/paper_names_offsets.c:102
 msgctxt "paper size"
 msgid "7x9 Envelope"
 msgstr "7x9 英吋信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:203
+#: gtk/paper_names_offsets.c:103
 msgctxt "paper size"
 msgid "9x11 Envelope"
 msgstr "9x11 英吋信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:205
+#: gtk/paper_names_offsets.c:104
 msgctxt "paper size"
 msgid "a2 Envelope"
 msgstr "a2 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:207
+#: gtk/paper_names_offsets.c:105
 msgctxt "paper size"
 msgid "Arch A"
 msgstr "Arch A"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:209
+#: gtk/paper_names_offsets.c:106
 msgctxt "paper size"
 msgid "Arch B"
 msgstr "Arch B"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:211
+#: gtk/paper_names_offsets.c:107
 msgctxt "paper size"
 msgid "Arch C"
 msgstr "Arch C"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:213
+#: gtk/paper_names_offsets.c:108
 msgctxt "paper size"
 msgid "Arch D"
 msgstr "Arch D"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:215
+#: gtk/paper_names_offsets.c:109
 msgctxt "paper size"
 msgid "Arch E"
 msgstr "Arch E"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:217
+#: gtk/paper_names_offsets.c:110
 msgctxt "paper size"
 msgid "b-plus"
 msgstr "b-plus"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:219
+#: gtk/paper_names_offsets.c:111
 msgctxt "paper size"
 msgid "c"
 msgstr "c"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:221
+#: gtk/paper_names_offsets.c:112
 msgctxt "paper size"
 msgid "c5 Envelope"
 msgstr "c5 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:223
+#: gtk/paper_names_offsets.c:113
 msgctxt "paper size"
 msgid "d"
 msgstr "d"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:225
+#: gtk/paper_names_offsets.c:114
 msgctxt "paper size"
 msgid "e"
 msgstr "e"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:227
+#: gtk/paper_names_offsets.c:115
 msgctxt "paper size"
 msgid "edp"
 msgstr "edp"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:229
+#: gtk/paper_names_offsets.c:116
 msgctxt "paper size"
 msgid "European edp"
 msgstr "南歐語系"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:231
+#: gtk/paper_names_offsets.c:117
 msgctxt "paper size"
 msgid "Executive"
 msgstr "Executive"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:233
+#: gtk/paper_names_offsets.c:118
 msgctxt "paper size"
 msgid "f"
 msgstr "f"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:235
+#: gtk/paper_names_offsets.c:119
 msgctxt "paper size"
 msgid "FanFold European"
 msgstr "FanFold European"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:237
+#: gtk/paper_names_offsets.c:120
 msgctxt "paper size"
 msgid "FanFold US"
 msgstr "FanFold US"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:239
+#: gtk/paper_names_offsets.c:121
 msgctxt "paper size"
 msgid "FanFold German Legal"
 msgstr "FanFold German Legal"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:241
+#: gtk/paper_names_offsets.c:122
 msgctxt "paper size"
 msgid "Government Legal"
 msgstr "Government Legal"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:243
+#: gtk/paper_names_offsets.c:123
 msgctxt "paper size"
 msgid "Government Letter"
 msgstr "Government Letter"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:245
+#: gtk/paper_names_offsets.c:124
 msgctxt "paper size"
 msgid "Index 3x5"
 msgstr "Index 3x5"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:247
+#: gtk/paper_names_offsets.c:125
 msgctxt "paper size"
 msgid "Index 4x6 (postcard)"
 msgstr "Index 4x6（明信片）"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:249
+#: gtk/paper_names_offsets.c:126
 msgctxt "paper size"
 msgid "Index 4x6 ext"
 msgstr "Index 4x6 ext"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:251
+#: gtk/paper_names_offsets.c:127
 msgctxt "paper size"
 msgid "Index 5x8"
 msgstr "Index 5x8"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:253
+#: gtk/paper_names_offsets.c:128
 msgctxt "paper size"
 msgid "Invoice"
 msgstr "請求書"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:255
+#: gtk/paper_names_offsets.c:129
 msgctxt "paper size"
 msgid "Tabloid"
 msgstr "Tabloid"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:257
+#: gtk/paper_names_offsets.c:130
 msgctxt "paper size"
 msgid "US Legal"
 msgstr "US Legal"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:259
+#: gtk/paper_names_offsets.c:131
 msgctxt "paper size"
 msgid "US Legal Extra"
 msgstr "US Legal Extra"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:261
+#: gtk/paper_names_offsets.c:132
 msgctxt "paper size"
 msgid "US Letter"
 msgstr "US Letter"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:263
+#: gtk/paper_names_offsets.c:133
 msgctxt "paper size"
 msgid "US Letter Extra"
 msgstr "US Letter Extra"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:265
+#: gtk/paper_names_offsets.c:134
 msgctxt "paper size"
 msgid "US Letter Plus"
 msgstr "US Letter Plus"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:267
+#: gtk/paper_names_offsets.c:135
 msgctxt "paper size"
 msgid "Monarch Envelope"
 msgstr "Monarch Envelope"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:269
+#: gtk/paper_names_offsets.c:136
 msgctxt "paper size"
 msgid "#10 Envelope"
 msgstr "10 號信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:271
+#: gtk/paper_names_offsets.c:137
 msgctxt "paper size"
 msgid "#11 Envelope"
 msgstr "11 號信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:273
+#: gtk/paper_names_offsets.c:138
 msgctxt "paper size"
 msgid "#12 Envelope"
 msgstr "12 小時"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:275
+#: gtk/paper_names_offsets.c:139
 msgctxt "paper size"
 msgid "#14 Envelope"
 msgstr "14 號信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:277
+#: gtk/paper_names_offsets.c:140
 msgctxt "paper size"
 msgid "#9 Envelope"
 msgstr "9 號信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:279
+#: gtk/paper_names_offsets.c:141
 msgctxt "paper size"
 msgid "Personal Envelope"
 msgstr "個人信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:281
+#: gtk/paper_names_offsets.c:142
 msgctxt "paper size"
 msgid "Quarto"
 msgstr "Quarto"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:283
+#: gtk/paper_names_offsets.c:143
 msgctxt "paper size"
 msgid "Super A"
 msgstr "Super A"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:285
+#: gtk/paper_names_offsets.c:144
 msgctxt "paper size"
 msgid "Super B"
 msgstr "Super B"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:287
+#: gtk/paper_names_offsets.c:145
 msgctxt "paper size"
 msgid "Wide Format"
 msgstr "寬格式"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:289
+#: gtk/paper_names_offsets.c:146
 msgctxt "paper size"
 msgid "Dai-pa-kai"
 msgstr "Dai-pa-kai"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:291
+#: gtk/paper_names_offsets.c:147
 msgctxt "paper size"
 msgid "Folio"
 msgstr "Folio"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:293
+#: gtk/paper_names_offsets.c:148
 msgctxt "paper size"
 msgid "Folio sp"
 msgstr "Folio sp"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:295
+#: gtk/paper_names_offsets.c:149
 msgctxt "paper size"
 msgid "Invite Envelope"
 msgstr "邀請信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:297
+#: gtk/paper_names_offsets.c:150
 msgctxt "paper size"
 msgid "Italian Envelope"
 msgstr "意大利信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:299
+#: gtk/paper_names_offsets.c:151
 msgctxt "paper size"
 msgid "juuro-ku-kai"
 msgstr "juuro-ku-kai"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:301
+#: gtk/paper_names_offsets.c:152
 msgctxt "paper size"
 msgid "pa-kai"
 msgstr "pa-kai"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:303
+#: gtk/paper_names_offsets.c:153
 msgctxt "paper size"
 msgid "Postfix Envelope"
 msgstr "Postfix 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:305
+#: gtk/paper_names_offsets.c:154
 msgctxt "paper size"
 msgid "Small Photo"
 msgstr "小相片"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:307
+#: gtk/paper_names_offsets.c:155
 msgctxt "paper size"
 msgid "prc1 Envelope"
 msgstr "prc1 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:309
+#: gtk/paper_names_offsets.c:156
 msgctxt "paper size"
 msgid "prc10 Envelope"
 msgstr "prc10 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:311
+#: gtk/paper_names_offsets.c:157
 msgctxt "paper size"
 msgid "prc 16k"
 msgstr "prc 16k"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:313
+#: gtk/paper_names_offsets.c:158
 msgctxt "paper size"
 msgid "prc2 Envelope"
 msgstr "prc2 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:315
+#: gtk/paper_names_offsets.c:159
 msgctxt "paper size"
 msgid "prc3 Envelope"
 msgstr "prc3 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:317
+#: gtk/paper_names_offsets.c:160
 msgctxt "paper size"
 msgid "prc 32k"
 msgstr "prc 32k"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:319
+#: gtk/paper_names_offsets.c:161
 msgctxt "paper size"
 msgid "prc4 Envelope"
 msgstr "prc4 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:321
+#: gtk/paper_names_offsets.c:162
 msgctxt "paper size"
 msgid "prc5 Envelope"
 msgstr "prc5 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:323
+#: gtk/paper_names_offsets.c:163
 msgctxt "paper size"
 msgid "prc6 Envelope"
 msgstr "prc6 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:325
+#: gtk/paper_names_offsets.c:164
 msgctxt "paper size"
 msgid "prc7 Envelope"
 msgstr "prc7 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:327
+#: gtk/paper_names_offsets.c:165
 msgctxt "paper size"
 msgid "prc8 Envelope"
 msgstr "prc8 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:329
-#, fuzzy
+#: gtk/paper_names_offsets.c:166
 msgctxt "paper size"
 msgid "prc9 Envelope"
-msgstr "prc1 信封"
+msgstr "prc9 信封"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:331
+#: gtk/paper_names_offsets.c:167
 msgctxt "paper size"
 msgid "ROC 16k"
 msgstr "ROC 16k"
 
-#. translators, strip everything up to the first |
-#: gtk/paper_names_offsets.c:333
+#: gtk/paper_names_offsets.c:168
 msgctxt "paper size"
 msgid "ROC 8k"
 msgstr "ROC 8k"
@@ -4921,261 +4831,259 @@ msgstr "越南文 (VIQR)"
 msgid "X Input Method"
 msgstr "一般輸入法 (XIM)"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:775
-#: modules/printbackends/cups/gtkprintbackendcups.c:984
+#: modules/printbackends/cups/gtkprintbackendcups.c:809
+#: modules/printbackends/cups/gtkprintbackendcups.c:1018
 msgid "Username:"
 msgstr "使用者名稱："
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:776
-#: modules/printbackends/cups/gtkprintbackendcups.c:993
+#: modules/printbackends/cups/gtkprintbackendcups.c:810
+#: modules/printbackends/cups/gtkprintbackendcups.c:1027
 msgid "Password:"
 msgstr "密碼："
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:814
+#: modules/printbackends/cups/gtkprintbackendcups.c:848
 #, c-format
 msgid "Authentication is required to get a file from %s"
 msgstr "從 %s 取得檔案需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:818
-#: modules/printbackends/cups/gtkprintbackendcups.c:1006
+#: modules/printbackends/cups/gtkprintbackendcups.c:852
+#: modules/printbackends/cups/gtkprintbackendcups.c:1040
 #, c-format
 msgid "Authentication is required to print document '%s' on printer %s"
 msgstr "要在打印機 %2$s 打印文件「%1$s」需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:820
+#: modules/printbackends/cups/gtkprintbackendcups.c:854
 #, c-format
 msgid "Authentication is required to print a document on %s"
 msgstr "要在 %s 打印文件需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:824
+#: modules/printbackends/cups/gtkprintbackendcups.c:858
 #, c-format
 msgid "Authentication is required to get attributes of job '%s'"
 msgstr "要取得工作「%s」的屬性需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:826
+#: modules/printbackends/cups/gtkprintbackendcups.c:860
 msgid "Authentication is required to get attributes of a job"
 msgstr "要取得工作的屬性需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:830
+#: modules/printbackends/cups/gtkprintbackendcups.c:864
 #, c-format
 msgid "Authentication is required to get attributes of printer %s"
 msgstr "要取得打印機「%s」的屬性需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:832
+#: modules/printbackends/cups/gtkprintbackendcups.c:866
 msgid "Authentication is required to get attributes of a printer"
 msgstr "要取得打印機的屬性需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:835
+#: modules/printbackends/cups/gtkprintbackendcups.c:869
 #, c-format
 msgid "Authentication is required to get default printer of %s"
 msgstr "要取得 %s 的預設打印機需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:838
+#: modules/printbackends/cups/gtkprintbackendcups.c:872
 #, c-format
 msgid "Authentication is required to get printers from %s"
 msgstr "要從 %s 取得打印機需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:841
+#: modules/printbackends/cups/gtkprintbackendcups.c:875
 #, c-format
 msgid "Authentication is required on %s"
 msgstr "%s 需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:978
-#, fuzzy
+#: modules/printbackends/cups/gtkprintbackendcups.c:1012
 msgid "Domain:"
-msgstr "網域(_D):"
+msgstr "網域："
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1008
-#, fuzzy, c-format
+#: modules/printbackends/cups/gtkprintbackendcups.c:1042
+#, c-format
 msgid "Authentication is required to print document '%s'"
-msgstr "要在 %s 打印文件需要驗證"
+msgstr "打印文件「%s」需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1013
-#, fuzzy, c-format
+#: modules/printbackends/cups/gtkprintbackendcups.c:1047
+#, c-format
 msgid "Authentication is required to print this document on printer %s"
-msgstr "要在打印機 %2$s 打印文件「%1$s」需要驗證"
+msgstr "要在打印機 %s 打印文件需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1015
-#, fuzzy
+#: modules/printbackends/cups/gtkprintbackendcups.c:1049
 msgid "Authentication is required to print this document"
-msgstr "要在 %s 打印文件需要驗證"
+msgstr "要打印這份文件需要驗證"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1636
+#: modules/printbackends/cups/gtkprintbackendcups.c:1670
 #, c-format
 msgid "Printer '%s' is low on toner."
 msgstr "打印機「%s」碳粉/墨水不足。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1637
+#: modules/printbackends/cups/gtkprintbackendcups.c:1671
 #, c-format
 msgid "Printer '%s' has no toner left."
 msgstr "打印機「%s」碳粉/墨水用完。"
 
 #. Translators: "Developer" like on photo development context
-#: modules/printbackends/cups/gtkprintbackendcups.c:1639
+#: modules/printbackends/cups/gtkprintbackendcups.c:1673
 #, c-format
 msgid "Printer '%s' is low on developer."
 msgstr "打印機「%s」顯像劑不足。"
 
 #. Translators: "Developer" like on photo development context
-#: modules/printbackends/cups/gtkprintbackendcups.c:1641
+#: modules/printbackends/cups/gtkprintbackendcups.c:1675
 #, c-format
 msgid "Printer '%s' is out of developer."
 msgstr "打印機「%s」顯像劑用完。"
 
 #. Translators: "marker" is one color bin of the printer
-#: modules/printbackends/cups/gtkprintbackendcups.c:1643
+#: modules/printbackends/cups/gtkprintbackendcups.c:1677
 #, c-format
 msgid "Printer '%s' is low on at least one marker supply."
 msgstr "打印機「%s」至少有一個碳粉/墨水不足。"
 
 #. Translators: "marker" is one color bin of the printer
-#: modules/printbackends/cups/gtkprintbackendcups.c:1645
+#: modules/printbackends/cups/gtkprintbackendcups.c:1679
 #, c-format
 msgid "Printer '%s' is out of at least one marker supply."
 msgstr "打印機「%s」至少有一個碳粉/墨水用完。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1646
+#: modules/printbackends/cups/gtkprintbackendcups.c:1680
 #, c-format
 msgid "The cover is open on printer '%s'."
 msgstr "打印機「%s」的外殼是打開的。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1647
+#: modules/printbackends/cups/gtkprintbackendcups.c:1681
 #, c-format
 msgid "The door is open on printer '%s'."
 msgstr "打印機「%s」的紙匣門是打開的。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1648
+#: modules/printbackends/cups/gtkprintbackendcups.c:1682
 #, c-format
 msgid "Printer '%s' is low on paper."
 msgstr "打印機「%s」紙張不足。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1649
+#: modules/printbackends/cups/gtkprintbackendcups.c:1683
 #, c-format
 msgid "Printer '%s' is out of paper."
 msgstr "打印機「%s」紙張用完。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1650
+#: modules/printbackends/cups/gtkprintbackendcups.c:1684
 #, c-format
 msgid "Printer '%s' is currently off-line."
 msgstr "打印機「%s」目前離線。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1651
+#: modules/printbackends/cups/gtkprintbackendcups.c:1685
 #, c-format
 msgid "Printer '%s' may not be connected."
 msgstr "打印機「%s」可能尚未連線。"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:1652
+#: modules/printbackends/cups/gtkprintbackendcups.c:1686
 #, c-format
 msgid "There is a problem on printer '%s'."
 msgstr "打印機「%s」發生問題。"
 
 #. Translators: this is a printer status.
-#: modules/printbackends/cups/gtkprintbackendcups.c:1960
+#: modules/printbackends/cups/gtkprintbackendcups.c:1994
 msgid "Paused ; Rejecting Jobs"
 msgstr "已暫停；正在拒絕工作"
 
 #. Translators: this is a printer status.
-#: modules/printbackends/cups/gtkprintbackendcups.c:1966
+#: modules/printbackends/cups/gtkprintbackendcups.c:2000
 msgid "Rejecting Jobs"
 msgstr "正在拒絕工作"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:2740
+#: modules/printbackends/cups/gtkprintbackendcups.c:2774
 msgid "Two Sided"
 msgstr "雙面"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:2741
+#: modules/printbackends/cups/gtkprintbackendcups.c:2775
 msgid "Paper Type"
 msgstr "紙張類型"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:2742
+#: modules/printbackends/cups/gtkprintbackendcups.c:2776
 msgid "Paper Source"
 msgstr "紙張來源"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:2743
+#: modules/printbackends/cups/gtkprintbackendcups.c:2777
 msgid "Output Tray"
 msgstr "出紙匣"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:2744
+#: modules/printbackends/cups/gtkprintbackendcups.c:2778
 msgid "Resolution"
 msgstr "解像度"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:2745
+#: modules/printbackends/cups/gtkprintbackendcups.c:2779
 msgid "GhostScript pre-filtering"
 msgstr "GhostScript 前置過濾器"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:2754
+#: modules/printbackends/cups/gtkprintbackendcups.c:2788
 msgid "One Sided"
 msgstr "單面"
 
 #. Translators: this is an option of "Two Sided"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2756
+#: modules/printbackends/cups/gtkprintbackendcups.c:2790
 msgid "Long Edge (Standard)"
 msgstr "長邊（標準）"
 
 #. Translators: this is an option of "Two Sided"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2758
+#: modules/printbackends/cups/gtkprintbackendcups.c:2792
 msgid "Short Edge (Flip)"
 msgstr "短邊（翻轉）"
 
 #. Translators: this is an option of "Paper Source"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2760
-#: modules/printbackends/cups/gtkprintbackendcups.c:2762
-#: modules/printbackends/cups/gtkprintbackendcups.c:2770
+#: modules/printbackends/cups/gtkprintbackendcups.c:2794
+#: modules/printbackends/cups/gtkprintbackendcups.c:2796
+#: modules/printbackends/cups/gtkprintbackendcups.c:2804
 msgid "Auto Select"
 msgstr "自動選擇"
 
 #. Translators: this is an option of "Paper Source"
 #. Translators: this is an option of "Resolution"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2764
-#: modules/printbackends/cups/gtkprintbackendcups.c:2766
-#: modules/printbackends/cups/gtkprintbackendcups.c:2768
-#: modules/printbackends/cups/gtkprintbackendcups.c:2772
-#: modules/printbackends/cups/gtkprintbackendcups.c:3258
+#: modules/printbackends/cups/gtkprintbackendcups.c:2798
+#: modules/printbackends/cups/gtkprintbackendcups.c:2800
+#: modules/printbackends/cups/gtkprintbackendcups.c:2802
+#: modules/printbackends/cups/gtkprintbackendcups.c:2806
+#: modules/printbackends/cups/gtkprintbackendcups.c:3292
 msgid "Printer Default"
 msgstr "打印機預設"
 
 #. Translators: this is an option of "GhostScript"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2774
+#: modules/printbackends/cups/gtkprintbackendcups.c:2808
 msgid "Embed GhostScript fonts only"
 msgstr "只有內嵌的 GhostScript 字型"
 
 #. Translators: this is an option of "GhostScript"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2776
+#: modules/printbackends/cups/gtkprintbackendcups.c:2810
 msgid "Convert to PS level 1"
 msgstr "轉換為 PS 等級 1"
 
 #. Translators: this is an option of "GhostScript"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2778
+#: modules/printbackends/cups/gtkprintbackendcups.c:2812
 msgid "Convert to PS level 2"
 msgstr "轉換為 PS 等級 2"
 
 #. Translators: this is an option of "GhostScript"
-#: modules/printbackends/cups/gtkprintbackendcups.c:2780
+#: modules/printbackends/cups/gtkprintbackendcups.c:2814
 msgid "No pre-filtering"
 msgstr "無前置過濾器"
 
 #. Translators: "Miscellaneous" is the label for a button, that opens
 #. up an extra panel of settings in a print dialog.
-#: modules/printbackends/cups/gtkprintbackendcups.c:2789
+#: modules/printbackends/cups/gtkprintbackendcups.c:2823
 msgid "Miscellaneous"
 msgstr "雜項"
 
 #. Translators: These strings name the possible values of the
 #. * job priority option in the print dialog
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3466
+#: modules/printbackends/cups/gtkprintbackendcups.c:3500
 msgid "Urgent"
 msgstr "緊急"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3466
+#: modules/printbackends/cups/gtkprintbackendcups.c:3500
 msgid "High"
 msgstr "高"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3466
+#: modules/printbackends/cups/gtkprintbackendcups.c:3500
 msgid "Medium"
 msgstr "中"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3466
+#: modules/printbackends/cups/gtkprintbackendcups.c:3500
 msgid "Low"
 msgstr "低"
 
@@ -5183,66 +5091,66 @@ msgstr "低"
 #. Translators, this string is used to label the pages-per-sheet option
 #. * in the print dialog
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3490
+#: modules/printbackends/cups/gtkprintbackendcups.c:3524
 msgid "Pages per Sheet"
 msgstr "每表頁數"
 
 #. Translators, this string is used to label the job priority option
 #. * in the print dialog
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3527
+#: modules/printbackends/cups/gtkprintbackendcups.c:3561
 msgid "Job Priority"
 msgstr "工作優先權:"
 
 #. Translators, this string is used to label the billing info entry
 #. * in the print dialog
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3538
+#: modules/printbackends/cups/gtkprintbackendcups.c:3572
 msgid "Billing Info"
 msgstr "計費資訊"
 
 #. Translators, these strings are names for various 'standard' cover
 #. * pages that the printing system may support.
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3553
+#: modules/printbackends/cups/gtkprintbackendcups.c:3587
 msgid "None"
 msgstr "沒有"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3553
+#: modules/printbackends/cups/gtkprintbackendcups.c:3587
 msgid "Classified"
 msgstr "已分類"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3553
+#: modules/printbackends/cups/gtkprintbackendcups.c:3587
 msgid "Confidential"
 msgstr "機密"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3553
+#: modules/printbackends/cups/gtkprintbackendcups.c:3587
 msgid "Secret"
 msgstr "密"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3553
+#: modules/printbackends/cups/gtkprintbackendcups.c:3587
 msgid "Standard"
 msgstr "標準"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3553
+#: modules/printbackends/cups/gtkprintbackendcups.c:3587
 msgid "Top Secret"
 msgstr "高度機密"
 
-#: modules/printbackends/cups/gtkprintbackendcups.c:3553
+#: modules/printbackends/cups/gtkprintbackendcups.c:3587
 msgid "Unclassified"
 msgstr "未分類"
 
 #. Translators, this is the label used for the option in the print
 #. * dialog that controls the front cover page.
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3588
+#: modules/printbackends/cups/gtkprintbackendcups.c:3622
 msgid "Before"
 msgstr "封面"
 
 #. Translators, this is the label used for the option in the print
 #. * dialog that controls the back cover page.
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3603
+#: modules/printbackends/cups/gtkprintbackendcups.c:3637
 msgid "After"
 msgstr "封底"
 
@@ -5250,14 +5158,14 @@ msgstr "封底"
 #. * a print job is printed. Possible values are 'now', a specified time,
 #. * or 'on hold'
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3623
+#: modules/printbackends/cups/gtkprintbackendcups.c:3657
 msgid "Print at"
 msgstr "打印於"
 
 #. Translators: this is the name of the option that allows the user
 #. * to specify a time when a print job will be printed.
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3634
+#: modules/printbackends/cups/gtkprintbackendcups.c:3668
 msgid "Print at time"
 msgstr "於指定時刻打印"
 
@@ -5265,7 +5173,7 @@ msgstr "於指定時刻打印"
 #. * size. The two placeholders are replaced with the width and height
 #. * in points. E.g: "Custom 230.4x142.9"
 #.
-#: modules/printbackends/cups/gtkprintbackendcups.c:3669
+#: modules/printbackends/cups/gtkprintbackendcups.c:3703
 #, c-format
 msgid "Custom %sx%s"
 msgstr "自選 %sx%s"
@@ -5356,6 +5264,9 @@ msgstr "打印至測試打印機"
 #, c-format
 msgid "Could not get information for file '%s': %s"
 msgstr "無法取得檔案「%s」的資訊：%s"
+
+#~ msgid "(Empty)"
+#~ msgstr "(空的)"
 
 #~ msgid "<b>_Search:</b>"
 #~ msgstr "<b>搜尋(_S):</b>"

@@ -39,15 +39,15 @@ host_triplet = @host@
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/Makefile.decl
 noinst_PROGRAMS = testpixbuf-drawable$(EXEEXT) testanimation$(EXEEXT) \
-	testpixbuf-save$(EXEEXT) testpixbuf-scale$(EXEEXT) \
-	pixbuf-demo$(EXEEXT) $(am__EXEEXT_1)
+	testpixbuf-color$(EXEEXT) testpixbuf-save$(EXEEXT) \
+	testpixbuf-scale$(EXEEXT) pixbuf-demo$(EXEEXT) $(am__EXEEXT_1)
 
 # Need to build test-inline-pixbufs.h for testpixbuf
 @HAVE_PNG_TRUE@am__append_1 = testpixbuf
 subdir = demos
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.in
+am__aclocal_m4_deps = $(top_srcdir)/m4/introspection.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -71,6 +71,8 @@ am_testanimation_OBJECTS = testanimation.$(OBJEXT) \
 testanimation_OBJECTS = $(am_testanimation_OBJECTS)
 am_testpixbuf_OBJECTS = testpixbuf.$(OBJEXT) pixbuf-init.$(OBJEXT)
 testpixbuf_OBJECTS = $(am_testpixbuf_OBJECTS)
+am_testpixbuf_color_OBJECTS = testpixbuf-color.$(OBJEXT)
+testpixbuf_color_OBJECTS = $(am_testpixbuf_color_OBJECTS)
 am_testpixbuf_drawable_OBJECTS = testpixbuf-drawable.$(OBJEXT) \
 	pixbuf-init.$(OBJEXT)
 testpixbuf_drawable_OBJECTS = $(am_testpixbuf_drawable_OBJECTS)
@@ -106,11 +108,13 @@ AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(pixbuf_demo_SOURCES) $(testanimation_SOURCES) \
-	$(testpixbuf_SOURCES) $(testpixbuf_drawable_SOURCES) \
-	$(testpixbuf_save_SOURCES) $(testpixbuf_scale_SOURCES)
+	$(testpixbuf_SOURCES) $(testpixbuf_color_SOURCES) \
+	$(testpixbuf_drawable_SOURCES) $(testpixbuf_save_SOURCES) \
+	$(testpixbuf_scale_SOURCES)
 DIST_SOURCES = $(pixbuf_demo_SOURCES) $(testanimation_SOURCES) \
-	$(testpixbuf_SOURCES) $(testpixbuf_drawable_SOURCES) \
-	$(testpixbuf_save_SOURCES) $(testpixbuf_scale_SOURCES)
+	$(testpixbuf_SOURCES) $(testpixbuf_color_SOURCES) \
+	$(testpixbuf_drawable_SOURCES) $(testpixbuf_save_SOURCES) \
+	$(testpixbuf_scale_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -270,6 +274,14 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
 INTLLIBS = @INTLLIBS@
+INTROSPECTION_CFLAGS = @INTROSPECTION_CFLAGS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_LIBS = @INTROSPECTION_LIBS@
+INTROSPECTION_MAKEFILE = @INTROSPECTION_MAKEFILE@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBJASPER = @LIBJASPER@
@@ -451,18 +463,21 @@ LDADDS = \
 testpixbuf_DEPENDENCIES = $(DEPS)
 testpixbuf_drawable_DEPENDENCIES = $(DEPS)
 testpixbuf_save_DEPENDENCIES = $(DEPS)
+testpixbuf_color_DEPENDENCIES = $(DEPS)
 testpixbuf_scale_DEPENDENCIES = $(DEPS)
 testanimation_DEPENDENCIES = $(DEPS)
 pixbuf_demo_DEPENDENCIES = $(DEPS)
 testpixbuf_LDADD = $(LDADDS)
 testpixbuf_drawable_LDADD = $(LDADDS)
 testpixbuf_save_LDADD = $(LDADDS)
+testpixbuf_color_LDADD = $(LDADDS)
 testpixbuf_scale_LDADD = $(LDADDS)
 testanimation_LDADD = $(LDADDS)
 pixbuf_demo_LDADD = $(LDADDS)
 testpixbuf_SOURCES = testpixbuf.c pixbuf-init.c
 testpixbuf_drawable_SOURCES = testpixbuf-drawable.c pixbuf-init.c
 testpixbuf_save_SOURCES = testpixbuf-save.c
+testpixbuf_color_SOURCES = testpixbuf-color.c
 testpixbuf_scale_SOURCES = testpixbuf-scale.c pixbuf-init.c
 testanimation_SOURCES = testanimation.c pixbuf-init.c
 pixbuf_demo_SOURCES = pixbuf-demo.c pixbuf-init.c
@@ -520,6 +535,9 @@ testanimation$(EXEEXT): $(testanimation_OBJECTS) $(testanimation_DEPENDENCIES)
 testpixbuf$(EXEEXT): $(testpixbuf_OBJECTS) $(testpixbuf_DEPENDENCIES) 
 	@rm -f testpixbuf$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testpixbuf_OBJECTS) $(testpixbuf_LDADD) $(LIBS)
+testpixbuf-color$(EXEEXT): $(testpixbuf_color_OBJECTS) $(testpixbuf_color_DEPENDENCIES) 
+	@rm -f testpixbuf-color$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(testpixbuf_color_OBJECTS) $(testpixbuf_color_LDADD) $(LIBS)
 testpixbuf-drawable$(EXEEXT): $(testpixbuf_drawable_OBJECTS) $(testpixbuf_drawable_DEPENDENCIES) 
 	@rm -f testpixbuf-drawable$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testpixbuf_drawable_OBJECTS) $(testpixbuf_drawable_LDADD) $(LIBS)
@@ -539,6 +557,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pixbuf-demo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pixbuf-init.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testanimation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testpixbuf-color.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testpixbuf-drawable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testpixbuf-save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testpixbuf-scale.Po@am__quote@

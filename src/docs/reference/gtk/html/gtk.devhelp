@@ -47,6 +47,7 @@
         <sub name="GtkWindowGroup" link="GtkWindowGroup.html"/>
         <sub name="GtkAboutDialog" link="GtkAboutDialog.html"/>
         <sub name="GtkAssistant" link="GtkAssistant.html"/>
+        <sub name="GtkOffscreenWindow" link="GtkOffscreenWindow.html"/>
       </sub>
       <sub name="Display Widgets" link="DisplayWidgets.html">
         <sub name="GtkAccelLabel" link="GtkAccelLabel.html"/>
@@ -56,6 +57,7 @@
         <sub name="GtkStatusbar" link="GtkStatusbar.html"/>
         <sub name="GtkInfoBar" link="GtkInfoBar.html"/>
         <sub name="GtkStatusIcon" link="GtkStatusIcon.html"/>
+        <sub name="GtkSpinner" link="GtkSpinner.html"/>
       </sub>
       <sub name="Buttons and Toggles" link="ButtonWidgets.html">
         <sub name="GtkButton" link="GtkButton.html"/>
@@ -106,6 +108,7 @@
         <sub name="GtkCellRendererSpin" link="GtkCellRendererSpin.html"/>
         <sub name="GtkCellRendererText" link="GtkCellRendererText.html"/>
         <sub name="GtkCellRendererToggle" link="GtkCellRendererToggle.html"/>
+        <sub name="GtkCellRendererSpinner" link="GtkCellRendererSpinner.html"/>
         <sub name="GtkListStore" link="GtkListStore.html"/>
         <sub name="GtkTreeStore" link="GtkTreeStore.html"/>
       </sub>
@@ -117,12 +120,14 @@
         <sub name="GtkMenuItem" link="GtkMenuItem.html"/>
         <sub name="GtkImageMenuItem" link="GtkImageMenuItem.html"/>
         <sub name="GtkRadioMenuItem" link="GtkRadioMenuItem.html"/>
-        <sub name="GtkCheckMenuItem" link="GtkCheckMenuItem.html"/>
+        <sub name="GtkCheckMenuItem" link="gtk-gtkcheckmenuitem.html"/>
         <sub name="GtkSeparatorMenuItem" link="GtkSeparatorMenuItem.html"/>
         <sub name="GtkTearoffMenuItem" link="GtkTearoffMenuItem.html"/>
         <sub name="GtkToolShell" link="GtkToolShell.html"/>
         <sub name="GtkToolbar" link="GtkToolbar.html"/>
         <sub name="GtkToolItem" link="GtkToolItem.html"/>
+        <sub name="GtkToolPalette" link="GtkToolPalette.html"/>
+        <sub name="GtkToolItemGroup" link="GtkToolItemGroup.html"/>
         <sub name="GtkSeparatorToolItem" link="GtkSeparatorToolItem.html"/>
         <sub name="GtkToolButton" link="GtkToolButton.html"/>
         <sub name="GtkMenuToolButton" link="GtkMenuToolButton.html"/>
@@ -327,16 +332,18 @@
     <sub name="Index of new symbols in 2.14" link="api-index-2-14.html"/>
     <sub name="Index of new symbols in 2.16" link="api-index-2-16.html"/>
     <sub name="Index of new symbols in 2.18" link="api-index-2-18.html"/>
+    <sub name="Index of new symbols in 2.20" link="api-index-2-20.html"/>
+    <sub name="Annotation Glossary" link="annotation-glossary.html"/>
   </chapters>
   <functions>
-    <function name="Common commandline options" link="gtk-running.html#id371989"/>
-    <function name="Environment variables" link="gtk-running.html#id389902"/>
+    <function name="Common commandline options" link="gtk-running.html#id397254"/>
+    <function name="Environment variables" link="gtk-running.html#id392479"/>
     <function name="X11-specific commandline options" link="gtk-x11.html#x11-cmdline"/>
     <function name="X11-specific environment variables" link="gtk-x11.html#x11-envar"/>
-    <function name="Server, client, window manager" link="gtk-x11.html#id377667"/>
+    <function name="Server, client, window manager" link="gtk-x11.html#id391733"/>
     <function name="Windows-specific commandline options" link="gtk-windows.html#win32-cmdline"/>
     <function name="Windows-specific environment variables" link="gtk-windows.html#win32-envar"/>
-    <function name="Build requirements" link="gtk-directfb.html#id402394"/>
+    <function name="Build requirements" link="gtk-directfb.html#id382926"/>
     <function name="Window and no-window widgets" link="chap-drawing-model.html#window-no-window-widgets"/>
     <function name="Hierarchical drawing" link="chap-drawing-model.html#hierarchical-drawing"/>
     <function name="Notes on drawing no-window widgets" link="chap-drawing-model.html#notes-on-drawing-no-window-widgets"/>
@@ -715,12 +722,12 @@
     <function name="gtk_icon_source_set_size_wildcarded ()" link="gtk-Themeable-Stock-Images.html#gtk-icon-source-set-size-wildcarded"/>
     <function name="gtk_icon_source_set_state ()" link="gtk-Themeable-Stock-Images.html#gtk-icon-source-set-state"/>
     <function name="gtk_icon_source_set_state_wildcarded ()" link="gtk-Themeable-Stock-Images.html#gtk-icon-source-set-state-wildcarded"/>
-    <function name="Default files" link="gtk-Resource-Files.html#id381292"/>
-    <function name="Pathnames and patterns" link="gtk-Resource-Files.html#id426037"/>
-    <function name="Optimizing RC Style Matches" link="gtk-Resource-Files.html#id437790"/>
-    <function name="Toplevel declarations" link="gtk-Resource-Files.html#id467771"/>
-    <function name="Styles" link="gtk-Resource-Files.html#id468073"/>
-    <function name="Key bindings" link="gtk-Resource-Files.html#id469128"/>
+    <function name="Default files" link="gtk-Resource-Files.html#id463389"/>
+    <function name="Pathnames and patterns" link="gtk-Resource-Files.html#id416198"/>
+    <function name="Optimizing RC Style Matches" link="gtk-Resource-Files.html#id467061"/>
+    <function name="Toplevel declarations" link="gtk-Resource-Files.html#id467238"/>
+    <function name="Styles" link="gtk-Resource-Files.html#id467539"/>
+    <function name="Key bindings" link="gtk-Resource-Files.html#id468591"/>
     <function name="GtkRcStyle" link="gtk-Resource-Files.html#GtkRcStyle-struct"/>
     <function name="enum GtkRcFlags" link="gtk-Resource-Files.html#GtkRcFlags"/>
     <function name="enum GtkRcTokenType" link="gtk-Resource-Files.html#GtkRcTokenType"/>
@@ -770,6 +777,7 @@
     <function name="The &quot;color-hash&quot; property" link="GtkSettings.html#GtkSettings--color-hash"/>
     <function name="The &quot;gtk-alternative-button-order&quot; property" link="GtkSettings.html#GtkSettings--gtk-alternative-button-order"/>
     <function name="The &quot;gtk-alternative-sort-arrows&quot; property" link="GtkSettings.html#GtkSettings--gtk-alternative-sort-arrows"/>
+    <function name="The &quot;gtk-auto-mnemonics&quot; property" link="GtkSettings.html#GtkSettings--gtk-auto-mnemonics"/>
     <function name="The &quot;gtk-button-images&quot; property" link="GtkSettings.html#GtkSettings--gtk-button-images"/>
     <function name="The &quot;gtk-can-change-accels&quot; property" link="GtkSettings.html#GtkSettings--gtk-can-change-accels"/>
     <function name="The &quot;gtk-color-palette&quot; property" link="GtkSettings.html#GtkSettings--gtk-color-palette"/>
@@ -832,7 +840,7 @@
     <function name="The &quot;gtk-xft-hinting&quot; property" link="GtkSettings.html#GtkSettings--gtk-xft-hinting"/>
     <function name="The &quot;gtk-xft-hintstyle&quot; property" link="GtkSettings.html#GtkSettings--gtk-xft-hintstyle"/>
     <function name="The &quot;gtk-xft-rgba&quot; property" link="GtkSettings.html#GtkSettings--gtk-xft-rgba"/>
-    <function name="Installing a key binding" link="gtk-Bindings.html#id421385"/>
+    <function name="Installing a key binding" link="gtk-Bindings.html#id370232"/>
     <function name="GtkBindingSet" link="gtk-Bindings.html#GtkBindingSet"/>
     <function name="GtkBindingEntry" link="gtk-Bindings.html#GtkBindingEntry"/>
     <function name="GtkBindingSignal" link="gtk-Bindings.html#GtkBindingSignal"/>
@@ -949,6 +957,7 @@
     <function name="gtk_paint_shadow ()" link="GtkStyle.html#gtk-paint-shadow"/>
     <function name="gtk_paint_shadow_gap ()" link="GtkStyle.html#gtk-paint-shadow-gap"/>
     <function name="gtk_paint_slider ()" link="GtkStyle.html#gtk-paint-slider"/>
+    <function name="gtk_paint_spinner ()" link="GtkStyle.html#gtk-paint-spinner"/>
     <function name="gtk_paint_string ()" link="GtkStyle.html#gtk-paint-string"/>
     <function name="gtk_paint_tab ()" link="GtkStyle.html#gtk-paint-tab"/>
     <function name="gtk_paint_vline ()" link="GtkStyle.html#gtk-paint-vline"/>
@@ -1025,10 +1034,10 @@
     <function name="GTK_BINARY_AGE" link="gtk-Feature-Test-Macros.html#GTK-BINARY-AGE:CAPS"/>
     <function name="GTK_INTERFACE_AGE" link="gtk-Feature-Test-Macros.html#GTK-INTERFACE-AGE:CAPS"/>
     <function name="GTK_CHECK_VERSION()" link="gtk-Feature-Test-Macros.html#GTK-CHECK-VERSION:CAPS"/>
-    <function name="What are signals?" link="gtk-Signals.html#id389425"/>
-    <function name="How are signals used?" link="gtk-Signals.html#id374537"/>
-    <function name="Basic Terminology" link="gtk-Signals.html#id423612"/>
-    <function name="A brief note on how they work." link="gtk-Signals.html#id483507"/>
+    <function name="What are signals?" link="gtk-Signals.html#id512998"/>
+    <function name="How are signals used?" link="gtk-Signals.html#id513061"/>
+    <function name="Basic Terminology" link="gtk-Signals.html#id513087"/>
+    <function name="A brief note on how they work." link="gtk-Signals.html#id525819"/>
     <function name="GTK_SIGNAL_OFFSET" link="gtk-Signals.html#GTK-SIGNAL-OFFSET:CAPS"/>
     <function name="enum GtkSignalRunType" link="gtk-Signals.html#GtkSignalRunType"/>
     <function name="gtk_signal_new ()" link="gtk-Signals.html#gtk-signal-new"/>
@@ -1174,6 +1183,7 @@
     <function name="gtk_dialog_set_has_separator ()" link="GtkDialog.html#gtk-dialog-set-has-separator"/>
     <function name="gtk_dialog_set_response_sensitive ()" link="GtkDialog.html#gtk-dialog-set-response-sensitive"/>
     <function name="gtk_dialog_get_response_for_widget ()" link="GtkDialog.html#gtk-dialog-get-response-for-widget"/>
+    <function name="gtk_dialog_get_widget_for_response ()" link="GtkDialog.html#gtk-dialog-get-widget-for-response"/>
     <function name="gtk_dialog_get_action_area ()" link="GtkDialog.html#gtk-dialog-get-action-area"/>
     <function name="gtk_dialog_get_content_area ()" link="GtkDialog.html#gtk-dialog-get-content-area"/>
     <function name="gtk_alternative_dialog_button_order ()" link="GtkDialog.html#gtk-alternative-dialog-button-order"/>
@@ -1298,6 +1308,7 @@
     <function name="gtk_window_get_accept_focus ()" link="GtkWindow.html#gtk-window-get-accept-focus"/>
     <function name="gtk_window_get_focus_on_map ()" link="GtkWindow.html#gtk-window-get-focus-on-map"/>
     <function name="gtk_window_get_group ()" link="GtkWindow.html#gtk-window-get-group"/>
+    <function name="gtk_window_get_window_type ()" link="GtkWindow.html#gtk-window-get-window-type"/>
     <function name="gtk_window_move ()" link="GtkWindow.html#gtk-window-move"/>
     <function name="gtk_window_parse_geometry ()" link="GtkWindow.html#gtk-window-parse-geometry"/>
     <function name="gtk_window_reshow_with_initial_size ()" link="GtkWindow.html#gtk-window-reshow-with-initial-size"/>
@@ -1313,6 +1324,8 @@
     <function name="gtk_window_set_auto_startup_notification ()" link="GtkWindow.html#gtk-window-set-auto-startup-notification"/>
     <function name="gtk_window_get_opacity ()" link="GtkWindow.html#gtk-window-get-opacity"/>
     <function name="gtk_window_set_opacity ()" link="GtkWindow.html#gtk-window-set-opacity"/>
+    <function name="gtk_window_get_mnemonics_visible ()" link="GtkWindow.html#gtk-window-get-mnemonics-visible"/>
+    <function name="gtk_window_set_mnemonics_visible ()" link="GtkWindow.html#gtk-window-set-mnemonics-visible"/>
     <function name="The &quot;accept-focus&quot; property" link="GtkWindow.html#GtkWindow--accept-focus"/>
     <function name="The &quot;allow-grow&quot; property" link="GtkWindow.html#GtkWindow--allow-grow"/>
     <function name="The &quot;allow-shrink&quot; property" link="GtkWindow.html#GtkWindow--allow-shrink"/>
@@ -1327,6 +1340,7 @@
     <function name="The &quot;icon&quot; property" link="GtkWindow.html#GtkWindow--icon"/>
     <function name="The &quot;icon-name&quot; property" link="GtkWindow.html#GtkWindow--icon-name"/>
     <function name="The &quot;is-active&quot; property" link="GtkWindow.html#GtkWindow--is-active"/>
+    <function name="The &quot;mnemonics-visible&quot; property" link="GtkWindow.html#GtkWindow--mnemonics-visible"/>
     <function name="The &quot;modal&quot; property" link="GtkWindow.html#GtkWindow--modal"/>
     <function name="The &quot;opacity&quot; property" link="GtkWindow.html#GtkWindow--opacity"/>
     <function name="The &quot;resizable&quot; property" link="GtkWindow.html#GtkWindow--resizable"/>
@@ -1438,6 +1452,10 @@
     <function name="The &quot;cancel&quot; signal" link="GtkAssistant.html#GtkAssistant-cancel"/>
     <function name="The &quot;close&quot; signal" link="GtkAssistant.html#GtkAssistant-close"/>
     <function name="The &quot;prepare&quot; signal" link="GtkAssistant.html#GtkAssistant-prepare"/>
+    <function name="GtkOffscreenWindow" link="GtkOffscreenWindow.html#GtkOffscreenWindow-struct"/>
+    <function name="gtk_offscreen_window_new ()" link="GtkOffscreenWindow.html#gtk-offscreen-window-new"/>
+    <function name="gtk_offscreen_window_get_pixmap ()" link="GtkOffscreenWindow.html#gtk-offscreen-window-get-pixmap"/>
+    <function name="gtk_offscreen_window_get_pixbuf ()" link="GtkOffscreenWindow.html#gtk-offscreen-window-get-pixbuf"/>
     <function name="GtkAccelLabel" link="GtkAccelLabel.html#GtkAccelLabel-struct"/>
     <function name="gtk_accel_label_new ()" link="GtkAccelLabel.html#gtk-accel-label-new"/>
     <function name="gtk_accel_label_set_accel_closure ()" link="GtkAccelLabel.html#gtk-accel-label-set-accel-closure"/>
@@ -1496,11 +1514,11 @@
     <function name="The &quot;stock&quot; property" link="GtkImage.html#GtkImage--stock"/>
     <function name="The &quot;storage-type&quot; property" link="GtkImage.html#GtkImage--storage-type"/>
     <function name="GtkLabel as GtkBuildable" link="GtkLabel.html#GtkLabel-BUILDER-UI"/>
-    <function name="Mnemonics" link="GtkLabel.html#id593614"/>
-    <function name="Markup (styled text)" link="GtkLabel.html#id593736"/>
-    <function name="Selectable labels" link="GtkLabel.html#id593853"/>
-    <function name="Text layout" link="GtkLabel.html#id593876"/>
-    <function name="Links" link="GtkLabel.html#id593927"/>
+    <function name="Mnemonics" link="GtkLabel.html#id610388"/>
+    <function name="Markup (styled text)" link="GtkLabel.html#id610510"/>
+    <function name="Selectable labels" link="GtkLabel.html#id610627"/>
+    <function name="Text layout" link="GtkLabel.html#id610650"/>
+    <function name="Links" link="GtkLabel.html#id610701"/>
     <function name="GtkLabel" link="GtkLabel.html#GtkLabel-struct"/>
     <function name="gtk_label_new ()" link="GtkLabel.html#gtk-label-new"/>
     <function name="gtk_label_set_text ()" link="GtkLabel.html#gtk-label-set-text"/>
@@ -1618,6 +1636,7 @@
     <function name="gtk_statusbar_remove ()" link="GtkStatusbar.html#gtk-statusbar-remove"/>
     <function name="gtk_statusbar_set_has_resize_grip ()" link="GtkStatusbar.html#gtk-statusbar-set-has-resize-grip"/>
     <function name="gtk_statusbar_get_has_resize_grip ()" link="GtkStatusbar.html#gtk-statusbar-get-has-resize-grip"/>
+    <function name="gtk_statusbar_get_message_area ()" link="GtkStatusbar.html#gtk-statusbar-get-message-area"/>
     <function name="The &quot;has-resize-grip&quot; property" link="GtkStatusbar.html#GtkStatusbar--has-resize-grip"/>
     <function name="The &quot;shadow-type&quot; style property" link="GtkStatusbar.html#GtkStatusbar--s-shadow-type"/>
     <function name="The &quot;text-popped&quot; signal" link="GtkStatusbar.html#GtkStatusbar-text-popped"/>
@@ -1672,6 +1691,7 @@
     <function name="gtk_status_icon_get_has_tooltip ()" link="GtkStatusIcon.html#gtk-status-icon-get-has-tooltip"/>
     <function name="gtk_status_icon_set_title ()" link="GtkStatusIcon.html#gtk-status-icon-set-title"/>
     <function name="gtk_status_icon_get_title ()" link="GtkStatusIcon.html#gtk-status-icon-get-title"/>
+    <function name="gtk_status_icon_set_name ()" link="GtkStatusIcon.html#gtk-status-icon-set-name"/>
     <function name="gtk_status_icon_set_visible ()" link="GtkStatusIcon.html#gtk-status-icon-set-visible"/>
     <function name="gtk_status_icon_get_visible ()" link="GtkStatusIcon.html#gtk-status-icon-get-visible"/>
     <function name="gtk_status_icon_set_blinking ()" link="GtkStatusIcon.html#gtk-status-icon-set-blinking"/>
@@ -1703,6 +1723,13 @@
     <function name="The &quot;query-tooltip&quot; signal" link="GtkStatusIcon.html#GtkStatusIcon-query-tooltip"/>
     <function name="The &quot;scroll-event&quot; signal" link="GtkStatusIcon.html#GtkStatusIcon-scroll-event"/>
     <function name="The &quot;size-changed&quot; signal" link="GtkStatusIcon.html#GtkStatusIcon-size-changed"/>
+    <function name="GtkSpinner" link="GtkSpinner.html#GtkSpinner-struct"/>
+    <function name="gtk_spinner_new ()" link="GtkSpinner.html#gtk-spinner-new"/>
+    <function name="gtk_spinner_start ()" link="GtkSpinner.html#gtk-spinner-start"/>
+    <function name="gtk_spinner_stop ()" link="GtkSpinner.html#gtk-spinner-stop"/>
+    <function name="The &quot;active&quot; property" link="GtkSpinner.html#GtkSpinner--active"/>
+    <function name="The &quot;cycle-duration&quot; style property" link="GtkSpinner.html#GtkSpinner--s-cycle-duration"/>
+    <function name="The &quot;num-steps&quot; style property" link="GtkSpinner.html#GtkSpinner--s-num-steps"/>
     <function name="GtkButton" link="GtkButton.html#GtkButton-struct"/>
     <function name="gtk_button_new ()" link="GtkButton.html#gtk-button-new"/>
     <function name="gtk_button_new_with_label ()" link="GtkButton.html#gtk-button-new-with-label"/>
@@ -1884,6 +1911,8 @@
     <function name="gtk_entry_get_icon_tooltip_markup ()" link="GtkEntry.html#gtk-entry-get-icon-tooltip-markup"/>
     <function name="gtk_entry_set_icon_drag_source ()" link="GtkEntry.html#gtk-entry-set-icon-drag-source"/>
     <function name="gtk_entry_get_current_icon_drag_source ()" link="GtkEntry.html#gtk-entry-get-current-icon-drag-source"/>
+    <function name="gtk_entry_get_icon_window ()" link="GtkEntry.html#gtk-entry-get-icon-window"/>
+    <function name="gtk_entry_get_text_window ()" link="GtkEntry.html#gtk-entry-get-text-window"/>
     <function name="The &quot;activates-default&quot; property" link="GtkEntry.html#GtkEntry--activates-default"/>
     <function name="The &quot;buffer&quot; property" link="GtkEntry.html#GtkEntry--buffer"/>
     <function name="The &quot;caps-lock-warning&quot; property" link="GtkEntry.html#GtkEntry--caps-lock-warning"/>
@@ -1941,6 +1970,7 @@
     <function name="The &quot;move-cursor&quot; signal" link="GtkEntry.html#GtkEntry-move-cursor"/>
     <function name="The &quot;paste-clipboard&quot; signal" link="GtkEntry.html#GtkEntry-paste-clipboard"/>
     <function name="The &quot;populate-popup&quot; signal" link="GtkEntry.html#GtkEntry-populate-popup"/>
+    <function name="The &quot;preedit-changed&quot; signal" link="GtkEntry.html#GtkEntry-preedit-changed"/>
     <function name="The &quot;toggle-overwrite&quot; signal" link="GtkEntry.html#GtkEntry-toggle-overwrite"/>
     <function name="GtkEntryBuffer" link="GtkEntryBuffer.html#GtkEntryBuffer-struct"/>
     <function name="gtk_entry_buffer_new ()" link="GtkEntryBuffer.html#gtk-entry-buffer-new"/>
@@ -2443,13 +2473,14 @@
     <function name="The &quot;page-horizontally&quot; signal" link="GtkTextView.html#GtkTextView-page-horizontally"/>
     <function name="The &quot;paste-clipboard&quot; signal" link="GtkTextView.html#GtkTextView-paste-clipboard"/>
     <function name="The &quot;populate-popup&quot; signal" link="GtkTextView.html#GtkTextView-populate-popup"/>
+    <function name="The &quot;preedit-changed&quot; signal" link="GtkTextView.html#GtkTextView-preedit-changed"/>
     <function name="The &quot;select-all&quot; signal" link="GtkTextView.html#GtkTextView-select-all"/>
     <function name="The &quot;set-anchor&quot; signal" link="GtkTextView.html#GtkTextView-set-anchor"/>
     <function name="The &quot;set-scroll-adjustments&quot; signal" link="GtkTextView.html#GtkTextView-set-scroll-adjustments"/>
     <function name="The &quot;toggle-cursor-visible&quot; signal" link="GtkTextView.html#GtkTextView-toggle-cursor-visible"/>
     <function name="The &quot;toggle-overwrite&quot; signal" link="GtkTextView.html#GtkTextView-toggle-overwrite"/>
-    <function name="Columns and cell renderers" link="TreeWidget.html#id690484"/>
-    <function name="Selection handling" link="TreeWidget.html#id711549"/>
+    <function name="Columns and cell renderers" link="TreeWidget.html#id719995"/>
+    <function name="Selection handling" link="TreeWidget.html#id658070"/>
     <function name="GtkTreeModel" link="GtkTreeModel.html#GtkTreeModel-struct"/>
     <function name="GtkTreeIter" link="GtkTreeModel.html#GtkTreeIter"/>
     <function name="GtkTreePath" link="GtkTreeModel.html#GtkTreePath"/>
@@ -2462,7 +2493,7 @@
     <function name="gtk_tree_path_new_from_indices ()" link="GtkTreeModel.html#gtk-tree-path-new-from-indices"/>
     <function name="gtk_tree_path_to_string ()" link="GtkTreeModel.html#gtk-tree-path-to-string"/>
     <function name="gtk_tree_path_new_first ()" link="GtkTreeModel.html#gtk-tree-path-new-first"/>
-    <function name="gtk_tree_path_new_root()" link="GtkTreeModel.html#gtk-tree-path-new-root"/>
+    <function name="gtk_tree_path_new_root" link="GtkTreeModel.html#gtk-tree-path-new-root"/>
     <function name="gtk_tree_path_append_index ()" link="GtkTreeModel.html#gtk-tree-path-append-index"/>
     <function name="gtk_tree_path_prepend_index ()" link="GtkTreeModel.html#gtk-tree-path-prepend-index"/>
     <function name="gtk_tree_path_get_depth ()" link="GtkTreeModel.html#gtk-tree-path-get-depth"/>
@@ -2978,6 +3009,7 @@
     <function name="gtk_cell_editable_start_editing ()" link="GtkCellEditable.html#gtk-cell-editable-start-editing"/>
     <function name="gtk_cell_editable_editing_done ()" link="GtkCellEditable.html#gtk-cell-editable-editing-done"/>
     <function name="gtk_cell_editable_remove_widget ()" link="GtkCellEditable.html#gtk-cell-editable-remove-widget"/>
+    <function name="The &quot;editing-canceled&quot; property" link="GtkCellEditable.html#GtkCellEditable--editing-canceled"/>
     <function name="The &quot;editing-done&quot; signal" link="GtkCellEditable.html#GtkCellEditable-editing-done"/>
     <function name="The &quot;remove-widget&quot; signal" link="GtkCellEditable.html#GtkCellEditable-remove-widget"/>
     <function name="GtkCellRendererAccel" link="GtkCellRendererAccel.html#GtkCellRendererAccel-struct"/>
@@ -3081,7 +3113,12 @@
     <function name="The &quot;indicator-size&quot; property" link="GtkCellRendererToggle.html#GtkCellRendererToggle--indicator-size"/>
     <function name="The &quot;radio&quot; property" link="GtkCellRendererToggle.html#GtkCellRendererToggle--radio"/>
     <function name="The &quot;toggled&quot; signal" link="GtkCellRendererToggle.html#GtkCellRendererToggle-toggled"/>
-    <function name="Performance Considerations" link="GtkListStore.html#id819302"/>
+    <function name="GtkCellRendererSpinner" link="GtkCellRendererSpinner.html#GtkCellRendererSpinner-struct"/>
+    <function name="gtk_cell_renderer_spinner_new ()" link="GtkCellRendererSpinner.html#gtk-cell-renderer-spinner-new"/>
+    <function name="The &quot;active&quot; property" link="GtkCellRendererSpinner.html#GtkCellRendererSpinner--active"/>
+    <function name="The &quot;pulse&quot; property" link="GtkCellRendererSpinner.html#GtkCellRendererSpinner--pulse"/>
+    <function name="The &quot;size&quot; property" link="GtkCellRendererSpinner.html#GtkCellRendererSpinner--size"/>
+    <function name="Performance Considerations" link="GtkListStore.html#id870628"/>
     <function name="GtkListStore as GtkBuildable" link="GtkListStore.html#GtkListStore-BUILDER-UI"/>
     <function name="GtkListStore" link="GtkListStore.html#GtkListStore-struct"/>
     <function name="gtk_list_store_new ()" link="GtkListStore.html#gtk-list-store-new"/>
@@ -3320,35 +3357,39 @@
     <function name="gtk_radio_menu_item_get_group ()" link="GtkRadioMenuItem.html#gtk-radio-menu-item-get-group"/>
     <function name="The &quot;group&quot; property" link="GtkRadioMenuItem.html#GtkRadioMenuItem--group"/>
     <function name="The &quot;group-changed&quot; signal" link="GtkRadioMenuItem.html#GtkRadioMenuItem-group-changed"/>
-    <function name="GtkCheckMenuItem" link="GtkCheckMenuItem.html#GtkCheckMenuItem-struct"/>
-    <function name="gtk_check_menu_item_new ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-new"/>
-    <function name="gtk_check_menu_item_new_with_label ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-new-with-label"/>
-    <function name="gtk_check_menu_item_new_with_mnemonic ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-new-with-mnemonic"/>
-    <function name="gtk_check_menu_item_set_state" link="GtkCheckMenuItem.html#gtk-check-menu-item-set-state"/>
-    <function name="gtk_check_menu_item_get_active ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-get-active"/>
-    <function name="gtk_check_menu_item_set_active ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-set-active"/>
-    <function name="gtk_check_menu_item_set_show_toggle ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-set-show-toggle"/>
-    <function name="gtk_check_menu_item_toggled ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-toggled"/>
-    <function name="gtk_check_menu_item_get_inconsistent ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-get-inconsistent"/>
-    <function name="gtk_check_menu_item_set_inconsistent ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-set-inconsistent"/>
-    <function name="gtk_check_menu_item_set_draw_as_radio ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-set-draw-as-radio"/>
-    <function name="gtk_check_menu_item_get_draw_as_radio ()" link="GtkCheckMenuItem.html#gtk-check-menu-item-get-draw-as-radio"/>
-    <function name="The &quot;active&quot; property" link="GtkCheckMenuItem.html#GtkCheckMenuItem--active"/>
-    <function name="The &quot;draw-as-radio&quot; property" link="GtkCheckMenuItem.html#GtkCheckMenuItem--draw-as-radio"/>
-    <function name="The &quot;inconsistent&quot; property" link="GtkCheckMenuItem.html#GtkCheckMenuItem--inconsistent"/>
-    <function name="The &quot;indicator-size&quot; style property" link="GtkCheckMenuItem.html#GtkCheckMenuItem--s-indicator-size"/>
-    <function name="The &quot;toggled&quot; signal" link="GtkCheckMenuItem.html#GtkCheckMenuItem-toggled"/>
+    <function name="GtkCheckMenuItem" link="gtk-gtkcheckmenuitem.html#GtkCheckMenuItem-struct"/>
+    <function name="gtk_check_menu_item_new ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-new"/>
+    <function name="gtk_check_menu_item_new_with_label ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-new-with-label"/>
+    <function name="gtk_check_menu_item_new_with_mnemonic ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-new-with-mnemonic"/>
+    <function name="gtk_check_menu_item_set_state" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-set-state"/>
+    <function name="gtk_check_menu_item_get_active ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-get-active"/>
+    <function name="gtk_check_menu_item_set_active ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-set-active"/>
+    <function name="gtk_check_menu_item_set_show_toggle ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-set-show-toggle"/>
+    <function name="gtk_check_menu_item_toggled ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-toggled"/>
+    <function name="gtk_check_menu_item_get_inconsistent ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-get-inconsistent"/>
+    <function name="gtk_check_menu_item_set_inconsistent ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-set-inconsistent"/>
+    <function name="gtk_check_menu_item_set_draw_as_radio ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-set-draw-as-radio"/>
+    <function name="gtk_check_menu_item_get_draw_as_radio ()" link="gtk-gtkcheckmenuitem.html#gtk-check-menu-item-get-draw-as-radio"/>
+    <function name="The &quot;active&quot; property" link="gtk-gtkcheckmenuitem.html#GtkCheckMenuItem--active"/>
+    <function name="The &quot;draw-as-radio&quot; property" link="gtk-gtkcheckmenuitem.html#GtkCheckMenuItem--draw-as-radio"/>
+    <function name="The &quot;inconsistent&quot; property" link="gtk-gtkcheckmenuitem.html#GtkCheckMenuItem--inconsistent"/>
+    <function name="The &quot;indicator-size&quot; style property" link="gtk-gtkcheckmenuitem.html#GtkCheckMenuItem--s-indicator-size"/>
+    <function name="The &quot;toggled&quot; signal" link="gtk-gtkcheckmenuitem.html#GtkCheckMenuItem-toggled"/>
     <function name="GtkSeparatorMenuItem" link="GtkSeparatorMenuItem.html#GtkSeparatorMenuItem-struct"/>
     <function name="gtk_separator_menu_item_new ()" link="GtkSeparatorMenuItem.html#gtk-separator-menu-item-new"/>
     <function name="GtkTearoffMenuItem" link="GtkTearoffMenuItem.html#GtkTearoffMenuItem-struct"/>
     <function name="gtk_tearoff_menu_item_new ()" link="GtkTearoffMenuItem.html#gtk-tearoff-menu-item-new"/>
     <function name="GtkToolShell" link="GtkToolShell.html#GtkToolShell-struct"/>
     <function name="GtkToolShellIface" link="GtkToolShell.html#GtkToolShellIface"/>
+    <function name="gtk_tool_shell_get_ellipsize_mode ()" link="GtkToolShell.html#gtk-tool-shell-get-ellipsize-mode"/>
     <function name="gtk_tool_shell_get_icon_size ()" link="GtkToolShell.html#gtk-tool-shell-get-icon-size"/>
     <function name="gtk_tool_shell_get_orientation ()" link="GtkToolShell.html#gtk-tool-shell-get-orientation"/>
     <function name="gtk_tool_shell_get_relief_style ()" link="GtkToolShell.html#gtk-tool-shell-get-relief-style"/>
     <function name="gtk_tool_shell_get_style ()" link="GtkToolShell.html#gtk-tool-shell-get-style"/>
+    <function name="gtk_tool_shell_get_text_alignment ()" link="GtkToolShell.html#gtk-tool-shell-get-text-alignment"/>
+    <function name="gtk_tool_shell_get_text_orientation ()" link="GtkToolShell.html#gtk-tool-shell-get-text-orientation"/>
     <function name="gtk_tool_shell_rebuild_menu ()" link="GtkToolShell.html#gtk-tool-shell-rebuild-menu"/>
+    <function name="gtk_tool_shell_get_text_size_group ()" link="GtkToolShell.html#gtk-tool-shell-get-text-size-group"/>
     <function name="GtkToolbar" link="GtkToolbar.html#GtkToolbar-struct"/>
     <function name="enum GtkToolbarChildType" link="GtkToolbar.html#GtkToolbarChildType"/>
     <function name="enum GtkToolbarSpaceStyle" link="GtkToolbar.html#GtkToolbarSpaceStyle"/>
@@ -3421,21 +3462,85 @@
     <function name="gtk_tool_item_get_visible_vertical ()" link="GtkToolItem.html#gtk-tool-item-get-visible-vertical"/>
     <function name="gtk_tool_item_set_is_important ()" link="GtkToolItem.html#gtk-tool-item-set-is-important"/>
     <function name="gtk_tool_item_get_is_important ()" link="GtkToolItem.html#gtk-tool-item-get-is-important"/>
+    <function name="gtk_tool_item_get_ellipsize_mode ()" link="GtkToolItem.html#gtk-tool-item-get-ellipsize-mode"/>
     <function name="gtk_tool_item_get_icon_size ()" link="GtkToolItem.html#gtk-tool-item-get-icon-size"/>
     <function name="gtk_tool_item_get_orientation ()" link="GtkToolItem.html#gtk-tool-item-get-orientation"/>
     <function name="gtk_tool_item_get_toolbar_style ()" link="GtkToolItem.html#gtk-tool-item-get-toolbar-style"/>
     <function name="gtk_tool_item_get_relief_style ()" link="GtkToolItem.html#gtk-tool-item-get-relief-style"/>
+    <function name="gtk_tool_item_get_text_alignment ()" link="GtkToolItem.html#gtk-tool-item-get-text-alignment"/>
+    <function name="gtk_tool_item_get_text_orientation ()" link="GtkToolItem.html#gtk-tool-item-get-text-orientation"/>
     <function name="gtk_tool_item_retrieve_proxy_menu_item ()" link="GtkToolItem.html#gtk-tool-item-retrieve-proxy-menu-item"/>
     <function name="gtk_tool_item_get_proxy_menu_item ()" link="GtkToolItem.html#gtk-tool-item-get-proxy-menu-item"/>
     <function name="gtk_tool_item_set_proxy_menu_item ()" link="GtkToolItem.html#gtk-tool-item-set-proxy-menu-item"/>
     <function name="gtk_tool_item_rebuild_menu ()" link="GtkToolItem.html#gtk-tool-item-rebuild-menu"/>
     <function name="gtk_tool_item_toolbar_reconfigured ()" link="GtkToolItem.html#gtk-tool-item-toolbar-reconfigured"/>
+    <function name="gtk_tool_item_get_text_size_group ()" link="GtkToolItem.html#gtk-tool-item-get-text-size-group"/>
     <function name="The &quot;is-important&quot; property" link="GtkToolItem.html#GtkToolItem--is-important"/>
     <function name="The &quot;visible-horizontal&quot; property" link="GtkToolItem.html#GtkToolItem--visible-horizontal"/>
     <function name="The &quot;visible-vertical&quot; property" link="GtkToolItem.html#GtkToolItem--visible-vertical"/>
     <function name="The &quot;create-menu-proxy&quot; signal" link="GtkToolItem.html#GtkToolItem-create-menu-proxy"/>
     <function name="The &quot;set-tooltip&quot; signal" link="GtkToolItem.html#GtkToolItem-set-tooltip"/>
     <function name="The &quot;toolbar-reconfigured&quot; signal" link="GtkToolItem.html#GtkToolItem-toolbar-reconfigured"/>
+    <function name="GtkToolPalette" link="GtkToolPalette.html#GtkToolPalette-struct"/>
+    <function name="gtk_tool_palette_new ()" link="GtkToolPalette.html#gtk-tool-palette-new"/>
+    <function name="gtk_tool_palette_get_exclusive ()" link="GtkToolPalette.html#gtk-tool-palette-get-exclusive"/>
+    <function name="gtk_tool_palette_set_exclusive ()" link="GtkToolPalette.html#gtk-tool-palette-set-exclusive"/>
+    <function name="gtk_tool_palette_get_expand ()" link="GtkToolPalette.html#gtk-tool-palette-get-expand"/>
+    <function name="gtk_tool_palette_set_expand ()" link="GtkToolPalette.html#gtk-tool-palette-set-expand"/>
+    <function name="gtk_tool_palette_get_group_position ()" link="GtkToolPalette.html#gtk-tool-palette-get-group-position"/>
+    <function name="gtk_tool_palette_set_group_position ()" link="GtkToolPalette.html#gtk-tool-palette-set-group-position"/>
+    <function name="gtk_tool_palette_get_icon_size ()" link="GtkToolPalette.html#gtk-tool-palette-get-icon-size"/>
+    <function name="gtk_tool_palette_set_icon_size ()" link="GtkToolPalette.html#gtk-tool-palette-set-icon-size"/>
+    <function name="gtk_tool_palette_unset_icon_size ()" link="GtkToolPalette.html#gtk-tool-palette-unset-icon-size"/>
+    <function name="gtk_tool_palette_get_style ()" link="GtkToolPalette.html#gtk-tool-palette-get-style"/>
+    <function name="gtk_tool_palette_set_style ()" link="GtkToolPalette.html#gtk-tool-palette-set-style"/>
+    <function name="gtk_tool_palette_unset_style ()" link="GtkToolPalette.html#gtk-tool-palette-unset-style"/>
+    <function name="gtk_tool_palette_add_drag_dest ()" link="GtkToolPalette.html#gtk-tool-palette-add-drag-dest"/>
+    <function name="gtk_tool_palette_get_drag_item ()" link="GtkToolPalette.html#gtk-tool-palette-get-drag-item"/>
+    <function name="gtk_tool_palette_get_drag_target_group ()" link="GtkToolPalette.html#gtk-tool-palette-get-drag-target-group"/>
+    <function name="gtk_tool_palette_get_drag_target_item ()" link="GtkToolPalette.html#gtk-tool-palette-get-drag-target-item"/>
+    <function name="gtk_tool_palette_get_drop_group ()" link="GtkToolPalette.html#gtk-tool-palette-get-drop-group"/>
+    <function name="gtk_tool_palette_get_drop_item ()" link="GtkToolPalette.html#gtk-tool-palette-get-drop-item"/>
+    <function name="enum GtkToolPaletteDragTargets" link="GtkToolPalette.html#GtkToolPaletteDragTargets"/>
+    <function name="gtk_tool_palette_set_drag_source ()" link="GtkToolPalette.html#gtk-tool-palette-set-drag-source"/>
+    <function name="gtk_tool_palette_get_hadjustment ()" link="GtkToolPalette.html#gtk-tool-palette-get-hadjustment"/>
+    <function name="gtk_tool_palette_get_vadjustment ()" link="GtkToolPalette.html#gtk-tool-palette-get-vadjustment"/>
+    <function name="The &quot;icon-size&quot; property" link="GtkToolPalette.html#GtkToolPalette--icon-size"/>
+    <function name="The &quot;icon-size-set&quot; property" link="GtkToolPalette.html#GtkToolPalette--icon-size-set"/>
+    <function name="The &quot;toolbar-style&quot; property" link="GtkToolPalette.html#GtkToolPalette--toolbar-style"/>
+    <function name="The &quot;exclusive&quot; child property" link="GtkToolPalette.html#GtkToolPalette--c-exclusive"/>
+    <function name="The &quot;expand&quot; child property" link="GtkToolPalette.html#GtkToolPalette--c-expand"/>
+    <function name="The &quot;set-scroll-adjustments&quot; signal" link="GtkToolPalette.html#GtkToolPalette-set-scroll-adjustments"/>
+    <function name="GtkToolItemGroup" link="GtkToolItemGroup.html#GtkToolItemGroup-struct"/>
+    <function name="gtk_tool_item_group_get_collapsed ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-collapsed"/>
+    <function name="gtk_tool_item_group_get_drop_item ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-drop-item"/>
+    <function name="gtk_tool_item_group_get_ellipsize ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-ellipsize"/>
+    <function name="gtk_tool_item_group_get_item_position ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-item-position"/>
+    <function name="gtk_tool_item_group_get_n_items ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-n-items"/>
+    <function name="gtk_tool_item_group_get_label ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-label"/>
+    <function name="gtk_tool_item_group_get_label_widget ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-label-widget"/>
+    <function name="gtk_tool_item_group_get_nth_item ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-nth-item"/>
+    <function name="gtk_tool_item_group_get_header_relief ()" link="GtkToolItemGroup.html#gtk-tool-item-group-get-header-relief"/>
+    <function name="gtk_tool_item_group_insert ()" link="GtkToolItemGroup.html#gtk-tool-item-group-insert"/>
+    <function name="gtk_tool_item_group_new ()" link="GtkToolItemGroup.html#gtk-tool-item-group-new"/>
+    <function name="gtk_tool_item_group_set_collapsed ()" link="GtkToolItemGroup.html#gtk-tool-item-group-set-collapsed"/>
+    <function name="gtk_tool_item_group_set_ellipsize ()" link="GtkToolItemGroup.html#gtk-tool-item-group-set-ellipsize"/>
+    <function name="gtk_tool_item_group_set_item_position ()" link="GtkToolItemGroup.html#gtk-tool-item-group-set-item-position"/>
+    <function name="gtk_tool_item_group_set_label ()" link="GtkToolItemGroup.html#gtk-tool-item-group-set-label"/>
+    <function name="gtk_tool_item_group_set_label_widget ()" link="GtkToolItemGroup.html#gtk-tool-item-group-set-label-widget"/>
+    <function name="gtk_tool_item_group_set_header_relief ()" link="GtkToolItemGroup.html#gtk-tool-item-group-set-header-relief"/>
+    <function name="The &quot;collapsed&quot; property" link="GtkToolItemGroup.html#GtkToolItemGroup--collapsed"/>
+    <function name="The &quot;ellipsize&quot; property" link="GtkToolItemGroup.html#GtkToolItemGroup--ellipsize"/>
+    <function name="The &quot;header-relief&quot; property" link="GtkToolItemGroup.html#GtkToolItemGroup--header-relief"/>
+    <function name="The &quot;label&quot; property" link="GtkToolItemGroup.html#GtkToolItemGroup--label"/>
+    <function name="The &quot;label-widget&quot; property" link="GtkToolItemGroup.html#GtkToolItemGroup--label-widget"/>
+    <function name="The &quot;expand&quot; child property" link="GtkToolItemGroup.html#GtkToolItemGroup--c-expand"/>
+    <function name="The &quot;fill&quot; child property" link="GtkToolItemGroup.html#GtkToolItemGroup--c-fill"/>
+    <function name="The &quot;homogeneous&quot; child property" link="GtkToolItemGroup.html#GtkToolItemGroup--c-homogeneous"/>
+    <function name="The &quot;new-row&quot; child property" link="GtkToolItemGroup.html#GtkToolItemGroup--c-new-row"/>
+    <function name="The &quot;position&quot; child property" link="GtkToolItemGroup.html#GtkToolItemGroup--c-position"/>
+    <function name="The &quot;expander-size&quot; style property" link="GtkToolItemGroup.html#GtkToolItemGroup--s-expander-size"/>
+    <function name="The &quot;header-spacing&quot; style property" link="GtkToolItemGroup.html#GtkToolItemGroup--s-header-spacing"/>
     <function name="GtkSeparatorToolItem" link="GtkSeparatorToolItem.html#GtkSeparatorToolItem-struct"/>
     <function name="gtk_separator_tool_item_new ()" link="GtkSeparatorToolItem.html#gtk-separator-tool-item-new"/>
     <function name="gtk_separator_tool_item_set_draw ()" link="GtkSeparatorToolItem.html#gtk-separator-tool-item-set-draw"/>
@@ -3491,9 +3596,9 @@
     <function name="The &quot;group&quot; property" link="GtkRadioToolButton.html#GtkRadioToolButton--group"/>
     <function name="UI Definitions" link="GtkUIManager.html#XML-UI"/>
     <function name="UI Merging" link="GtkUIManager.html#UI-Merging"/>
-    <function name="Accelerators" link="GtkUIManager.html#id902672"/>
+    <function name="Accelerators" link="GtkUIManager.html#id950427"/>
     <function name="Smart Separators" link="GtkUIManager.html#Smart-Separators"/>
-    <function name="Empty Menus" link="GtkUIManager.html#id877492"/>
+    <function name="Empty Menus" link="GtkUIManager.html#id950476"/>
     <function name="GtkUIManager as GtkBuildable" link="GtkUIManager.html#GtkUIManager-BUILDER-UI"/>
     <function name="GtkUIManager" link="GtkUIManager.html#GtkUIManager-struct"/>
     <function name="gtk_ui_manager_new ()" link="GtkUIManager.html#gtk-ui-manager-new"/>
@@ -3577,6 +3682,8 @@
     <function name="gtk_action_unblock_activate ()" link="GtkAction.html#gtk-action-unblock-activate"/>
     <function name="gtk_action_block_activate_from ()" link="GtkAction.html#gtk-action-block-activate-from"/>
     <function name="gtk_action_unblock_activate_from ()" link="GtkAction.html#gtk-action-unblock-activate-from"/>
+    <function name="gtk_action_get_always_show_image ()" link="GtkAction.html#gtk-action-get-always-show-image"/>
+    <function name="gtk_action_set_always_show_image ()" link="GtkAction.html#gtk-action-set-always-show-image"/>
     <function name="gtk_action_get_accel_path ()" link="GtkAction.html#gtk-action-get-accel-path"/>
     <function name="gtk_action_set_accel_path ()" link="GtkAction.html#gtk-action-set-accel-path"/>
     <function name="gtk_action_get_accel_closure ()" link="GtkAction.html#gtk-action-get-accel-closure"/>
@@ -3600,6 +3707,7 @@
     <function name="gtk_action_set_is_important ()" link="GtkAction.html#gtk-action-set-is-important"/>
     <function name="gtk_action_get_is_important ()" link="GtkAction.html#gtk-action-get-is-important"/>
     <function name="The &quot;action-group&quot; property" link="GtkAction.html#GtkAction--action-group"/>
+    <function name="The &quot;always-show-image&quot; property" link="GtkAction.html#GtkAction--always-show-image"/>
     <function name="The &quot;gicon&quot; property" link="GtkAction.html#GtkAction--gicon"/>
     <function name="The &quot;hide-if-empty&quot; property" link="GtkAction.html#GtkAction--hide-if-empty"/>
     <function name="The &quot;icon-name&quot; property" link="GtkAction.html#GtkAction--icon-name"/>
@@ -3641,7 +3749,7 @@
     <function name="gtk_recent_action_get_show_numbers ()" link="GtkRecentAction.html#gtk-recent-action-get-show-numbers"/>
     <function name="gtk_recent_action_set_show_numbers ()" link="GtkRecentAction.html#gtk-recent-action-set-show-numbers"/>
     <function name="The &quot;show-numbers&quot; property" link="GtkRecentAction.html#GtkRecentAction--show-numbers"/>
-    <function name="Implementing GtkActivatable" link="GtkActivatable.html#id846363"/>
+    <function name="Implementing GtkActivatable" link="GtkActivatable.html#id902335"/>
     <function name="GtkActivatable" link="GtkActivatable.html#GtkActivatable-struct"/>
     <function name="GtkActivatableIface" link="GtkActivatable.html#GtkActivatableIface"/>
     <function name="gtk_activatable_do_set_related_action ()" link="GtkActivatable.html#gtk-activatable-do-set-related-action"/>
@@ -4010,6 +4118,8 @@
     <function name="gtk_notebook_get_group_id ()" link="GtkNotebook.html#gtk-notebook-get-group-id"/>
     <function name="gtk_notebook_set_group ()" link="GtkNotebook.html#gtk-notebook-set-group"/>
     <function name="gtk_notebook_get_group ()" link="GtkNotebook.html#gtk-notebook-get-group"/>
+    <function name="gtk_notebook_set_action_widget ()" link="GtkNotebook.html#gtk-notebook-set-action-widget"/>
+    <function name="gtk_notebook_get_action_widget ()" link="GtkNotebook.html#gtk-notebook-get-action-widget"/>
     <function name="GtkNotebookWindowCreationFunc ()" link="GtkNotebook.html#GtkNotebookWindowCreationFunc"/>
     <function name="gtk_notebook_set_window_creation_hook ()" link="GtkNotebook.html#gtk-notebook-set-window-creation-hook"/>
     <function name="The &quot;enable-popup&quot; property" link="GtkNotebook.html#GtkNotebook--enable-popup"/>
@@ -4243,6 +4353,7 @@
     <function name="gtk_print_context_get_pango_fontmap ()" link="GtkPrintContext.html#gtk-print-context-get-pango-fontmap"/>
     <function name="gtk_print_context_create_pango_context ()" link="GtkPrintContext.html#gtk-print-context-create-pango-context"/>
     <function name="gtk_print_context_create_pango_layout ()" link="GtkPrintContext.html#gtk-print-context-create-pango-layout"/>
+    <function name="gtk_print_context_get_hard_margins ()" link="GtkPrintContext.html#gtk-print-context-get-hard-margins"/>
     <function name="GtkPrintSettings" link="GtkPrintSettings.html#GtkPrintSettings-struct"/>
     <function name="GtkPrintSettingsFunc ()" link="GtkPrintSettings.html#GtkPrintSettingsFunc"/>
     <function name="gtk_print_settings_new ()" link="GtkPrintSettings.html#gtk-print-settings-new"/>
@@ -4435,6 +4546,7 @@
     <function name="gtk_printer_request_details ()" link="GtkPrinter.html#gtk-printer-request-details"/>
     <function name="gtk_printer_get_capabilities ()" link="GtkPrinter.html#gtk-printer-get-capabilities"/>
     <function name="gtk_printer_get_default_page_size ()" link="GtkPrinter.html#gtk-printer-get-default-page-size"/>
+    <function name="gtk_printer_get_hard_margins ()" link="GtkPrinter.html#gtk-printer-get-hard-margins"/>
     <function name="GtkPrinterFunc ()" link="GtkPrinter.html#GtkPrinterFunc"/>
     <function name="gtk_enumerate_printers ()" link="GtkPrinter.html#gtk-enumerate-printers"/>
     <function name="The &quot;accepting-jobs&quot; property" link="GtkPrinter.html#GtkPrinter--accepting-jobs"/>
@@ -4627,6 +4739,7 @@
     <function name="gtk_tooltip_set_icon ()" link="GtkTooltip.html#gtk-tooltip-set-icon"/>
     <function name="gtk_tooltip_set_icon_from_stock ()" link="GtkTooltip.html#gtk-tooltip-set-icon-from-stock"/>
     <function name="gtk_tooltip_set_icon_from_icon_name ()" link="GtkTooltip.html#gtk-tooltip-set-icon-from-icon-name"/>
+    <function name="gtk_tooltip_set_icon_from_gicon ()" link="GtkTooltip.html#gtk-tooltip-set-icon-from-gicon"/>
     <function name="gtk_tooltip_set_custom ()" link="GtkTooltip.html#gtk-tooltip-set-custom"/>
     <function name="gtk_tooltip_trigger_tooltip_query ()" link="GtkTooltip.html#gtk-tooltip-trigger-tooltip-query"/>
     <function name="gtk_tooltip_set_tip_area ()" link="GtkTooltip.html#gtk-tooltip-set-tip-area"/>
@@ -4638,6 +4751,7 @@
     <function name="gtk_viewport_set_vadjustment ()" link="GtkViewport.html#gtk-viewport-set-vadjustment"/>
     <function name="gtk_viewport_set_shadow_type ()" link="GtkViewport.html#gtk-viewport-set-shadow-type"/>
     <function name="gtk_viewport_get_shadow_type ()" link="GtkViewport.html#gtk-viewport-get-shadow-type"/>
+    <function name="gtk_viewport_get_bin_window ()" link="GtkViewport.html#gtk-viewport-get-bin-window"/>
     <function name="The &quot;hadjustment&quot; property" link="GtkViewport.html#GtkViewport--hadjustment"/>
     <function name="The &quot;shadow-type&quot; property" link="GtkViewport.html#GtkViewport--shadow-type"/>
     <function name="The &quot;vadjustment&quot; property" link="GtkViewport.html#GtkViewport--vadjustment"/>
@@ -4771,10 +4885,10 @@
     <function name="The &quot;xpad&quot; property" link="GtkMisc.html#GtkMisc--xpad"/>
     <function name="The &quot;yalign&quot; property" link="GtkMisc.html#GtkMisc--yalign"/>
     <function name="The &quot;ypad&quot; property" link="GtkMisc.html#GtkMisc--ypad"/>
-    <function name="Description" link="GtkObject.html#id1075571"/>
+    <function name="Description" link="GtkObject.html#id1164395"/>
     <function name="GtkObject" link="GtkObject.html#GtkObject-struct"/>
-    <function name="GTK_OBJECT_TYPE()" link="GtkObject.html#GTK-OBJECT-TYPE:CAPS"/>
-    <function name="GTK_OBJECT_TYPE_NAME()" link="GtkObject.html#GTK-OBJECT-TYPE-NAME:CAPS"/>
+    <function name="GTK_OBJECT_TYPE" link="GtkObject.html#GTK-OBJECT-TYPE:CAPS"/>
+    <function name="GTK_OBJECT_TYPE_NAME" link="GtkObject.html#GTK-OBJECT-TYPE-NAME:CAPS"/>
     <function name="enum GtkObjectFlags" link="GtkObject.html#GtkObjectFlags"/>
     <function name="GTK_OBJECT_FLAGS()" link="GtkObject.html#GTK-OBJECT-FLAGS:CAPS"/>
     <function name="GTK_OBJECT_FLOATING()" link="GtkObject.html#GTK-OBJECT-FLOATING:CAPS"/>
@@ -4816,6 +4930,7 @@
     <function name="gtk_paned_set_gutter_size()" link="GtkPaned.html#gtk-paned-set-gutter-size"/>
     <function name="gtk_paned_set_position ()" link="GtkPaned.html#gtk-paned-set-position"/>
     <function name="gtk_paned_get_position ()" link="GtkPaned.html#gtk-paned-get-position"/>
+    <function name="gtk_paned_get_handle_window ()" link="GtkPaned.html#gtk-paned-get-handle-window"/>
     <function name="The &quot;max-position&quot; property" link="GtkPaned.html#GtkPaned--max-position"/>
     <function name="The &quot;min-position&quot; property" link="GtkPaned.html#GtkPaned--min-position"/>
     <function name="The &quot;position&quot; property" link="GtkPaned.html#GtkPaned--position"/>
@@ -4853,6 +4968,12 @@
     <function name="gtk_range_get_upper_stepper_sensitivity ()" link="GtkRange.html#gtk-range-get-upper-stepper-sensitivity"/>
     <function name="gtk_range_get_flippable ()" link="GtkRange.html#gtk-range-get-flippable"/>
     <function name="gtk_range_set_flippable ()" link="GtkRange.html#gtk-range-set-flippable"/>
+    <function name="gtk_range_get_min_slider_size ()" link="GtkRange.html#gtk-range-get-min-slider-size"/>
+    <function name="gtk_range_get_range_rect ()" link="GtkRange.html#gtk-range-get-range-rect"/>
+    <function name="gtk_range_get_slider_range ()" link="GtkRange.html#gtk-range-get-slider-range"/>
+    <function name="gtk_range_get_slider_size_fixed ()" link="GtkRange.html#gtk-range-get-slider-size-fixed"/>
+    <function name="gtk_range_set_min_slider_size ()" link="GtkRange.html#gtk-range-set-min-slider-size"/>
+    <function name="gtk_range_set_slider_size_fixed ()" link="GtkRange.html#gtk-range-set-slider-size-fixed"/>
     <function name="The &quot;adjustment&quot; property" link="GtkRange.html#GtkRange--adjustment"/>
     <function name="The &quot;fill-level&quot; property" link="GtkRange.html#GtkRange--fill-level"/>
     <function name="The &quot;inverted&quot; property" link="GtkRange.html#GtkRange--inverted"/>
@@ -4901,6 +5022,7 @@
     <function name="The &quot;has-secondary-forward-stepper&quot; style property" link="GtkScrollbar.html#GtkScrollbar--s-has-secondary-forward-stepper"/>
     <function name="The &quot;min-slider-length&quot; style property" link="GtkScrollbar.html#GtkScrollbar--s-min-slider-length"/>
     <function name="GtkSeparator" link="GtkSeparator.html#GtkSeparator-struct"/>
+    <function name="" link="GtkWidget.html#style-properties"/>
     <function name="GtkWidget as GtkBuildable" link="GtkWidget.html#GtkWidget-BUILDER-UI"/>
     <function name="GtkWidget" link="GtkWidget.html#GtkWidget-struct"/>
     <function name="GtkWidgetClass" link="GtkWidget.html#GtkWidgetClass"/>
@@ -5050,6 +5172,7 @@
     <function name="gtk_widget_style_get ()" link="GtkWidget.html#gtk-widget-style-get"/>
     <function name="gtk_widget_style_get_property ()" link="GtkWidget.html#gtk-widget-style-get-property"/>
     <function name="gtk_widget_style_get_valist ()" link="GtkWidget.html#gtk-widget-style-get-valist"/>
+    <function name="gtk_widget_style_attach ()" link="GtkWidget.html#gtk-widget-style-attach"/>
     <function name="gtk_widget_get_accessible ()" link="GtkWidget.html#gtk-widget-get-accessible"/>
     <function name="gtk_widget_child_focus ()" link="GtkWidget.html#gtk-widget-child-focus"/>
     <function name="gtk_widget_child_notify ()" link="GtkWidget.html#gtk-widget-child-notify"/>
@@ -5063,7 +5186,7 @@
     <function name="gtk_widget_get_screen ()" link="GtkWidget.html#gtk-widget-get-screen"/>
     <function name="gtk_widget_has_screen ()" link="GtkWidget.html#gtk-widget-has-screen"/>
     <function name="gtk_widget_get_size_request ()" link="GtkWidget.html#gtk-widget-get-size-request"/>
-    <function name="gtk_widget_pop_visual()" link="GtkWidget.html#gtk-widget-pop-visual"/>
+    <function name="gtk_widget_pop_visual" link="GtkWidget.html#gtk-widget-pop-visual"/>
     <function name="gtk_widget_push_visual()" link="GtkWidget.html#gtk-widget-push-visual"/>
     <function name="gtk_widget_set_child_visible ()" link="GtkWidget.html#gtk-widget-set-child-visible"/>
     <function name="gtk_widget_set_default_visual()" link="GtkWidget.html#gtk-widget-set-default-visual"/>
@@ -5108,11 +5231,17 @@
     <function name="gtk_widget_has_default ()" link="GtkWidget.html#gtk-widget-has-default"/>
     <function name="gtk_widget_has_focus ()" link="GtkWidget.html#gtk-widget-has-focus"/>
     <function name="gtk_widget_has_grab ()" link="GtkWidget.html#gtk-widget-has-grab"/>
+    <function name="gtk_widget_has_rc_style ()" link="GtkWidget.html#gtk-widget-has-rc-style"/>
     <function name="gtk_widget_is_drawable ()" link="GtkWidget.html#gtk-widget-is-drawable"/>
     <function name="gtk_widget_is_toplevel ()" link="GtkWidget.html#gtk-widget-is-toplevel"/>
     <function name="gtk_widget_set_window ()" link="GtkWidget.html#gtk-widget-set-window"/>
     <function name="gtk_widget_set_receives_default ()" link="GtkWidget.html#gtk-widget-set-receives-default"/>
     <function name="gtk_widget_get_receives_default ()" link="GtkWidget.html#gtk-widget-get-receives-default"/>
+    <function name="gtk_widget_set_realized ()" link="GtkWidget.html#gtk-widget-set-realized"/>
+    <function name="gtk_widget_get_realized ()" link="GtkWidget.html#gtk-widget-get-realized"/>
+    <function name="gtk_widget_set_mapped ()" link="GtkWidget.html#gtk-widget-set-mapped"/>
+    <function name="gtk_widget_get_mapped ()" link="GtkWidget.html#gtk-widget-get-mapped"/>
+    <function name="gtk_widget_get_requisition ()" link="GtkWidget.html#gtk-widget-get-requisition"/>
     <function name="gtk_requisition_copy ()" link="GtkWidget.html#gtk-requisition-copy"/>
     <function name="gtk_requisition_free ()" link="GtkWidget.html#gtk-requisition-free"/>
     <function name="The &quot;app-paintable&quot; property" link="GtkWidget.html#GtkWidget--app-paintable"/>

@@ -70,7 +70,7 @@ _gdk_window_impl_win32_get_type (void)
 
   if (!object_type)
     {
-      static const GTypeInfo object_info =
+      const GTypeInfo object_info =
       {
         sizeof (GdkWindowImplWin32Class),
         (GBaseInitFunc) NULL,
@@ -517,9 +517,13 @@ _gdk_window_impl_new (GdkWindow     *window,
 #endif
   impl->extension_events_selected = FALSE;
 
-  if (!private->input_only)
+  // XXX ?
+  if (attributes->wclass == GDK_INPUT_OUTPUT)
     {
       dwExStyle = 0;
+
+      private->input_only = FALSE;
+      private->depth = visual->depth;
       
       if (attributes_mask & GDK_WA_COLORMAP)
 	{
@@ -539,6 +543,8 @@ _gdk_window_impl_new (GdkWindow     *window,
        * to work well enough for the actual use cases in gtk.
        */
       dwExStyle = WS_EX_TRANSPARENT;
+      private->depth = 0;
+      private->input_only = TRUE;
       draw_impl->colormap = gdk_screen_get_system_colormap (_gdk_screen);
       g_object_ref (draw_impl->colormap);
       GDK_NOTE (MISC, g_print ("... GDK_INPUT_ONLY, system colormap\n"));
@@ -611,6 +617,8 @@ _gdk_window_impl_new (GdkWindow     *window,
   if (!title || !*title)
     title = "";
 
+  private->event_mask = GDK_STRUCTURE_MASK | attributes->event_mask;
+      
   if (attributes_mask & GDK_WA_TYPE_HINT)
     impl->type_hint = attributes->type_hint;
   else
@@ -684,8 +692,8 @@ _gdk_window_impl_new (GdkWindow     *window,
       return;
     }
 
-  if (attributes_mask & GDK_WA_TYPE_HINT)
-    gdk_window_set_type_hint (window, attributes->type_hint);
+//  if (!from_set_skip_taskbar_hint && private->window_type == GDK_WINDOW_TEMP)
+//    gdk_window_set_skip_taskbar_hint (window, TRUE);
 
   gdk_window_set_cursor (window, ((attributes_mask & GDK_WA_CURSOR) ?
 				  (attributes->cursor) :
@@ -1827,7 +1835,7 @@ _gdk_remove_modal_window (GdkWindow *window)
 }
 
 GdkWindow *
-_gdk_modal_current ()
+_gdk_modal_current (void)
 {
   if (modal_window_stack != NULL)
     {

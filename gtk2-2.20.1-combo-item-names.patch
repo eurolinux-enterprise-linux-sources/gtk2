@@ -1,0 +1,28 @@
+diff -up gtk+-2.20.1/modules/other/gail/gailitem.c.combo-item-names gtk+-2.20.1/modules/other/gail/gailitem.c
+--- gtk+-2.20.1/modules/other/gail/gailitem.c.combo-item-names	2013-06-06 18:37:11.272403733 +0200
++++ gtk+-2.20.1/modules/other/gail/gailitem.c	2013-06-07 14:00:16.338655385 +0200
+@@ -281,6 +281,24 @@ gail_item_get_name (AtkObject *obj)
+ 
+                                g_value_unset (&value);
+                             }
++                          if (i == n_columns) {
++                             GList *liter;
++                             GtkWidget *child = gtk_bin_get_child (GTK_BIN (widget));
++
++                            if (child && GTK_IS_CELL_VIEW (child)) {
++                               list = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (child));
++                               for (liter = list; liter; liter = liter->next) {
++                                  GObject *renderer = liter->data;
++                                  if (GTK_IS_CELL_RENDERER_TEXT (renderer)) {
++                                     g_free (item->text);
++                                     item->text = NULL;
++                                     g_object_get (renderer, "text", &item->text, NULL);
++                                     break;
++                                  }
++                               }
++                               g_list_free (list);
++                            }
++                          }
+                         }
+                       name = item->text;
+                     }

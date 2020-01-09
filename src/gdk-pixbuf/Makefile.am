@@ -1,4 +1,7 @@
 include $(top_srcdir)/Makefile.decl
+-include $(INTROSPECTION_MAKEFILE)
+
+INTROSPECTION_GIRS =
 
 SUBDIRS = pixops
 
@@ -192,6 +195,14 @@ libstatic_pixbufloader_jasper_la_SOURCES = io-jasper.c
 libpixbufloader_jasper_la_SOURCES = io-jasper.c
 libpixbufloader_jasper_la_LDFLAGS = -avoid-version -module $(no_undefined)
 libpixbufloader_jasper_la_LIBADD = $(LIBJASPER) $(module_libs)
+
+#
+# The QTIF loader
+#
+libstatic_pixbufloader_qtif_la_SOURCES = io-qtif.c
+libpixbufloader_qtif_la_SOURCES = io-qtif.c
+libpixbufloader_qtif_la_LDFLAGS = -avoid-version -module $(no_undefined)
+libpixbufloader_qtif_la_LIBADD = $(module_libs)
 
 if BUILD_GDIPLUS_LOADERS
 
@@ -451,6 +462,12 @@ JASPER_LIB = libpixbufloader-jasper.la
 endif
 endif
 
+if INCLUDE_QTIF
+STATIC_QTIF_LIB = libstatic-pixbufloader-qtif.la
+else
+QTIF_LIB = libpixbufloader-qtif.la
+endif
+
 if BUILD_DYNAMIC_MODULES
 
 loader_LTLIBRARIES = 	\
@@ -470,6 +487,7 @@ loader_LTLIBRARIES = 	\
 	$(ICNS_LIB)	\
 	$(PCX_LIB)	\
 	$(JASPER_LIB)	\
+	$(QTIF_LIB)	\
 	$(GDIPLUS_LIBS)
 
 
@@ -492,6 +510,7 @@ noinst_LTLIBRARIES =		\
 	$(STATIC_ICNS_LIB)	\
 	$(STATIC_PCX_LIB)	\
 	$(STATIC_JASPER_LIB)	\
+	$(STATIC_QTIF_LIB)	\
 	$(STATIC_GDIPLUS_LIBS)
 
 builtin_objs = @INCLUDED_LOADER_OBJ@
@@ -669,6 +688,27 @@ EXTRA_DIST +=					\
 	gdk-pixbuf-enum-types.c.template	\
 	gdk-pixbuf-enum-types.h.template	\
 	gen-color-table.pl
+
+if HAVE_INTROSPECTION
+
+GdkPixbuf-2.0.gir: libgdk_pixbuf-2.0.la Makefile
+GdkPixbuf_2_0_gir_SCANNERFLAGS = --strip-prefix=Gdk
+GdkPixbuf_2_0_gir_INCLUDES = GModule-2.0 Gio-2.0
+GdkPixbuf_2_0_gir_LIBS = libgdk_pixbuf-2.0.la
+GdkPixbuf_2_0_gir_CFLAGS = $(INCLUDES)
+GdkPixbuf_2_0_gir_FILES = \
+    $(addprefix $(srcdir)/,$(libgdk_pixbufinclude_HEADERS)) \
+    $(addprefix $(srcdir)/,$(libgdk_pixbuf_2_0_la_SOURCES))
+INTROSPECTION_GIRS += GdkPixbuf-2.0.gir
+
+girdir = $(datadir)/gir-1.0
+dist_gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibsdir = $(libdir)/girepository-1.0
+typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+
+CLEANFILES += $(dist_gir_DATA) $(typelibs_DATA)
+endif
 
 if CROSS_COMPILING
 RUN_QUERY_LOADER_TEST=false

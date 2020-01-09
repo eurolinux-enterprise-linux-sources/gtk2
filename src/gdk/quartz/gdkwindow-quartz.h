@@ -34,6 +34,10 @@ typedef int NSInteger;
 typedef unsigned int NSUInteger;
 #endif
 
+#ifndef CGFLOAT_DEFINED
+typedef float CGFloat;
+#endif
+
 G_BEGIN_DECLS
 
 /* Window implementation for Quartz

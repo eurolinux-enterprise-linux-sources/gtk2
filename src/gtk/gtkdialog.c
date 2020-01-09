@@ -528,12 +528,12 @@ gtk_dialog_new_empty (const gchar     *title,
 
 /**
  * gtk_dialog_new_with_buttons:
- * @title: Title of the dialog, or %NULL
- * @parent: Transient parent of the dialog, or %NULL
+ * @title: (allow-none): Title of the dialog, or %NULL
+ * @parent: (allow-none): Transient parent of the dialog, or %NULL
  * @flags: from #GtkDialogFlags
- * @first_button_text: stock ID or text to go in first button, or %NULL
+ * @first_button_text: (allow-none): stock ID or text to go in first button, or %NULL
  * @Varargs: response ID for first button, then additional buttons, ending with %NULL
- * 
+ *
  * Creates a new #GtkDialog with title @title (or %NULL for the default
  * title; see gtk_window_set_title()) and transient parent @parent (or
  * %NULL for none; see gtk_window_set_transient_for()). The @flags
@@ -708,7 +708,7 @@ gtk_dialog_add_button (GtkDialog   *dialog,
 
   button = gtk_button_new_from_stock (button_text);
 
-  GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default (button, TRUE);
   
   gtk_widget_show (button);
   
@@ -1056,7 +1056,7 @@ gtk_dialog_run (GtkDialog *dialog)
   if (!was_modal)
     gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
-  if (!GTK_WIDGET_VISIBLE (dialog))
+  if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
     gtk_widget_show (GTK_WIDGET (dialog));
   
   response_handler =
@@ -1120,6 +1120,49 @@ _gtk_dialog_set_ignore_separator (GtkDialog *dialog,
 }
 
 /**
+ * gtk_dialog_get_widget_for_response:
+ * @dialog: a #GtkDialog
+ * @response_id: the response ID used by the @dialog widget
+ *
+ * Gets the widget button that uses the given response ID in the action area
+ * of a dialog.
+ *
+ * Returns: the @widget button that uses the given @response_id, or %NULL.
+ *
+ * Since: 2.20
+ */
+GtkWidget*
+gtk_dialog_get_widget_for_response (GtkDialog *dialog,
+				    gint       response_id)
+{
+  GList *children;
+  GList *tmp_list;
+
+  g_return_val_if_fail (GTK_IS_DIALOG (dialog), NULL);
+
+  children = gtk_container_get_children (GTK_CONTAINER (dialog->action_area));
+
+  tmp_list = children;
+  while (tmp_list != NULL)
+    {
+      GtkWidget *widget = tmp_list->data;
+      ResponseData *rd = get_response_data (widget, FALSE);
+
+      if (rd && rd->response_id == response_id)
+        {
+          g_list_free (children);
+          return widget;
+        }
+
+      tmp_list = g_list_next (tmp_list);
+    }
+
+  g_list_free (children);
+
+  return NULL;
+}
+
+/**
  * gtk_dialog_get_response_for_widget:
  * @dialog: a #GtkDialog
  * @widget: a widget in the action area of @dialog
@@ -1147,10 +1190,10 @@ gtk_dialog_get_response_for_widget (GtkDialog *dialog,
 
 /**
  * gtk_alternative_dialog_button_order:
- * @screen: a #GdkScreen, or %NULL to use the default screen
+ * @screen: (allow-none): a #GdkScreen, or %NULL to use the default screen
  *
  * Returns %TRUE if dialogs are expected to use an alternative
- * button order on the screen @screen. See 
+ * button order on the screen @screen. See
  * gtk_dialog_set_alternative_button_order() for more details
  * about alternative button order. 
  *
@@ -1475,7 +1518,7 @@ gtk_dialog_buildable_custom_finished (GtkBuildable *buildable,
  *
  * Returns the action area of @dialog.
  *
- * Returns: the action area.
+ * Returns: (transfer none): the action area.
  *
  * Since: 2.14
  **/
@@ -1493,7 +1536,7 @@ gtk_dialog_get_action_area (GtkDialog *dialog)
  *
  * Returns the content area of @dialog.
  *
- * Returns: the content area #GtkVBox.
+ * Returns: (transfer none): the content area #GtkVBox.
  *
  * Since: 2.14
  **/

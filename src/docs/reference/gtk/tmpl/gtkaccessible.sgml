@@ -2,7 +2,7 @@
 GtkAccessible
 
 <!-- ##### SECTION Short_Description ##### -->
-Accessibility support for widgets
+
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
@@ -15,6 +15,9 @@ Accessibility support for widgets
 </para>
 
 <!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
 
 
 <!-- ##### STRUCT GtkAccessible ##### -->

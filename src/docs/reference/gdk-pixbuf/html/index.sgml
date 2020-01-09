@@ -1,4 +1,3 @@
-<ONLINE href="http://library.gnome.org/devel/gdk-pixbuf/unstable/">
 <ANCHOR id="gdk-pixbuf-Versioning" href="gdk-pixbuf/gdk-pixbuf-Versioning.html">
 <ANCHOR id="gdk-pixbuf-Versioning.synopsis" href="gdk-pixbuf/gdk-pixbuf-Versioning.html#gdk-pixbuf-Versioning.synopsis">
 <ANCHOR id="gdk-pixbuf-Versioning.description" href="gdk-pixbuf/gdk-pixbuf-Versioning.html#gdk-pixbuf-Versioning.description">
@@ -160,7 +159,9 @@
 <ANCHOR id="gdk-pixbuf-animation.synopsis" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation.synopsis">
 <ANCHOR id="GdkPixbufAnimation" href="gdk-pixbuf/gdk-pixbuf-animation.html#GdkPixbufAnimation">
 <ANCHOR id="GdkPixbufAnimationIter" href="gdk-pixbuf/gdk-pixbuf-animation.html#GdkPixbufAnimationIter">
+<ANCHOR id="GdkPixbufSimpleAnim" href="gdk-pixbuf/gdk-pixbuf-animation.html#GdkPixbufSimpleAnim">
 <ANCHOR id="gdk-pixbuf-animation.object-hierarchy" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation.object-hierarchy">
+<ANCHOR id="gdk-pixbuf-animation.properties" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation.properties">
 <ANCHOR id="gdk-pixbuf-animation.description" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation.description">
 <ANCHOR id="gdk-pixbuf-animation.details" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation.details">
 <ANCHOR id="GdkPixbufAnimation-struct" href="gdk-pixbuf/gdk-pixbuf-animation.html#GdkPixbufAnimation-struct">
@@ -177,11 +178,13 @@
 <ANCHOR id="gdk-pixbuf-animation-iter-get-delay-time" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation-iter-get-delay-time">
 <ANCHOR id="gdk-pixbuf-animation-iter-on-currently-loading-frame" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation-iter-on-currently-loading-frame">
 <ANCHOR id="gdk-pixbuf-animation-iter-get-pixbuf" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation-iter-get-pixbuf">
-<ANCHOR id="GdkPixbufSimpleAnim" href="gdk-pixbuf/gdk-pixbuf-animation.html#GdkPixbufSimpleAnim">
+<ANCHOR id="GdkPixbufSimpleAnim-struct" href="gdk-pixbuf/gdk-pixbuf-animation.html#GdkPixbufSimpleAnim-struct">
 <ANCHOR id="gdk-pixbuf-simple-anim-new" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-new">
 <ANCHOR id="gdk-pixbuf-simple-anim-add-frame" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-add-frame">
 <ANCHOR id="gdk-pixbuf-simple-anim-set-loop" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-set-loop">
 <ANCHOR id="gdk-pixbuf-simple-anim-get-loop" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-get-loop">
+<ANCHOR id="gdk-pixbuf-animation.property-details" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation.property-details">
+<ANCHOR id="GdkPixbufSimpleAnim--loop" href="gdk-pixbuf/gdk-pixbuf-animation.html#GdkPixbufSimpleAnim--loop">
 <ANCHOR id="gdk-pixbuf-animation.see-also" href="gdk-pixbuf/gdk-pixbuf-animation.html#gdk-pixbuf-animation.see-also">
 <ANCHOR id="GdkPixbufLoader" href="gdk-pixbuf/GdkPixbufLoader.html">
 <ANCHOR id="GdkPixbufLoader.synopsis" href="gdk-pixbuf/GdkPixbufLoader.html#GdkPixbufLoader.synopsis">
@@ -288,3 +291,4 @@
 <ANCHOR id="gdk-pixbuf-gdk-pixbuf-xlib-rgb.see-also" href="gdk-pixbuf/gdk-pixbuf-gdk-pixbuf-xlib-rgb.html#gdk-pixbuf-gdk-pixbuf-xlib-rgb.see-also">
 <ANCHOR id="gdk-pixbuf-csource" href="gdk-pixbuf/gdk-pixbuf-csource.html">
 <ANCHOR id="gdk-pixbuf-query-loaders" href="gdk-pixbuf/gdk-pixbuf-query-loaders.html">
+<ANCHOR id="annotation-glossterm-allow-none" href="gdk-pixbuf/annotation-glossary.html#annotation-glossterm-allow-none">

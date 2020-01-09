@@ -25,22 +25,3 @@ diff -up gtk+-2.18.9/gtk/gtkfilechooserdefault.c.filechooser-empty-location gtk+
  
        if (!is_well_formed)
  	return NULL;
-@@ -8766,9 +8774,17 @@ gtk_file_chooser_default_should_respond 
-       entry = GTK_FILE_CHOOSER_ENTRY (impl->location_entry);
-       check_save_entry (impl, &file, &is_well_formed, &is_empty, &is_file_part_empty, &is_folder);
- 
--      if (is_empty || !is_well_formed)
-+      if (!is_well_formed)
- 	return FALSE;
- 
-+      if (is_empty)
-+        {
-+          if (impl->action == GTK_FILE_CHOOSER_ACTION_SAVE)
-+            return FALSE;
-+
-+          goto file_list;
-+        }
-+
-       g_assert (file != NULL);
- 
-       error = NULL;

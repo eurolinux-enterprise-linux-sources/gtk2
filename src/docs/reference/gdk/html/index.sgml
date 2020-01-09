@@ -1,4 +1,3 @@
-<ONLINE href="http://library.gnome.org/devel/gdk/unstable/">
 <ANCHOR id="gdk-General" href="gdk/gdk-General.html">
 <ANCHOR id="gdk-General.synopsis" href="gdk/gdk-General.html#gdk-General.synopsis">
 <ANCHOR id="gdk-General.description" href="gdk/gdk-General.html#gdk-General.description">
@@ -132,6 +131,7 @@
 <ANCHOR id="gdk-screen-get-toplevel-windows" href="gdk/GdkScreen.html#gdk-screen-get-toplevel-windows">
 <ANCHOR id="gdk-screen-make-display-name" href="gdk/GdkScreen.html#gdk-screen-make-display-name">
 <ANCHOR id="gdk-screen-get-n-monitors" href="gdk/GdkScreen.html#gdk-screen-get-n-monitors">
+<ANCHOR id="gdk-screen-get-primary-monitor" href="gdk/GdkScreen.html#gdk-screen-get-primary-monitor">
 <ANCHOR id="gdk-screen-get-monitor-geometry" href="gdk/GdkScreen.html#gdk-screen-get-monitor-geometry">
 <ANCHOR id="gdk-screen-get-monitor-at-point" href="gdk/GdkScreen.html#gdk-screen-get-monitor-at-point">
 <ANCHOR id="gdk-screen-get-monitor-at-window" href="gdk/GdkScreen.html#gdk-screen-get-monitor-at-window">
@@ -1047,6 +1047,8 @@
 <ANCHOR id="gdk-keymap-get-direction" href="gdk/gdk-Keyboard-Handling.html#gdk-keymap-get-direction">
 <ANCHOR id="gdk-keymap-have-bidi-layouts" href="gdk/gdk-Keyboard-Handling.html#gdk-keymap-have-bidi-layouts">
 <ANCHOR id="gdk-keymap-get-caps-lock-state" href="gdk/gdk-Keyboard-Handling.html#gdk-keymap-get-caps-lock-state">
+<ANCHOR id="gdk-keymap-add-virtual-modifiers" href="gdk/gdk-Keyboard-Handling.html#gdk-keymap-add-virtual-modifiers">
+<ANCHOR id="gdk-keymap-map-virtual-modifiers" href="gdk/gdk-Keyboard-Handling.html#gdk-keymap-map-virtual-modifiers">
 <ANCHOR id="gdk-keyval-name" href="gdk/gdk-Keyboard-Handling.html#gdk-keyval-name">
 <ANCHOR id="gdk-keyval-from-name" href="gdk/gdk-Keyboard-Handling.html#gdk-keyval-from-name">
 <ANCHOR id="gdk-keyval-convert-case" href="gdk/gdk-Keyboard-Handling.html#gdk-keyval-convert-case">
@@ -1378,3 +1380,10 @@
 <ANCHOR id="gdk-test-render-sync" href="gdk/gdk-Testing.html#gdk-test-render-sync">
 <ANCHOR id="gdk-test-simulate-button" href="gdk/gdk-Testing.html#gdk-test-simulate-button">
 <ANCHOR id="gdk-test-simulate-key" href="gdk/gdk-Testing.html#gdk-test-simulate-key">
+<ANCHOR id="annotation-glossterm-out" href="gdk/annotation-glossary.html#annotation-glossterm-out">
+<ANCHOR id="annotation-glossterm-array" href="gdk/annotation-glossary.html#annotation-glossterm-array">
+<ANCHOR id="annotation-glossterm-allow-none" href="gdk/annotation-glossary.html#annotation-glossterm-allow-none">
+<ANCHOR id="annotation-glossterm-inout" href="gdk/annotation-glossary.html#annotation-glossterm-inout">
+<ANCHOR id="annotation-glossterm-transfer container" href="gdk/annotation-glossary.html#annotation-glossterm-transfer container">
+<ANCHOR id="annotation-glossterm-transfer full" href="gdk/annotation-glossary.html#annotation-glossterm-transfer full">
+<ANCHOR id="annotation-glossterm-transfer none" href="gdk/annotation-glossary.html#annotation-glossterm-transfer none">
