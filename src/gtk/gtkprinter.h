@@ -17,12 +17,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifndef __GTK_PRINTER_H__
+#define __GTK_PRINTER_H__
+
 #if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_UNIX_PRINT_H_INSIDE__) && !defined (GTK_COMPILATION)
 #error "Only <gtk/gtkunixprint.h> can be included directly."
 #endif
-
-#ifndef __GTK_PRINTER_H__
-#define __GTK_PRINTER_H__
 
 #include <cairo.h>
 #include <gtk/gtk.h>
@@ -93,11 +93,11 @@ GtkPrinter              *gtk_printer_new                   (const gchar     *nam
 							    GtkPrintBackend *backend,
 							    gboolean         virtual_);
 GtkPrintBackend         *gtk_printer_get_backend           (GtkPrinter      *printer);
-G_CONST_RETURN gchar    *gtk_printer_get_name              (GtkPrinter      *printer);
-G_CONST_RETURN gchar    *gtk_printer_get_state_message     (GtkPrinter      *printer);
-G_CONST_RETURN gchar    *gtk_printer_get_description       (GtkPrinter      *printer);
-G_CONST_RETURN gchar    *gtk_printer_get_location          (GtkPrinter      *printer);
-G_CONST_RETURN gchar    *gtk_printer_get_icon_name         (GtkPrinter      *printer);
+const gchar *            gtk_printer_get_name              (GtkPrinter      *printer);
+const gchar *            gtk_printer_get_state_message     (GtkPrinter      *printer);
+const gchar *            gtk_printer_get_description       (GtkPrinter      *printer);
+const gchar *            gtk_printer_get_location          (GtkPrinter      *printer);
+const gchar *            gtk_printer_get_icon_name         (GtkPrinter      *printer);
 gint                     gtk_printer_get_job_count         (GtkPrinter      *printer);
 gboolean                 gtk_printer_is_active             (GtkPrinter      *printer);
 gboolean                 gtk_printer_is_paused             (GtkPrinter      *printer);

@@ -19,12 +19,12 @@
  *      Mathias Hasselmann
  */
 
+#ifndef __GTK_TOOL_ITEM_GROUP_H__
+#define __GTK_TOOL_ITEM_GROUP_H__
+
 #if !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
 #error "Only <gtk/gtk.h> can be included directly."
 #endif
-
-#ifndef __GTK_TOOL_ITEM_GROUP_H__
-#define __GTK_TOOL_ITEM_GROUP_H__
 
 #include <gtk/gtkcontainer.h>
 #include <gtk/gtktoolitem.h>
@@ -72,7 +72,7 @@ void                  gtk_tool_item_group_set_ellipsize     (GtkToolItemGroup   
 void                  gtk_tool_item_group_set_header_relief (GtkToolItemGroup   *group,
                                                              GtkReliefStyle      style);
 
-G_CONST_RETURN gchar* gtk_tool_item_group_get_label         (GtkToolItemGroup   *group);
+const gchar *         gtk_tool_item_group_get_label         (GtkToolItemGroup   *group);
 GtkWidget            *gtk_tool_item_group_get_label_widget  (GtkToolItemGroup   *group);
 gboolean              gtk_tool_item_group_get_collapsed     (GtkToolItemGroup   *group);
 PangoEllipsizeMode    gtk_tool_item_group_get_ellipsize     (GtkToolItemGroup   *group);

@@ -1,13 +1,13 @@
---- gtk+-2.18.9/gtk/gtkfilechooserdefault.c	2012-01-25 13:42:32.434927492 -0500
-+++ gtk+-2.18.9.patched/gtk/gtkfilechooserdefault.c	2012-01-25 14:25:29.064930634 -0500
-@@ -2503,9 +2503,27 @@
+--- gtk+-2.24.23/gtk/gtkfilechooserdefault.c
++++ gtk+-2.24.23/gtk/gtkfilechooserdefault.c
+@@ -2371,9 +2371,27 @@ renderer_editing_canceled_cb (GtkCellRen
  static GtkWidget *
  filter_create (GtkFileChooserDefault *impl)
  {
 +  GList *renderer_list;
 +  GtkCellRenderer *renderer;
 +
-   impl->filter_combo = gtk_combo_box_new_text ();
+   impl->filter_combo = gtk_combo_box_text_new ();
    gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (impl->filter_combo), FALSE);
  
 +  /* we just created it, so the only cell renderer in the combo box

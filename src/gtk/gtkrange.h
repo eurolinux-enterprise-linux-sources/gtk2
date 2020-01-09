@@ -24,13 +24,13 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
-#error "Only <gtk/gtk.h> can be included directly."
-#endif
-
 #ifndef __GTK_RANGE_H__
 #define __GTK_RANGE_H__
 
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkadjustment.h>
 #include <gtk/gtkwidget.h>
@@ -135,9 +135,11 @@ struct _GtkRangeClass
 
 GType              gtk_range_get_type                      (void) G_GNUC_CONST;
 
+#ifndef GTK_DISABLE_DEPRECATED
 void               gtk_range_set_update_policy             (GtkRange      *range,
                                                             GtkUpdateType  policy);
 GtkUpdateType      gtk_range_get_update_policy             (GtkRange      *range);
+#endif /* GTK_DISABLE_DEPRECATED */
 
 void               gtk_range_set_adjustment                (GtkRange      *range,
                                                             GtkAdjustment *adjustment);
@@ -191,6 +193,10 @@ gboolean           gtk_range_get_restrict_to_fill_level    (GtkRange      *range
 void               gtk_range_set_fill_level                (GtkRange      *range,
                                                             gdouble        fill_level);
 gdouble            gtk_range_get_fill_level                (GtkRange      *range);
+void               gtk_range_set_round_digits              (GtkRange      *range,
+                                                            gint           round_digits);
+gint                gtk_range_get_round_digits             (GtkRange      *range);
+
 
 /* internal API */
 gdouble            _gtk_range_get_wheel_delta              (GtkRange      *range,

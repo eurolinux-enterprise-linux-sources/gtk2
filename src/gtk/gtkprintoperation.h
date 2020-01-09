@@ -18,13 +18,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
-#error "Only <gtk/gtk.h> can be included directly."
-#endif
-
 #ifndef __GTK_PRINT_OPERATION_H__
 #define __GTK_PRINT_OPERATION_H__
 
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <cairo.h>
 #include <gtk/gtkmain.h>
@@ -173,7 +173,7 @@ GtkPrintOperationResult gtk_print_operation_run                    (GtkPrintOper
 void                    gtk_print_operation_get_error              (GtkPrintOperation  *op,
 								    GError            **error);
 GtkPrintStatus          gtk_print_operation_get_status             (GtkPrintOperation  *op);
-G_CONST_RETURN gchar *  gtk_print_operation_get_status_string      (GtkPrintOperation  *op);
+const gchar *           gtk_print_operation_get_status_string      (GtkPrintOperation  *op);
 gboolean                gtk_print_operation_is_finished            (GtkPrintOperation  *op);
 void                    gtk_print_operation_cancel                 (GtkPrintOperation  *op);
 void                    gtk_print_operation_draw_page_finish       (GtkPrintOperation  *op);

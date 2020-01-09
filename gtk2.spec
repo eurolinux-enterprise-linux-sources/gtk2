@@ -1,6 +1,6 @@
 # Note that this is NOT a relocatable package
 
-%define glib2_base_version 2.23.6
+%define glib2_base_version 2.28.0
 %define glib2_version %{glib2_base_version}-1
 %define pango_base_version 1.20.0
 %define pango_version %{pango_base_version}-1
@@ -10,25 +10,25 @@
 %define cairo_version %{cairo_base_version}-1
 %define libpng_version 2:1.2.2-16
 %define xrandr_version 1.2.99.4-2
+%define gdk_pixbuf2_base_version 2.24.1
+%define gdk_pixbuf2_version %{gdk_pixbuf_base_version}-1
 
-%define base_version 2.20.1
+%define base_version 2.24.23
 %define bin_version 2.10.0
 
 Summary: The GIMP ToolKit (GTK+), a library for creating GUIs for X
 Name: gtk2
 Version: %{base_version}
-Release: 4%{?dist}
+Release: 6%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
-#VCS: git:git://git.gnome.org/gtk+#gtk-2.20
-Source: http://download.gnome.org/sources/gtk+/2.20/gtk+-%{version}.tar.bz2
-Source1: update-gdk-pixbuf-loaders
+#VCS: git:git://git.gnome.org/gtk+#gtk-2.24
+Source: http://download.gnome.org/sources/gtk+/2.24/gtk+-%{version}.tar.xz
 Source2: update-gtk-immodules
 Source3: im-cedilla.conf
+Source4: update-gtk-immodules.1
 
-# Biarch changes
-Patch0: gtk-lib64.patch
 Patch1: system-python.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=583273
 Patch2: icon-padding.patch
@@ -36,13 +36,8 @@ Patch2: icon-padding.patch
 Patch4: fresh-tooltips.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=599618
 Patch8: tooltip-positioning.patch
-# http://bugzilla.redhat.com/show_bug.cgi?id=529364
-Patch11: gtk2-remove-connecting-reason.patch
-# https://bugzilla.gnome.org/show_bug.cgi?id=592582
-#Patch14: gtk2-landscape-pdf-print.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=611313
 Patch15: window-dragging.patch
-Patch23: gtk2-ppd-reading.patch
 # updated translations
 # https://bugzilla.redhat.com/show_bug.cgi?id=625440
 Patch26: gtk2-translations-mr-te.patch
@@ -50,31 +45,25 @@ Patch26: gtk2-translations-mr-te.patch
 Patch27: gtk2-filechooser-empty-location.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=689188
 Patch28: gtk2-filechooser-wrap-filter-combo.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=697437
-Patch29: gtk2-filechooser-size-column-hiding.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=750756
 Patch30: gtk2-label-ctrl-insert.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=801620
-Patch31: gtk2-builder-dont-delay-construct-props.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=882346
-Patch32: 0001-Try-harder-to-discriminate-Shift-F10-and-F10.patch
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=697437
-Patch33: gtk2-filechooser-size-column-hiding-additional.patch
-
-# RH bug #970594
-Patch34: gtk2-2.20.1-combo-item-names.patch
-
-# RH bug #979049
-Patch35: gtk2-2.20.1-treeview-expand.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1100886
+Patch34: gtk2-g-value-get-schar.patch
+Patch35: gtk2-disable-tracker.patch
+Patch36: gtk2-uninitialized-variable.patch
+Patch37: gtk2-revert-deprecations.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=909454
+Patch38: gtk2-remote-cups-port.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1128798
+Patch39: 0001-Print-to-a-file-in-the-current-directory-by-default.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1129605
+Patch40: check-cancellable.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1126916
+Patch41: gtk2-entry-text-column.patch
 
 BuildRequires: atk-devel >= %{atk_version}
 BuildRequires: pango-devel >= %{pango_version}
 BuildRequires: glib2-devel >= %{glib2_version}
-BuildRequires: libtiff-devel
-BuildRequires: libjpeg-devel
-BuildRequires: jasper-devel
 BuildRequires: libXi-devel
 BuildRequires: libpng-devel >= %{libpng_version}
 BuildRequires: automake autoconf libtool pkgconfig
@@ -89,6 +78,7 @@ BuildRequires: libXfixes-devel
 BuildRequires: libXinerama-devel
 BuildRequires: libXcomposite-devel
 BuildRequires: libXdamage-devel
+BuildRequires: gdk-pixbuf2-devel >= %{gdk_pixbuf2_version}
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -108,8 +98,6 @@ Requires: hicolor-icon-theme
 Requires(post): glib2 >= %{glib2_version}
 Requires(post): atk >= %{atk_version}
 Requires(post): pango >= %{pango_version}
-# and these for gdk-pixbuf-query-loaders
-Requires(post): libtiff >= 3.6.1
 Requires: libXrandr >= %{xrandr_version}
 
 %description
@@ -144,6 +132,7 @@ Requires: gtk2 = %{version}-%{release}
 Requires: pango-devel >= %{pango_version}
 Requires: atk-devel >= %{atk_version}
 Requires: glib2-devel >= %{glib2_version}
+Requires: gdk-pixbuf2-devel >= %{gdk_pixbuf2_version}
 Requires: cairo-devel >= %{cairo_version}
 Requires: libX11-devel, libXcursor-devel, libXinerama-devel
 Requires: libXext-devel, libXi-devel, libXrandr-devel
@@ -175,35 +164,31 @@ This package contains developer documentation for the GTK+ widget toolkit.
 
 %prep
 %setup -q -n gtk+-%{version}
-
-%patch0 -p1 -b .lib64
 %patch1 -p1 -b .system-python
 %patch2 -p1 -b .icon-padding
 %patch4 -p1 -b .fresh-tooltips
 %patch8 -p1 -b .tooltip-positioning
-%patch11 -p1 -b .remove-connecting-reason
-#%patch14 -p1 -b .landscape-pdf-print
 %patch15 -p1 -b .window-dragging
-%patch23 -p1 -b .ppd-reading
 %patch26 -p1 -b .translations-mr-te
 %patch27 -p1 -b .filechooser-empty-location
 %patch28 -p1 -b .filechooser-wrap-filter-combo
-%patch29 -p1 -b .filechooser-size-column
 %patch30 -p1 -b .label-ctrl-insert
-%patch31 -p1 -b .builder-dont-delay-construct-props
-%patch32 -p1 -b .xkeyboard-config-fix
-%patch33 -p1 -b .filechooser-size-column-additional
-%patch34 -p1 -b .combo-item-names
-%patch35 -p1 -b .treeview-expand
+%patch34 -p1 -b .g-value-get-schar
+%patch35 -p1 -b .disable-tracker
+%patch36 -p1 -b .uninitialized-variable
+%patch37 -p1 -b .revert-deprecations
+%patch38 -p1 -b .remote-cups-port
+%patch39 -p1 -b .print-to-file
+%patch40 -p1 -b .check-cancellable
+%patch41 -p1 -b .entry-text-column
 
 %build
 %configure --with-xinput=xfree 		\
+	   --enable-man			\
 	   --enable-debug		\
 	   --disable-gtk-doc 		\
 	   --disable-rebuilds 		\
-	   --disable-introspection	\
-	   --with-libjasper		\
-	   --with-included-loaders=png
+	   --disable-introspection
 
 # fight unused direct deps
 sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
@@ -252,13 +237,15 @@ if test "x$compile_host" != "x$host" ; then
 fi
 
 make install DESTDIR=$RPM_BUILD_ROOT        \
-             RUN_QUERY_IMMODULES_TEST=false \
-             RUN_QUERY_LOADER_TEST=false
+             RUN_QUERY_IMMODULES_TEST=false
+
+echo ".so man1/gtk-query-immodules-2.0.1" > $RPM_BUILD_ROOT%{_mandir}/man1/gtk-query-immodules-2.0-%{__isa_bits}.1
+
+gzip -c %{SOURCE4} > $RPM_BUILD_ROOT%{_mandir}/man1/update-gtk-immodules.1.gz
 
 %find_lang gtk20
 %find_lang gtk20-properties
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/gtk-2.0
 #
 # Make cleaned-up versions of tutorials, examples, and faq for installation
 #
@@ -281,16 +268,13 @@ done
 case "$host" in
   alpha*|ia64*|powerpc64*|s390x*|x86_64*)
    mv $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0 $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0-64
-   mv $RPM_BUILD_ROOT%{_bindir}/gdk-pixbuf-query-loaders $RPM_BUILD_ROOT%{_bindir}/gdk-pixbuf-query-loaders-64
    ;;
   *)
    mv $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0 $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0-32
-   mv $RPM_BUILD_ROOT%{_bindir}/gdk-pixbuf-query-loaders $RPM_BUILD_ROOT%{_bindir}/gdk-pixbuf-query-loaders-32
    ;;
 esac
 
 # Install wrappers for the binaries
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/update-gdk-pixbuf-loaders
 cp %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/update-gtk-immodules
 
 # Input method frameworks want this
@@ -302,9 +286,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/*/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/%{bin_version}/*/*.la
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/gtk-2.0/$host
-touch $RPM_BUILD_ROOT%{_sysconfdir}/gtk-2.0/$host/gtk.immodules
-touch $RPM_BUILD_ROOT%{_sysconfdir}/gtk-2.0/$host/gdk-pixbuf.loaders
+touch $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/%{bin_version}/immodules.cache
 
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/modules
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/immodules
@@ -317,68 +299,56 @@ mkdir -p $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/%{bin_version}/filesystems
 install -m 0755 relocation-tag $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/immodules
 %endif
 
-#
-# We need the substitution of $host so we use an external
-# file list
-#
-echo %dir %{_sysconfdir}/gtk-2.0/$host >> gtk20.lang
-echo %ghost %{_sysconfdir}/gtk-2.0/$host/gtk.immodules >> gtk20.lang
-echo %ghost %{_sysconfdir}/gtk-2.0/$host/gdk-pixbuf.loaders >> gtk20.lang
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
-/usr/bin/update-gdk-pixbuf-loaders %{_host}
-/usr/bin/update-gtk-immodules %{_host}
+gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 
 %post immodules
-/usr/bin/update-gtk-immodules %{_host}
+gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 
 %post immodule-xim
-/usr/bin/update-gtk-immodules %{_host}
+gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 
 %postun
 /sbin/ldconfig
 if [ $1 -gt 0 ]; then
-  /usr/bin/update-gdk-pixbuf-loaders %{_host}
-  /usr/bin/update-gtk-immodules %{_host}
+  gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 fi
 
 %postun immodules
-/usr/bin/update-gtk-immodules %{_host}
+gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 
 %postun immodule-xim
-/usr/bin/update-gtk-immodules %{_host}
+gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 
 %files -f gtk20.lang
 %defattr(-, root, root)
-
 %doc AUTHORS COPYING NEWS README
-%{_bindir}/gdk-pixbuf-query-loaders*
 %{_bindir}/gtk-query-immodules-2.0*
-%{_bindir}/update-gdk-pixbuf-loaders
 %{_bindir}/update-gtk-immodules
 %{_bindir}/gtk-update-icon-cache
 %{_libdir}/libgtk-x11-2.0.so.*
 %{_libdir}/libgdk-x11-2.0.so.*
-%{_libdir}/libgdk_pixbuf-2.0.so.*
-%{_libdir}/libgdk_pixbuf_xlib-2.0.so.*
 %{_libdir}/libgailutil.so.*
 %dir %{_libdir}/gtk-2.0
 %dir %{_libdir}/gtk-2.0/%{bin_version}
 %{_libdir}/gtk-2.0/%{bin_version}/engines
 %{_libdir}/gtk-2.0/%{bin_version}/filesystems
 %dir %{_libdir}/gtk-2.0/%{bin_version}/immodules
-%{_libdir}/gtk-2.0/%{bin_version}/loaders
 %{_libdir}/gtk-2.0/%{bin_version}/printbackends
 %{_libdir}/gtk-2.0/modules
 %{_libdir}/gtk-2.0/immodules
+%dir %{_datadir}/gtk-2.0
 %{_datadir}/themes/Default
 %{_datadir}/themes/Emacs
 %{_datadir}/themes/Raleigh
-%dir %{_sysconfdir}/gtk-2.0
+%ghost %{_libdir}/gtk-2.0/%{bin_version}/immodules.cache
+%{_mandir}/man1/gtk-query-immodules-2.0*
+%{_mandir}/man1/update-gtk-immodules.1.gz
+%{_mandir}/man1/gtk-update-icon-cache.1.gz
 
 %files immodules
 %defattr(-, root, root)
@@ -393,6 +363,7 @@ fi
 %{_libdir}/gtk-2.0/%{bin_version}/immodules/im-ti-et.so
 %{_libdir}/gtk-2.0/%{bin_version}/immodules/im-viqr.so
 %{_sysconfdir}/X11/xinit/xinput.d/im-cedilla.conf
+%dir %{_sysconfdir}/gtk-2.0
 %config(noreplace) %{_sysconfdir}/gtk-2.0/im-multipress.conf
 
 %files immodule-xim
@@ -405,11 +376,11 @@ fi
 %{_libdir}/gtk-2.0/include
 %{_includedir}/*
 %{_datadir}/aclocal/*
-%{_bindir}/gdk-pixbuf-csource
 %{_bindir}/gtk-builder-convert
 %{_libdir}/pkgconfig/*
 %{_bindir}/gtk-demo
-%{_datadir}/gtk-2.0
+%{_datadir}/gtk-2.0/demo
+%{_mandir}/man1/gtk-builder-convert.1.gz
 
 %files devel-docs
 %defattr(-, root, root)
@@ -421,6 +392,43 @@ fi
 %doc tmpdocs/examples
 
 %changelog
+* Fri Aug 29 2014 Marek Kasik <mkasik@redhat.com> - 2.24.23-6
+- Set "entry-text-column" property in constructor of GtkComboBoxText.
+- Fixes crash in evolution when creating new appointment.
+- Resolves: #1126916
+
+* Fri Aug 22 2014 Ray Strode <rstrode@redhat.com> - 2.24.23-5
+- Don't crash if enumeration finishes just as it gets cancelled
+  in file selector. Fixes crash in libreoffice when saving to
+  SFTP mounts.
+  Resolves: #1129605
+
+* Fri Aug 22 2014 Marek Kasik <mkasik@redhat.com> - 2.24.23-4
+- Propagate filename if directory was not specified
+- when printing to a file
+- Resolves: #1128798
+
+* Wed Jun 18 2014 Marek Kasik <mkasik@redhat.com> - 2.24.23-3
+- Return back requirements of libpng and libXrandr
+- Resolves: #909454
+
+* Mon Jun 16 2014 Marek Kasik <mkasik@redhat.com> - 2.24.23-2
+- Check connection to remote CUPS server on correct port
+- Resolves: #909454
+
+* Mon Jun 16 2014 Marek Kasik <mkasik@redhat.com> - 2.24.23-1
+- Rebase to 2.24.23
+- Make immodule cache handling the same as in gtk3. The cache
+  file is now in $libdir, no longer in /etc
+- Disable tracker explicitly
+- Initialize variable "key" in gtk_print_backend_cups_set_password()
+- Modify fresh-tooltips.patch so the "new-tooltip-style" property
+  is still accepted
+- Revert deprecations added between 2.20 and 2.24 so that building
+  of dependent packages don't fail
+- Update relevant patches so that they apply correctly
+- Resolves: #1100886
+
 * Wed Sep 11 2013 Milan Crha <mcrha@redhat.com> - 2.20.1-4
 - Add patch for RH bug #979049 (GtkTreeView: make tree expanding/collapsing more robust)
 Resolves: #979049

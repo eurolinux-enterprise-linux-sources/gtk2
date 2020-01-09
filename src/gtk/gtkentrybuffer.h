@@ -17,12 +17,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifndef __GTK_ENTRY_BUFFER_H__
+#define __GTK_ENTRY_BUFFER_H__
+
 #if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
 #error "Only <gtk/gtk.h> can be included directly."
 #endif
-
-#ifndef __GTK_ENTRY_BUFFER_H__
-#define __GTK_ENTRY_BUFFER_H__
 
 #include <glib-object.h>
 
@@ -99,7 +99,7 @@ gsize                     gtk_entry_buffer_get_bytes              (GtkEntryBuffe
 
 guint                     gtk_entry_buffer_get_length             (GtkEntryBuffer  *buffer);
 
-G_CONST_RETURN gchar*     gtk_entry_buffer_get_text               (GtkEntryBuffer  *buffer);
+const gchar*              gtk_entry_buffer_get_text               (GtkEntryBuffer  *buffer);
 
 void                      gtk_entry_buffer_set_text               (GtkEntryBuffer  *buffer,
                                                                    const gchar     *chars,

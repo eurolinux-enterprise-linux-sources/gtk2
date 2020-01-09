@@ -85,17 +85,6 @@ struct _GtkFileChooserIface
 };
 
 GtkFileSystem *_gtk_file_chooser_get_file_system         (GtkFileChooser    *chooser);
-gboolean       _gtk_file_chooser_set_current_folder_file (GtkFileChooser    *chooser,
-							  GFile             *file,
-							  GError           **error);
-GFile *        _gtk_file_chooser_get_current_folder_file (GtkFileChooser    *chooser);
-gboolean       _gtk_file_chooser_select_file             (GtkFileChooser    *chooser,
-							  GFile             *file,
-							  GError           **error);
-void           _gtk_file_chooser_unselect_file           (GtkFileChooser    *chooser,
-							  GFile             *file);
-GSList *       _gtk_file_chooser_get_files               (GtkFileChooser    *chooser);
-GFile *        _gtk_file_chooser_get_preview_file        (GtkFileChooser    *chooser);
 gboolean       _gtk_file_chooser_add_shortcut_folder     (GtkFileChooser    *chooser,
 							  GFile             *folder,
 							  GError           **error);
@@ -138,8 +127,7 @@ typedef enum {
 
 typedef enum {
   RELOAD_EMPTY,			/* No folder has been set */
-  RELOAD_HAS_FOLDER,		/* We have a folder, although it may not be completely loaded yet; no need to reload */
-  RELOAD_WAS_UNMAPPED		/* We had a folder but got unmapped; reload is needed */
+  RELOAD_HAS_FOLDER		/* We have a folder, although it may not be completely loaded yet; no need to reload */
 } ReloadState;
 
 typedef enum {
@@ -153,6 +141,11 @@ typedef enum {
   OPERATION_MODE_RECENT
 } OperationMode;
 
+typedef enum {
+  STARTUP_MODE_RECENT,
+  STARTUP_MODE_CWD
+} StartupMode;
+
 struct _GtkFileChooserDefault
 {
   GtkVBox parent_instance;
@@ -163,13 +156,13 @@ struct _GtkFileChooserDefault
 
   /* Save mode widgets */
   GtkWidget *save_widgets;
+  GtkWidget *save_widgets_table;
 
   GtkWidget *save_folder_label;
-  GtkWidget *save_folder_combo;
-  GtkWidget *save_expander;
 
   /* The file browsing widgets */
-  GtkWidget *browse_widgets;
+  GtkWidget *browse_widgets_box;
+  GtkWidget *browse_header_box;
   GtkWidget *browse_shortcuts_tree_view;
   GtkWidget *browse_shortcuts_add_button;
   GtkWidget *browse_shortcuts_remove_button;
@@ -185,9 +178,18 @@ struct _GtkFileChooserDefault
   GtkWidget *browse_path_bar_hbox;
   GtkSizeGroup *browse_path_bar_size_group;
   GtkWidget *browse_path_bar;
+  GtkWidget *browse_special_mode_icon;
+  GtkWidget *browse_special_mode_label;
+  GtkWidget *browse_select_a_folder_info_bar;
+  GtkWidget *browse_select_a_folder_label;
+  GtkWidget *browse_select_a_folder_icon;
+
+  gulong toplevel_unmapped_id;
 
   GtkFileSystemModel *browse_files_model;
   char *browse_files_last_selected_name;
+
+  StartupMode startup_mode;
 
   /* OPERATION_MODE_SEARCH */
   GtkWidget *search_hbox;
@@ -197,7 +199,6 @@ struct _GtkFileChooserDefault
   GtkFileSystemModel *search_model;
 
   /* OPERATION_MODE_RECENT */
-  GtkWidget *recent_hbox;
   GtkRecentManager *recent_manager;
   GtkFileSystemModel *recent_model;
   guint load_recent_id;
@@ -223,11 +224,6 @@ struct _GtkFileChooserDefault
    */
   GtkTreeModel *shortcuts_pane_filter_model;
   
-  /* Filter for the "Save in folder" combo.  We filter out the Search row and
-   * its separator.
-   */
-  GtkTreeModel *shortcuts_combo_filter_model;
-
   /* Handles */
   GSList *loading_shortcuts;
   GSList *reload_icon_cancellables;
@@ -237,7 +233,6 @@ struct _GtkFileChooserDefault
   GCancellable *file_exists_get_info_cancellable;
   GCancellable *update_from_entry_cancellable;
   GCancellable *shortcuts_activate_iter_cancellable;
-  GSList *pending_cancellables;
 
   LoadState load_state;
   ReloadState reload_state;
@@ -273,6 +268,8 @@ struct _GtkFileChooserDefault
   gulong settings_signal_id;
   int icon_size;
 
+  GSource *focus_entry_idle;
+
   gulong toplevel_set_focus_id;
   GtkWidget *toplevel_last_focus_widget;
 
@@ -295,11 +292,10 @@ struct _GtkFileChooserDefault
   guint list_sort_ascending : 1;
   guint changing_folder : 1;
   guint shortcuts_current_folder_active : 1;
-  guint expand_folders : 1;
+  guint has_cwd : 1;
   guint has_home : 1;
   guint has_desktop : 1;
   guint has_search : 1;
-  guint has_recent : 1;
   guint show_size_column : 1;
   guint create_folders : 1;
 

@@ -24,12 +24,12 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
+#ifndef __GTK_ENUMS_H__
+#define __GTK_ENUMS_H__
+
 #if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
 #error "Only <gtk/gtk.h> can be included directly."
 #endif
-
-#ifndef __GTK_ENUMS_H__
-#define __GTK_ENUMS_H__
 
 #include <glib-object.h>
 
@@ -208,6 +208,16 @@ typedef enum
   GTK_MENU_DIR_PREV
 } GtkMenuDirectionType;
 
+/**
+ * GtkMessageType:
+ * @GTK_MESSAGE_INFO: Informational message
+ * @GTK_MESSAGE_WARNING: Nonfatal warning message
+ * @GTK_MESSAGE_QUESTION: Question requiring a choice
+ * @GTK_MESSAGE_ERROR: Fatal error message
+ * @GTK_MESSAGE_OTHER: None of the above, doesn't get an icon
+ *
+ * The type of message being displayed in the dialog.
+ */
 typedef enum
 {
   GTK_MESSAGE_INFO,

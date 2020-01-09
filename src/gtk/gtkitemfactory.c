@@ -560,7 +560,7 @@ gtk_item_factory_from_widget (GtkWidget	       *widget)
  *
  * Deprecated: 2.4: Use #GtkUIManager instead.
  */
-G_CONST_RETURN gchar*
+const gchar*
 gtk_item_factory_path_from_widget (GtkWidget	    *widget)
 {
   gchar* path;
@@ -964,7 +964,7 @@ gtk_item_factory_create_item (GtkItemFactory	     *ifactory,
   else if (type_id == quark_type_toggle_item)
     type = GTK_TYPE_CHECK_MENU_ITEM;
   else if (type_id == quark_type_separator_item)
-    type = GTK_TYPE_MENU_ITEM;
+    type = GTK_TYPE_SEPARATOR_MENU_ITEM;
   else if (type_id == quark_type_branch)
     type = GTK_TYPE_MENU_ITEM;
   else if (type_id == quark_type_last_branch)

@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#undef GDK_DISABLE_DEPRECATED
 #undef GTK_DISABLE_DEPRECATED
 
 #include <gtk/gtk.h>
@@ -3030,12 +3031,7 @@ view_add_example_widgets (View *view)
 void
 test_init (void)
 {
-  if (g_file_test ("../gdk-pixbuf/libpixbufloader-pnm.la",
-		   G_FILE_TEST_EXISTS))
-    {
-      g_setenv ("GDK_PIXBUF_MODULE_FILE", "../gdk-pixbuf/gdk-pixbuf.loaders", TRUE);
-      g_setenv ("GTK_IM_MODULE_FILE", "../modules/input/gtk.immodules", TRUE);
-    }
+  g_setenv ("GTK_IM_MODULE_FILE", "../modules/input/immodules.cache", TRUE);
 }
 
 int

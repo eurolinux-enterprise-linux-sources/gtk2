@@ -11,15 +11,14 @@ INCLUDES =				\
 	$(GTK_DEP_CFLAGS)
 
 DEPS =									\
-	$(top_builddir)/gdk-pixbuf/libgdk_pixbuf-$(GTK_API_VERSION).la	\
 	$(top_builddir)/gdk/$(gdktargetlib)				\
 	$(top_builddir)/gtk/$(gtktargetlib)
 
-LDADDS =								\
-	$(top_builddir)/gdk-pixbuf/libgdk_pixbuf-$(GTK_API_VERSION).la	\
+LDADD =								\
 	$(top_builddir)/gdk/$(gdktargetlib)				\
 	$(top_builddir)/gtk/$(gtktargetlib)				\
-	$(GTK_DEP_LIBS)
+	$(GTK_DEP_LIBS)							\
+	-lm
 
 if USE_X11
 testsocket_programs = testsocket testsocket_child
@@ -40,7 +39,6 @@ noinst_PROGRAMS =  $(TEST_PROGS)	\
 	testcellrenderertext		\
 	testclientmessage		\
 	testdnd				\
-	testellipsise			\
 	testentrycompletion 		\
 	testentryicons			\
 	testfilechooser			\
@@ -48,6 +46,7 @@ noinst_PROGRAMS =  $(TEST_PROGS)	\
 	testframe			\
 	testgtk				\
 	testiconview			\
+	testiconview-keynav		\
 	testicontheme			\
 	testimage			\
 	testinput			\
@@ -85,11 +84,6 @@ noinst_PROGRAMS =  $(TEST_PROGS)	\
 	treestoretest			\
 	testxinerama			\
 	testwindows			\
-	pixbuf-read			\
-	pixbuf-lowmem			\
-	pixbuf-randomly-modified	\
-	pixbuf-random			\
-	pixbuf-threads			\
 	testmerge			\
 	testactions			\
 	testgrouping			\
@@ -126,7 +120,6 @@ testcombochange_DEPENDENCIES = $(TEST_DEPS)
 testcellrenderertext_DEPENDENCIES = $(TEST_DEPS)
 testclientmessage_DEPENDENCIES = $(TEST_DEPS)
 testdnd_DEPENDENCIES = $(TEST_DEPS)
-testellipsise_DEPENDENCIES = $(TEST_DEPS)
 testentrycompletion_DEPENDENCIES = $(TEST_DEPS)
 testentryicons_DEPENDENCIES = $(TEST_DEPS)
 testfilechooser_DEPENDENCIES = $(TEST_DEPS)
@@ -172,78 +165,6 @@ testgrouping_DEPENDENCIES = $(TEST_DEPS)
 testtooltips_DEPENDENCIES = $(TEST_DEPS)
 testvolumebutton_DEPENDENCIES = $(TEST_DEPS)
 testwindows_DEPENDENCIES = $(TEST_DEPS)
-
-flicker_LDADD = $(LDADDS)
-simple_LDADD = $(LDADDS)
-print_editor_LDADD = $(LDADDS)
-testaccel_LDADD = $(LDADDS)
-testassistant_LDADD = $(LDADDS)
-testbbox_LDADD = $(LDADDS)
-testbuttons_LDADD = $(LDADDS)
-testframe_LDADD = $(LDADDS)
-testcairo_LDADD = $(LDADDS)
-testcalendar_LDADD = $(LDADDS)
-testcombo_LDADD = $(LDADDS)
-testcombochange_LDADD = $(LDADDS)
-testcellrenderertext_LDADD = $(LDADDS)
-testclientmessage_LDADD = $(LDADDS)
-testdnd_LDADD = $(LDADDS)
-testellipsise_LDADD = $(LDADDS)
-testentrycompletion_LDADD = $(LDADDS)
-testentryicons_LDADD = $(LDADDS)
-testfilechooser_LDADD = $(LDADDS)
-testfilechooserbutton_LDADD = $(LDADDS)
-testgtk_LDADD = $(LDADDS)
-testicontheme_LDADD = $(LDADDS)
-testiconview_LDADD = $(LDADDS)
-testinput_LDADD = $(LDADDS)
-testimage_LDADD = $(LDADDS)
-testmenus_LDADD = $(LDADDS)
-testmenubars_LDADD = $(LDADDS)
-testmountoperation_LDADD = $(LDADDS)
-testmultidisplay_LDADD = $(LDADDS)
-testmultiscreen_LDADD = $(LDADDS)
-testnotebookdnd_LDADD = $(LDADDS)
-testnouiprint_LDADD = $(LDADDS)
-testoffscreen_LDADD = $(LDADDS)
-testoffscreenwindow_LDADD = $(LDADDS)
-testorientable_LDADD = $(LDADDS)
-testprint_LDADD = $(LDADDS)
-testrecentchooser_LDADD = $(LDADDS)
-testrecentchoosermenu_LDADD = $(LDADDS)
-testrgb_LDADD = $(LDADDS)
-testrichtext_LDADD = $(LDADDS)
-testscale_LDADD = $(LDADDS)
-testselection_LDADD = $(LDADDS)
-testsocket_LDADD = $(LDADDS)
-testsocket_child_LDADD = $(LDADDS)
-testspinbutton_LDADD = $(LDADDS)
-teststatusicon_LDADD = $(LDADDS)
-testtoolbar_LDADD = $(LDADDS)
-stresstest_toolbar_LDADD = $(LDADDS)
-testtreeedit_LDADD = $(LDADDS)
-testtreemodel_LDADD = $(LDADDS)
-testtreeview_LDADD = $(LDADDS)
-testtreefocus_LDADD = $(LDADDS)
-testtreeflow_LDADD = $(LDADDS)
-testtreecolumns_LDADD = $(LDADDS)
-testtreecolumnsizing_LDADD = $(LDADDS)
-testtreesort_LDADD = $(LDADDS)
-testtext_LDADD = $(LDADDS)
-treestoretest_LDADD = $(LDADDS)
-testxinerama_LDADD = $(LDADDS)
-pixbuf_read_LDADD = $(LDADDS)
-pixbuf_lowmem_LDADD = $(LDADDS)
-pixbuf_randomly_modified_LDADD = $(LDADDS)
-pixbuf_random_LDADD = $(LDADDS)
-pixbuf_threads_LDADD = $(LDADDS) $(GLIB_LIBS)
-testmerge_LDADD = $(LDADDS)
-testactions_LDADD = $(LDADDS)
-testgrouping_LDADD = $(LDADDS)
-testtooltips_LDADD = $(LDADDS)
-testvolumebutton_LDADD = $(LDADDS)
-testwindows_LDADD = $(LDADDS)
-
 
 testentrycompletion_SOURCES = 	\
 	prop-editor.c		\
@@ -321,6 +242,9 @@ testframe_SOURCES = 		\
 testiconview_SOURCES = 		\
 	testiconview.c		\
 	prop-editor.c
+
+testiconview_keynav_SOURCES = 	\
+	testiconview-keynav.c
 
 testrecentchooser_SOURCES = 	\
 	prop-editor.c 		\

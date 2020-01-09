@@ -93,6 +93,7 @@ struct _GtkCupsRequest
 
   gint state;
   GtkCupsPollState poll_state;
+  guint64 bytes_received;
 
   gchar *password;
   gchar *username;
@@ -111,6 +112,7 @@ struct _GtkCupsConnectionTest
   GtkCupsConnectionState at_init;
   http_addrlist_t       *addrlist;
   http_addrlist_t       *current_addr;
+  http_addrlist_t       *last_wrong_addr;
   gint                   socket;
 #endif
 };
@@ -171,7 +173,8 @@ void                    gtk_cups_request_ipp_add_strings   (GtkCupsRequest     *
 const char            * gtk_cups_request_ipp_get_string    (GtkCupsRequest     *request,
 							    ipp_tag_t           tag,
 							    const char         *name);
-gboolean                gtk_cups_request_read_write        (GtkCupsRequest     *request);
+gboolean                gtk_cups_request_read_write        (GtkCupsRequest     *request,
+                                                            gboolean            connect_only);
 GtkCupsPollState        gtk_cups_request_get_poll_state    (GtkCupsRequest     *request);
 void                    gtk_cups_request_free              (GtkCupsRequest     *request);
 GtkCupsResult         * gtk_cups_request_get_result        (GtkCupsRequest     *request);
@@ -179,6 +182,9 @@ gboolean                gtk_cups_request_is_done           (GtkCupsRequest     *
 void                    gtk_cups_request_encode_option     (GtkCupsRequest     *request,
 						            const gchar        *option,
 							    const gchar        *value);
+void                    gtk_cups_request_set_ipp_version   (GtkCupsRequest     *request,
+							    gint                major,
+							    gint                minor);
 gboolean                gtk_cups_result_is_error           (GtkCupsResult      *result);
 ipp_t                 * gtk_cups_result_get_response       (GtkCupsResult      *result);
 GtkCupsErrorType        gtk_cups_result_get_error_type     (GtkCupsResult      *result);

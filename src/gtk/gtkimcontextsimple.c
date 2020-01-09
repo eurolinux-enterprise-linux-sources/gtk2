@@ -337,6 +337,65 @@ check_win32_special_case_after_compact_match (GtkIMContextSimple    *context_sim
 
 #endif
 
+#ifdef GDK_WINDOWING_QUARTZ
+
+static gboolean
+check_quartz_special_cases (GtkIMContextSimple *context_simple,
+                            gint                n_compose)
+{
+  guint value = 0;
+
+  if (n_compose == 2)
+    {
+      switch (context_simple->compose_buffer[0])
+        {
+        case GDK_KEY_dead_doubleacute:
+          switch (context_simple->compose_buffer[1])
+            {
+            case GDK_KEY_dead_doubleacute:
+            case GDK_KEY_space:
+              value = GDK_KEY_quotedbl; break;
+
+            case 'a': value = GDK_KEY_adiaeresis; break;
+            case 'A': value = GDK_KEY_Adiaeresis; break;
+            case 'e': value = GDK_KEY_ediaeresis; break;
+            case 'E': value = GDK_KEY_Ediaeresis; break;
+            case 'i': value = GDK_KEY_idiaeresis; break;
+            case 'I': value = GDK_KEY_Idiaeresis; break;
+            case 'o': value = GDK_KEY_odiaeresis; break;
+            case 'O': value = GDK_KEY_Odiaeresis; break;
+            case 'u': value = GDK_KEY_udiaeresis; break;
+            case 'U': value = GDK_KEY_Udiaeresis; break;
+            case 'y': value = GDK_KEY_ydiaeresis; break;
+            case 'Y': value = GDK_KEY_Ydiaeresis; break;
+            }
+          break;
+
+        case GDK_KEY_dead_acute:
+          switch (context_simple->compose_buffer[1])
+            {
+            case 'c': value = GDK_KEY_ccedilla; break;
+            case 'C': value = GDK_KEY_Ccedilla; break;
+            }
+          break;
+        }
+    }
+
+  if (value > 0)
+    {
+      gtk_im_context_simple_commit_char (GTK_IM_CONTEXT (context_simple),
+                                         gdk_keyval_to_unicode (value));
+      context_simple->compose_buffer[0] = 0;
+
+      GTK_NOTE (MISC, g_print ("quartz: U+%04X\n", value));
+      return TRUE;
+    }
+
+  return FALSE;
+}
+
+#endif
+
 static gboolean
 check_compact_table (GtkIMContextSimple    *context_simple,
 	     const GtkComposeTableCompact *table,
@@ -669,7 +728,7 @@ beep_window (GdkWindow *window)
     }
   else
     {
-      GdkScreen *screen = gdk_drawable_get_screen (GDK_DRAWABLE (window));
+      GdkScreen *screen = gdk_window_get_screen (window);
       gboolean   beep;
 
       g_object_get (gtk_settings_get_for_screen (screen),
@@ -744,7 +803,7 @@ is_hex_keyval (guint keyval)
 static guint
 canonical_hex_keyval (GdkEventKey *event)
 {
-  GdkKeymap *keymap = gdk_keymap_get_for_display (gdk_drawable_get_display (event->window));
+  GdkKeymap *keymap = gdk_keymap_get_for_display (gdk_window_get_display (event->window));
   guint keyval;
   guint *keyvals = NULL;
   gint n_vals = 0;
@@ -871,7 +930,7 @@ gtk_im_context_simple_filter_keypress (GtkIMContext *context,
       (context_simple->in_hex_sequence && !hex_keyval && 
        !is_hex_start && !is_hex_end && !is_escape && !is_backspace))
     {
-      if (event->state & (GDK_MOD1_MASK | GDK_CONTROL_MASK) ||
+      if (event->state & GTK_NO_TEXT_INPUT_MOD_MASK ||
 	  (context_simple->in_hex_sequence && context_simple->modifiers_dropped &&
 	   (event->keyval == GDK_Return || 
 	    event->keyval == GDK_ISO_Enter ||
@@ -1024,6 +1083,11 @@ gtk_im_context_simple_filter_keypress (GtkIMContext *context,
 #ifdef GDK_WINDOWING_WIN32
       if (check_win32_special_cases (context_simple, n_compose))
 	return TRUE;
+#endif
+
+#ifdef GDK_WINDOWING_QUARTZ
+      if (check_quartz_special_cases (context_simple, n_compose))
+        return TRUE;
 #endif
 
       if (check_compact_table (context_simple, &gtk_compose_table_compact, n_compose))

@@ -116,16 +116,14 @@ static void             gail_tree_view_set_caption      (AtkTable               
 static AtkObject*       gail_tree_view_get_summary      (AtkTable               *table);
 static void             gail_tree_view_set_summary      (AtkTable               *table,
                                                          AtkObject              *accessible);
-static G_CONST_RETURN gchar*
-                        gail_tree_view_get_row_description 
+static const gchar*     gail_tree_view_get_row_description
                                                         (AtkTable               *table,
                                                          gint                   row);
 static void             gail_tree_view_set_row_description 
                                                         (AtkTable               *table,
                                                          gint                   row,
                                                          const gchar            *description);
-static G_CONST_RETURN gchar*
-                        gail_tree_view_get_column_description
+static const gchar*     gail_tree_view_get_column_description
                                                         (AtkTable               *table,
                                                          gint                   column);
 static void             gail_tree_view_set_column_description
@@ -481,10 +479,10 @@ gail_tree_view_real_initialize (AtkObject *obj,
       g_object_add_weak_pointer (G_OBJECT (view->tree_model), (gpointer *)&view->tree_model);
       connect_model_signals (tree_view, view);
 
-      if (GTK_IS_TREE_STORE (tree_model))
-        obj->role = ATK_ROLE_TREE_TABLE;
-      else
+      if (gtk_tree_model_get_flags (tree_model) & GTK_TREE_MODEL_LIST_ONLY)
         obj->role = ATK_ROLE_TABLE;
+      else
+        obj->role = ATK_ROLE_TREE_TABLE;
     }
   else
     {
@@ -557,7 +555,10 @@ gail_tree_view_real_notify_gtk (GObject             *obj,
 
       tree_model = gtk_tree_view_get_model (tree_view);
       if (gailview->tree_model)
-        disconnect_model_signals (gailview);
+        {
+          g_object_remove_weak_pointer (G_OBJECT (gailview->tree_model), (gpointer *)&gailview->tree_model);
+          disconnect_model_signals (gailview);
+        }
       clear_cached_data (gailview);
       gailview->tree_model = tree_model;
       /*
@@ -568,10 +569,10 @@ gail_tree_view_real_notify_gtk (GObject             *obj,
           g_object_add_weak_pointer (G_OBJECT (gailview->tree_model), (gpointer *)&gailview->tree_model);
           connect_model_signals (tree_view, gailview);
 
-          if (GTK_IS_TREE_STORE (tree_model))
-            role = ATK_ROLE_TREE_TABLE;
-          else
+          if (gtk_tree_model_get_flags (tree_model) & GTK_TREE_MODEL_LIST_ONLY)
             role = ATK_ROLE_TABLE;
+          else
+            role = ATK_ROLE_TREE_TABLE;
         }
       else
         {
@@ -634,7 +635,10 @@ gail_tree_view_finalize (GObject	    *object)
     g_object_unref (view->summary);
 
   if (view->tree_model)
-    disconnect_model_signals (view);
+    {
+      g_object_remove_weak_pointer (G_OBJECT (view->tree_model), (gpointer *)&view->tree_model);
+      disconnect_model_signals (view);
+    }
 
   if (view->col_data)
     {
@@ -686,6 +690,7 @@ gail_tree_view_destroyed (GtkWidget *widget,
                                           widget);
   if (gailview->tree_model)
     {
+      g_object_remove_weak_pointer (G_OBJECT (gailview->tree_model), (gpointer *)&gailview->tree_model);
       disconnect_model_signals (gailview);
       gailview->tree_model = NULL;
     }
@@ -1609,7 +1614,7 @@ gail_tree_view_set_caption (AtkTable	*table,
     g_object_unref (old_caption);
 }
 
-static G_CONST_RETURN gchar*
+static const gchar*
 gail_tree_view_get_column_description (AtkTable	  *table,
                                        gint       in_col)
 {
@@ -1674,7 +1679,7 @@ gail_tree_view_set_column_description (AtkTable	   *table,
                          &values, NULL);
 }
 
-static G_CONST_RETURN gchar*
+static const gchar*
 gail_tree_view_get_row_description (AtkTable    *table,
                                     gint        row)
 {

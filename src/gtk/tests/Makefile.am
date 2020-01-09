@@ -10,12 +10,10 @@ INCLUDES = \
 	$(GTK_DEP_CFLAGS)
 
 DEPS = \
-	$(top_builddir)/gdk-pixbuf/libgdk_pixbuf-$(GTK_API_VERSION).la	\
 	$(top_builddir)/gdk/$(gdktargetlib)				\
 	$(top_builddir)/gtk/$(gtktargetlib)
 
 progs_ldadd = \
-	$(top_builddir)/gdk-pixbuf/libgdk_pixbuf-$(GTK_API_VERSION).la	\
 	$(top_builddir)/gdk/$(gdktargetlib)				\
 	$(top_builddir)/gtk/$(gtktargetlib)				\
 	$(GTK_DEP_LIBS)
@@ -64,9 +62,9 @@ crossingevents_LDADD		 = $(progs_ldadd)
 
 # this doesn't work in make distcheck, since it doesn't
 # find file-chooser-test-dir 
-# TEST_PROGS			+= filechooser
-filechooser_SOURCES		 = filechooser.c pixbuf-init.c
-filechooser_LDADD		 = $(progs_ldadd)
+#TEST_PROGS			+= filechooser
+#filechooser_SOURCES		 = filechooser.c pixbuf-init.c
+#filechooser_LDADD		 = $(progs_ldadd)
 
 TEST_PROGS			+= builder
 builder_SOURCES			 = builder.c

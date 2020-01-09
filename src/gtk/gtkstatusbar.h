@@ -25,12 +25,12 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
+#ifndef __GTK_STATUSBAR_H__
+#define __GTK_STATUSBAR_H__
+
 #if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
 #error "Only <gtk/gtk.h> can be included directly."
 #endif
-
-#ifndef __GTK_STATUSBAR_H__
-#define __GTK_STATUSBAR_H__
 
 #include <gtk/gtkhbox.h>
 
@@ -102,6 +102,9 @@ void       gtk_statusbar_pop          	(GtkStatusbar *statusbar,
 void       gtk_statusbar_remove        	(GtkStatusbar *statusbar,
 					 guint	       context_id,
 					 guint         message_id);
+void       gtk_statusbar_remove_all    	(GtkStatusbar *statusbar,
+					 guint	       context_id);
+					 
 
 void     gtk_statusbar_set_has_resize_grip (GtkStatusbar *statusbar,
 					    gboolean      setting);

@@ -161,13 +161,16 @@ gdk_quartz_draw_rectangle (GdkDrawable *drawable,
   if (!context)
     return;
 
-  _gdk_quartz_gc_update_cg_context (gc, 
-				    drawable,
-				    context,
-				    filled ?
-				    GDK_QUARTZ_CONTEXT_FILL : 
-				    GDK_QUARTZ_CONTEXT_STROKE);
-
+  if(!_gdk_quartz_gc_update_cg_context (gc,
+					drawable,
+					context,
+					filled ?
+					GDK_QUARTZ_CONTEXT_FILL :
+					GDK_QUARTZ_CONTEXT_STROKE))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
   if (filled)
     {
       CGRect rect = CGRectMake (x, y, width, height);
@@ -202,11 +205,14 @@ gdk_quartz_draw_arc (GdkDrawable *drawable,
   if (!context)
     return;
 
-  _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-				    filled ?
-				    GDK_QUARTZ_CONTEXT_FILL :
-				    GDK_QUARTZ_CONTEXT_STROKE);
-
+  if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					 filled ?
+					 GDK_QUARTZ_CONTEXT_FILL :
+					 GDK_QUARTZ_CONTEXT_STROKE))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
   start_angle = angle1 * 2.0 * G_PI / 360.0 / 64.0;
   end_angle = start_angle + angle2 * 2.0 * G_PI / 360.0 / 64.0;
 
@@ -271,11 +277,14 @@ gdk_quartz_draw_polygon (GdkDrawable *drawable,
   if (!context)
     return;
 
-  _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-				    filled ?
-				    GDK_QUARTZ_CONTEXT_FILL :
-				    GDK_QUARTZ_CONTEXT_STROKE);
-
+  if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					 filled ?
+					 GDK_QUARTZ_CONTEXT_FILL :
+					 GDK_QUARTZ_CONTEXT_STROKE))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
   if (filled)
     {
       CGContextMoveToPoint (context, points[0].x, points[0].y);
@@ -350,10 +359,92 @@ gdk_quartz_draw_drawable (GdkDrawable *drawable,
        */
       if (drawable == (GdkDrawable *)window_impl)
         {
-          [window_impl->view scrollRect:NSMakeRect (xsrc, ysrc, width, height)
-                                     by:NSMakeSize (xdest - xsrc, ydest - ysrc)];
+          NSRect rect = NSMakeRect (xsrc, ysrc, width, height);
+          NSSize offset = NSMakeSize (xdest - xsrc, ydest - ysrc);
+          GdkRectangle tmp_rect;
+          GdkRegion *orig_region, *offset_region, *need_display_region;
+          GdkWindow *window = GDK_DRAWABLE_IMPL_QUARTZ (drawable)->wrapper;
 
+          /* Origin region */
+          tmp_rect.x = xsrc;
+          tmp_rect.y = ysrc;
+          tmp_rect.width = width;
+          tmp_rect.height = height;
+          orig_region = gdk_region_rectangle (&tmp_rect);
 
+          /* Destination region (or the offset region) */
+          offset_region = gdk_region_copy (orig_region);
+          gdk_region_offset (offset_region, offset.width, offset.height);
+
+          need_display_region = gdk_region_copy (orig_region);
+
+          if (window_impl->in_paint_rect_count == 0)
+            {
+              GdkRegion *bottom_border_region;
+
+              /* If we are not in drawRect:, we can use scrollRect:.
+               * We apply scrollRect on the rectangle to be moved and
+               * subtract this area from the rectangle that needs display.
+               *
+               * Note: any area in this moved region that already needed
+               * display will be handled by GDK (queue translation).
+               *
+               * Queuing the redraw below is important, otherwise the
+               * results from scrollRect will not take effect!
+               */
+              [window_impl->view scrollRect:rect by:offset];
+
+              gdk_region_subtract (need_display_region, offset_region);
+
+              /* Here we take special care with the bottom window border,
+               * which extents 4 pixels and typically draws rounded corners.
+               */
+              tmp_rect.x = 0;
+              tmp_rect.y = gdk_window_get_height (window) - 4;
+              tmp_rect.width = gdk_window_get_width (window);
+              tmp_rect.height = 4;
+
+              if (gdk_region_rect_in (offset_region, &tmp_rect) !=
+                  GDK_OVERLAP_RECTANGLE_OUT)
+                {
+                  /* We are copying pixels to the bottom border, we need
+                   * to submit this area for redisplay to get the rounded
+                   * corners drawn.
+                   */
+                  gdk_region_union_with_rect (need_display_region,
+                                              &tmp_rect);
+                }
+
+              /* Compute whether the bottom border is moved elsewhere.
+               * Because this part will have rounded corners, we have
+               * to fill the contents of where the rounded corners used
+               * to be. We post this area for redisplay.
+               */
+              bottom_border_region = gdk_region_rectangle (&tmp_rect);
+              gdk_region_intersect (bottom_border_region,
+                                    orig_region);
+
+              gdk_region_offset (bottom_border_region,
+                                 offset.width, offset.height);
+
+              gdk_region_union (need_display_region, bottom_border_region);
+
+              gdk_region_destroy (bottom_border_region);
+            }
+          else
+            {
+              /* If we cannot handle things with a scroll, we must redisplay
+               * the union of the source area and the destination area.
+               */
+              gdk_region_union (need_display_region, offset_region);
+            }
+
+          _gdk_quartz_window_set_needs_display_in_region (window,
+                                                          need_display_region);
+
+          gdk_region_destroy (orig_region);
+          gdk_region_destroy (offset_region);
+          gdk_region_destroy (need_display_region);
         }
       else
         g_warning ("Drawing with window source != dest is not supported");
@@ -380,21 +471,27 @@ gdk_quartz_draw_drawable (GdkDrawable *drawable,
     {
       GdkPixmapImplQuartz *pixmap_impl = GDK_PIXMAP_IMPL_QUARTZ (src_impl);
       CGContextRef context = gdk_quartz_drawable_get_context (drawable, FALSE);
+      CGImageRef image;
 
       if (!context)
         return;
 
-      _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-                                        GDK_QUARTZ_CONTEXT_STROKE);
-
+      if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					     GDK_QUARTZ_CONTEXT_STROKE))
+	{
+	  gdk_quartz_drawable_release_context (drawable, context);
+	  return;
+	}
       CGContextClipToRect (context, CGRectMake (xdest, ydest, width, height));
       CGContextTranslateCTM (context, xdest - xsrc, ydest - ysrc +
                              pixmap_impl->height);
       CGContextScaleCTM (context, 1.0, -1.0);
 
+      image = _gdk_pixmap_get_cgimage (src);
       CGContextDrawImage (context,
                           CGRectMake (0, 0, pixmap_impl->width, pixmap_impl->height),
-                          pixmap_impl->image);
+                          image);
+      CGImageRelease (image);
 
       gdk_quartz_drawable_release_context (drawable, context);
     }
@@ -415,10 +512,13 @@ gdk_quartz_draw_points (GdkDrawable *drawable,
   if (!context)
     return;
 
-  _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-				    GDK_QUARTZ_CONTEXT_STROKE |
-				    GDK_QUARTZ_CONTEXT_FILL);
-
+  if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					 GDK_QUARTZ_CONTEXT_STROKE |
+					 GDK_QUARTZ_CONTEXT_FILL))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
   /* Just draw 1x1 rectangles */
   for (i = 0; i < npoints; i++) 
     {
@@ -471,9 +571,12 @@ gdk_quartz_draw_segments (GdkDrawable    *drawable,
 
   private = GDK_GC_QUARTZ (gc);
 
-  _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-				    GDK_QUARTZ_CONTEXT_STROKE);
-
+  if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					 GDK_QUARTZ_CONTEXT_STROKE))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
   for (i = 0; i < nsegs; i++)
     {
       gint xfix, yfix;
@@ -508,9 +611,12 @@ gdk_quartz_draw_lines (GdkDrawable *drawable,
 
   private = GDK_GC_QUARTZ (gc);
 
-  _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-				    GDK_QUARTZ_CONTEXT_STROKE);
-
+  if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					 GDK_QUARTZ_CONTEXT_STROKE))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
   CGContextMoveToPoint (context, points[0].x + 0.5, points[0].y + 0.5);
 
   for (i = 1; i < npoints - 1; i++)
@@ -575,9 +681,12 @@ gdk_quartz_draw_pixbuf (GdkDrawable     *drawable,
   CGDataProviderRelease (data_provider);
   CGColorSpaceRelease (colorspace);
 
-  _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-				    GDK_QUARTZ_CONTEXT_STROKE);
-
+  if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					 GDK_QUARTZ_CONTEXT_STROKE))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
   CGContextClipToRect (context, CGRectMake (dest_x, dest_y, width, height));
   CGContextTranslateCTM (context, dest_x - src_x, dest_y - src_y + pixbuf_height);
   CGContextScaleCTM (context, 1, -1);
@@ -621,8 +730,12 @@ gdk_quartz_draw_image (GdkDrawable     *drawable,
   CGDataProviderRelease (data_provider);
   CGColorSpaceRelease (colorspace);
 
-  _gdk_quartz_gc_update_cg_context (gc, drawable, context,
-				    GDK_QUARTZ_CONTEXT_STROKE);
+  if (!_gdk_quartz_gc_update_cg_context (gc, drawable, context,
+					 GDK_QUARTZ_CONTEXT_STROKE))
+    {
+      gdk_quartz_drawable_release_context (drawable, context);
+      return;
+    }
 
   CGContextClipToRect (context, CGRectMake (xdest, ydest, width, height));
   CGContextTranslateCTM (context, xdest - xsrc, ydest - ysrc + image->height);

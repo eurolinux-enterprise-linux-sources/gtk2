@@ -27,6 +27,7 @@
 #include <gdk/gdkprivate.h>
 #include <gdk/quartz/gdkpixmap-quartz.h>
 #include <gdk/quartz/gdkwindow-quartz.h>
+#include <gdk/quartz/gdkquartz.h>
 
 #include <gdk/gdk.h>
 
@@ -71,6 +72,7 @@ struct _GdkGCQuartz
   CGFloat           dash_phase;
 
   CGPatternRef      ts_pattern;
+  void             *ts_pattern_info;
 
   guint             is_window : 1;
 };
@@ -123,18 +125,14 @@ GType  _gdk_gc_quartz_get_type          (void);
 GdkGC *_gdk_quartz_gc_new               (GdkDrawable                *drawable,
 					 GdkGCValues                *values,
 					 GdkGCValuesMask             values_mask);
-void   _gdk_quartz_gc_update_cg_context (GdkGC                      *gc,
-					 GdkDrawable                *drawable,
-					 CGContextRef                context,
-					 GdkQuartzContextValuesMask  mask);
+gboolean _gdk_quartz_gc_update_cg_context (GdkGC                      *gc,
+					   GdkDrawable                *drawable,
+					   CGContextRef                context,
+					   GdkQuartzContextValuesMask  mask);
 
 /* Colormap */
-void _gdk_quartz_colormap_get_rgba_from_pixel (GdkColormap *colormap,
-					       guint32      pixel,
-					       CGFloat     *red,
-					       CGFloat     *green,
-					       CGFloat     *blue,
-					       CGFloat     *alpha);
+CGColorRef _gdk_quartz_colormap_get_cgcolor_from_pixel (GdkDrawable *drawable,
+                                                        guint32      pixel);
 
 /* Window */
 gboolean    _gdk_quartz_window_is_ancestor          (GdkWindow *ancestor,
@@ -162,6 +160,8 @@ void       _gdk_quartz_window_debug_highlight       (GdkWindow *window,
 
 void       _gdk_quartz_window_set_needs_display_in_rect (GdkWindow    *window,
                                                          GdkRectangle *rect);
+void       _gdk_quartz_window_set_needs_display_in_region (GdkWindow    *window,
+                                                           GdkRegion    *region);
 
 void       _gdk_quartz_window_update_position           (GdkWindow    *window);
 
@@ -175,7 +175,10 @@ void         _gdk_quartz_events_update_focus_window    (GdkWindow *new_window,
 void         _gdk_quartz_events_send_map_event         (GdkWindow *window);
 GdkEventMask _gdk_quartz_events_get_current_event_mask (void);
 
-void         _gdk_quartz_events_send_enter_notify_event (GdkWindow *window);
+GdkModifierType _gdk_quartz_events_get_current_keyboard_modifiers (void);
+GdkModifierType _gdk_quartz_events_get_current_mouse_modifiers    (void);
+
+void         _gdk_quartz_events_break_all_grabs         (guint32    time);
 
 /* Event loop */
 gboolean   _gdk_quartz_event_loop_check_pending (void);
@@ -195,6 +198,7 @@ GdkImage *_gdk_quartz_image_copy_to_image (GdkDrawable *drawable,
 /* Keys */
 GdkEventType _gdk_quartz_keys_event_type  (NSEvent   *event);
 gboolean     _gdk_quartz_keys_is_modifier (guint      keycode);
+void         _gdk_quartz_synthesize_null_key_event (GdkWindow *window);
 
 /* Drawable */
 void        _gdk_quartz_drawable_finish (GdkDrawable *drawable);
@@ -211,5 +215,8 @@ void        _gdk_quartz_window_queue_translation (GdkWindow *window,
                                                   gint       dy);
 gboolean    _gdk_quartz_window_queue_antiexpose  (GdkWindow *window,
                                                   GdkRegion *area);
+
+/* Pixmap */
+CGImageRef _gdk_pixmap_get_cgimage (GdkPixmap *pixmap);
 
 #endif /* __GDK_PRIVATE_QUARTZ_H__ */

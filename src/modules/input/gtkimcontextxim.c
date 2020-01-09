@@ -327,25 +327,6 @@ setup_im (GtkXIMInfo *info)
 		NULL);
 
   info->settings = gtk_settings_get_for_screen (info->screen);
-
-  if (!g_object_class_find_property (G_OBJECT_GET_CLASS (info->settings),
-				     "gtk-im-preedit-style"))
-    gtk_settings_install_property (g_param_spec_enum ("gtk-im-preedit-style",
-						      P_("IM Preedit style"),
-						      P_("How to draw the input method preedit string"),
-						      GTK_TYPE_IM_PREEDIT_STYLE,
-						      GTK_IM_PREEDIT_CALLBACK,
-						      G_PARAM_READWRITE));
-
-  if (!g_object_class_find_property (G_OBJECT_GET_CLASS (info->settings),
-				     "gtk-im-status-style"))
-    gtk_settings_install_property (g_param_spec_enum ("gtk-im-status-style",
-						      P_("IM Status style"),
-						      P_("How to draw the input method statusbar"),
-						      GTK_TYPE_IM_STATUS_STYLE,
-						      GTK_IM_STATUS_CALLBACK,
-						      G_PARAM_READWRITE));
-
   info->status_set = g_signal_connect_swapped (info->settings,
 					       "notify::gtk-im-status-style",
 					       G_CALLBACK (status_style_change),
@@ -495,7 +476,7 @@ get_im (GdkWindow *client_window,
 {
   GSList *tmp_list;
   GtkXIMInfo *info;
-  GdkScreen *screen = gdk_drawable_get_screen (client_window);
+  GdkScreen *screen = gdk_window_get_screen (client_window);
 
   info = NULL;
   tmp_list = open_ims;
@@ -716,7 +697,7 @@ gtk_im_context_xim_filter_keypress (GtkIMContext *context,
   KeySym keysym;
   Status status;
   gboolean result = FALSE;
-  GdkWindow *root_window = gdk_screen_get_root_window (gdk_drawable_get_screen (event->window));
+  GdkWindow *root_window = gdk_screen_get_root_window (gdk_window_get_screen (event->window));
 
   XKeyPressedEvent xevent;
 
@@ -1772,16 +1753,21 @@ static gboolean
 on_status_window_expose_event (GtkWidget      *widget,
 			       GdkEventExpose *event)
 {
-  gdk_draw_rectangle (widget->window,
-		      widget->style->base_gc [GTK_STATE_NORMAL],
-		      TRUE,
-		      0, 0,
-		      widget->allocation.width, widget->allocation.height);
-  gdk_draw_rectangle (widget->window,
-		      widget->style->text_gc [GTK_STATE_NORMAL],
-		      FALSE,
-		      0, 0,
-		      widget->allocation.width - 1, widget->allocation.height - 1);
+  cairo_t *cr;
+
+  cr = gdk_cairo_create (widget->window);
+
+  gdk_cairo_set_source_color (cr, &widget->style->base[GTK_STATE_NORMAL]);
+  cairo_rectangle (cr,
+                   0, 0,
+                   widget->allocation.width, widget->allocation.height);
+  cairo_fill (cr);
+
+  gdk_cairo_set_source_color (cr, &widget->style->text[GTK_STATE_NORMAL]);
+  cairo_rectangle (cr, 
+                   0, 0,
+                   widget->allocation.width - 1, widget->allocation.height - 1);
+  cairo_fill (cr);
 
   return FALSE;
 }

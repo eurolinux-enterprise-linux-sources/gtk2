@@ -580,6 +580,8 @@ gtk_cell_view_cell_layout_pack_start (GtkCellLayout   *layout,
   info->pack = GTK_PACK_START;
 
   cellview->priv->cell_list = g_list_append (cellview->priv->cell_list, info);
+
+  gtk_widget_queue_resize (GTK_WIDGET (cellview));
 }
 
 static void
@@ -600,6 +602,8 @@ gtk_cell_view_cell_layout_pack_end (GtkCellLayout   *layout,
   info->pack = GTK_PACK_END;
 
   cellview->priv->cell_list = g_list_append (cellview->priv->cell_list, info);
+
+  gtk_widget_queue_resize (GTK_WIDGET (cellview));
 }
 
 static void
@@ -635,6 +639,8 @@ gtk_cell_view_cell_layout_clear (GtkCellLayout *layout)
       cellview->priv->cell_list = g_list_delete_link (cellview->priv->cell_list, 
 						      cellview->priv->cell_list);
     }
+
+  gtk_widget_queue_resize (GTK_WIDGET (cellview));
 }
 
 static void
@@ -851,7 +857,6 @@ gtk_cell_view_set_value (GtkCellView     *cell_view,
 
   /* force resize and redraw */
   gtk_widget_queue_resize (GTK_WIDGET (cell_view));
-  gtk_widget_queue_draw (GTK_WIDGET (cell_view));
 }
 
 /**
@@ -886,6 +891,8 @@ gtk_cell_view_set_model (GtkCellView  *cell_view,
 
   if (cell_view->priv->model)
     g_object_ref (cell_view->priv->model);
+
+  gtk_widget_queue_resize (GTK_WIDGET (cell_view));
 }
 
 /**
@@ -895,7 +902,7 @@ gtk_cell_view_set_model (GtkCellView  *cell_view,
  * Returns the model for @cell_view. If no model is used %NULL is
  * returned.
  *
- * Returns: a #GtkTreeModel used or %NULL
+ * Returns: (transfer none): a #GtkTreeModel used or %NULL
  *
  * Since: 2.16
  **/
@@ -941,7 +948,6 @@ gtk_cell_view_set_displayed_row (GtkCellView *cell_view,
 
   /* force resize and redraw */
   gtk_widget_queue_resize (GTK_WIDGET (cell_view));
-  gtk_widget_queue_draw (GTK_WIDGET (cell_view));
 }
 
 /**
@@ -971,7 +977,7 @@ gtk_cell_view_get_displayed_row (GtkCellView *cell_view)
  * gtk_cell_view_get_size_of_row:
  * @cell_view: a #GtkCellView
  * @path: a #GtkTreePath 
- * @requisition: return location for the size 
+ * @requisition: (out): return location for the size 
  *
  * Sets @requisition to the size needed by @cell_view to display 
  * the model row pointed to by @path.

@@ -44,7 +44,7 @@
  *
  * #GtkFileChooser allows for shortcuts to various places in the filesystem.
  * In the default implementation these are displayed in the left pane. It
- * may be a bit confusing at first taht these shortcuts come from various
+ * may be a bit confusing at first that these shortcuts come from various
  * sources and in various flavours, so lets explain the terminology here:
  * <variablelist>
  *    <varlistentry>
@@ -223,18 +223,25 @@
  * 	      <row>
  * 		<entry>up-folder</entry>
  * 		<entry>
- * 		  <keycombo><keycap>Alt</keycap><keycap>Up</keycap></keycombo>
+ * 		  <keycombo><keycap>Alt</keycap><keycap>Up</keycap></keycombo>;
+ *                <keycombo><keycap>Alt</keycap><keycap>Shift</keycap><keycap>Up</keycap></keycombo>
  *                <footnote>
  * 		      Both the individual Up key and the numeric
  * 		      keypad's Up key are supported.
- * 		  </footnote>
- * 		  ;
+ * 		  </footnote>;
  * 		  <keycap>Backspace</keycap>
  * 		</entry>
  * 	      </row>
  * 	      <row>
  * 		<entry>down-folder</entry>
- * 		<entry><keycombo><keycap>Alt</keycap><keycap>Down</keycap></keycombo></entry>
+ * 		<entry>
+ *                <keycombo><keycap>Alt</keycap><keycap>Down</keycap></keycombo>;
+ *                <keycombo><keycap>Alt</keycap><keycap>Shift</keycap><keycap>Down</keycap></keycombo>
+ *                <footnote>
+ * 		      Both the individual Down key and the numeric
+ * 		      keypad's Down key are supported.
+ * 		  </footnote>
+ *              </entry>
  * 	      </row>
  * 	      <row>
  * 		<entry>home-folder</entry>
@@ -255,7 +262,7 @@
  * You can change these defaults to something else.  For
  * example, to add a <keycap>Shift</keycap> modifier to a few
  * of the default bindings, you can include the following
- * fragment in your <filename>.gtkrc-2.0</filename> file:
+ * fragment in your <filename>.gtkrc-3.0</filename> file:
  * </para>
  * <programlisting>
  * binding "my-own-gtkfilechooser-bindings" {
@@ -323,14 +330,14 @@
  * 	</variablelist>
  * <note>
  *    You can create your own bindings for the
- *    GtkFileChooserDefault::location-popup signal with custom
+ *    #GtkFileChooserDefault::location-popup signal with custom
  *    <parameter>path</parameter> strings, and have a crude form
  *    of easily-to-type bookmarks.  For example, say you access
  *    the path <filename>/home/username/misc</filename> very
  *    frequently.  You could then create an <keycombo>
  *    <keycap>Alt</keycap> <keycap>M</keycap> </keycombo>
  *    shortcut by including the following in your
- *    <filename>.gtkrc-2.0</filename>:
+ *    <filename>.gtkrc-3.0</filename>:
  *    <programlisting>
  *    binding "misc-shortcut" {
  *       bind "&lt;Alt&gt;M" {
@@ -520,6 +527,98 @@
  * 	    </listitem>
  * 	  </varlistentry>
  * 	</variablelist>
+ * </refsect3>
+ * </refsect2>
+ * <refsect2 id="gtkfilechooser-configuration-options">
+ * <title>Configuration Options</title>
+ * <para>
+ * In GTK+ 2.x, the file chooser saves its state and configuration options in a
+ * <filename>gtk-2.0/gtkfilechooser.ini</filename> file under the directory that
+ * g_get_user_config_dir() returns.  (On Unix, this usually resolves to
+ * <filename>$HOME/username/.config/gtk-2.0/gtkfilechooser.ini</filename>.)  While some of
+ * the available options can be changed directly through the file chooser's user
+ * interface, a couple are only editable by hand or by third-party tools (such
+ * as <ulink
+ * url="https://wiki.gnome.org/action/show/Apps/GnomeTweakTool">gnome-tweak-tool</ulink>).
+ * This section describes the available options.
+ * </para>
+ * <para>
+ * This is a sample of the contents of a <filename>gtkfilechooser.ini</filename>
+ * file.  Note that all the following options go under a
+ * <literal>[Filechooser Settings]</literal> heading.
+ * </para>
+ * <programlisting>
+ * [Filechooser Settings]
+ * LocationMode=filename-entry
+ * ShowHidden=false
+ * ExpandFolders=true
+ * GeometryX=570
+ * GeometryY=273
+ * GeometryWidth=780
+ * GeometryHeight=585
+ * ShowSizeColumn=true
+ * SortColumn=name
+ * SortOrder=ascending
+ * StartupMode=recent
+ * </programlisting>
+ * <refsect3 id="gtkfilechooser-settings-location-mode">
+ * <title>LocationMode key</title>
+ * <para>
+ * The <literal>LocationMode</literal> key controls whether the file chooser
+ * shows just a path bar, or a visible entry for the filename as well, for the
+ * benefit of typing-oriented users.  The possible string values for these modes
+ * are <literal>path-bar</literal> and <literal>filename-entry</literal>,
+ * respectively.
+ * </para>
+ * </refsect3>
+ * <refsect3 id="gtkfilechooser-settings-show-hidden">
+ * <title>ShowHidden key</title>
+ * <para>
+ * The <literal>ShowHidden</literal> key controls whether the file chooser shows
+ * hidden files or not.  The value can be be <literal>true</literal> or
+ * <literal>false</literal>.
+ * </para>
+ * </refsect3>
+ * <refsect3 id="gtkfilechooser-settings-show-size-column">
+ * <title>ShowSizeColumn key</title>
+ * <para>
+ * The <literal>ShowSize</literal> key controls whether the file chooser shows
+ * a column with file sizes.  The value can be be <literal>true</literal> or
+ * <literal>false</literal>.
+ * </para>
+ * </refsect3>
+ * <refsect3 id="gtkfilechooser-settings-geometry-keys">
+ * <title>Geometry keys</title>
+ * <para>
+ * The four keys <literal>GeometryX</literal>, <literal>GeometryY</literal>,
+ * <literal>GeometryWidth</literal>, <literal>GeometryHeight</literal> save the
+ * position and dimensions of the #GtkFileChooserDialog's window.
+ * </para>
+ * </refsect3>
+ * <refsect3 id="gtkfilechooser-settings-sort-column">
+ * <title>SortColumn key</title>
+ * <para>
+ * The <literal>SortColumn</literal> key can be one of the strings
+ * <literal>name</literal>, <literal>modified</literal>, or
+ * <literal>size</literal>.  It controls which of the columns in the file
+ * chooser is used for sorting the list of files.
+ * </para>
+ * </refsect3>
+ * <refsect3 id="gtkfilechooser-settings-sort-order">
+ * <title>SortOrder key</title>
+ * <para>
+ * The <literal>SortOrder</literal> key can be one of the strings
+ * <literal>ascending</literal> or <literal>descending</literal>.
+ * </para>
+ * </refsect3>
+ * <refsect3 id="gtkfilechooser-settings-startup-mode">
+ * <title>StartupMode key</title>
+ * <para>
+ * The <literal>StartupMode</literal> key controls whether the file chooser
+ * starts up showing the list of recently-used files, or the contents of the
+ * current working directory.  Respectively, the values can be
+ * <literal>recent</literal> or <literal>cwd</literal>.
+ * </para>
  * </refsect3>
  * </refsect2>
  */
@@ -927,6 +1026,10 @@ gtk_file_chooser_get_action (GtkFileChooser *chooser)
  * rather than the URI functions like
  * gtk_file_chooser_get_uri(),
  *
+ * On some systems non-native files may still be
+ * available using the native filesystem via a userspace
+ * filesystem (FUSE).
+ *
  * Since: 2.4
  **/
 void
@@ -940,7 +1043,7 @@ gtk_file_chooser_set_local_only (GtkFileChooser *chooser,
 
 /**
  * gtk_file_chooser_get_local_only:
- * @chooser: a #GtkFileChoosre
+ * @chooser: a #GtkFileChooser
  * 
  * Gets whether only local files can be selected in the
  * file selector. See gtk_file_chooser_set_local_only()
@@ -1058,7 +1161,7 @@ gtk_file_chooser_get_create_folders (GtkFileChooser *chooser)
  * If the file chooser is in folder mode, this function returns the selected
  * folder.
  * 
- * Return value: The currently selected filename, or %NULL
+ * Return value: (type filename): The currently selected filename, or %NULL
  *  if no file is selected, or the selected file can't
  *  be represented with a local filename. Free with g_free().
  *
@@ -1086,7 +1189,7 @@ gtk_file_chooser_get_filename (GtkFileChooser *chooser)
 /**
  * gtk_file_chooser_set_filename:
  * @chooser: a #GtkFileChooser
- * @filename: the filename to set as current
+ * @filename: (type filename): the filename to set as current
  * 
  * Sets @filename as the current filename for the file chooser, by changing
  * to the file's parent folder and actually selecting the file in list.  If
@@ -1140,7 +1243,7 @@ gtk_file_chooser_set_filename (GtkFileChooser *chooser,
 /**
  * gtk_file_chooser_select_filename:
  * @chooser: a #GtkFileChooser
- * @filename: the filename to select
+ * @filename: (type filename): the filename to select
  * 
  * Selects a filename. If the file name isn't in the current
  * folder of @chooser, then the current folder of @chooser will
@@ -1171,7 +1274,7 @@ gtk_file_chooser_select_filename (GtkFileChooser *chooser,
 /**
  * gtk_file_chooser_unselect_filename:
  * @chooser: a #GtkFileChooser
- * @filename: the filename to unselect
+ * @filename: (type filename): the filename to unselect
  * 
  * Unselects a currently selected filename. If the filename
  * is not in the current directory, does not exist, or
@@ -1217,6 +1320,22 @@ files_to_strings (GSList  *files,
   return g_slist_reverse (strings);
 }
 
+static gchar *
+file_to_uri_with_native_path (GFile *file)
+{
+  gchar *result = NULL;
+  gchar *native;
+
+  native = g_file_get_path (file);
+  if (native)
+    {
+      result = g_filename_to_uri (native, NULL, NULL); /* NULL-GError */
+      g_free (native);
+    }
+
+  return result;
+}
+
 /**
  * gtk_file_chooser_get_filenames:
  * @chooser: a #GtkFileChooser
@@ -1226,9 +1345,10 @@ files_to_strings (GSList  *files,
  * folder cannot be represented as local filenames they will be ignored. (See
  * gtk_file_chooser_get_uris())
  *
- * Return value: (element-type utf8) (transfer full): a #GSList containing the filenames of all selected
- *   files and subfolders in the current folder. Free the returned list
- *   with g_slist_free(), and the filenames with g_free().
+ * Return value: (element-type filename) (transfer full): a #GSList
+ *    containing the filenames of all selected files and subfolders in
+ *    the current folder. Free the returned list with g_slist_free(),
+ *    and the filenames with g_free().
  *
  * Since: 2.4
  **/
@@ -1251,7 +1371,7 @@ gtk_file_chooser_get_filenames (GtkFileChooser *chooser)
 /**
  * gtk_file_chooser_set_current_folder:
  * @chooser: a #GtkFileChooser
- * @filename: the full path of the new current folder
+ * @filename: (type filename): the full path of the new current folder
  * 
  * Sets the current folder for @chooser from a local filename.
  * The user will be shown the full contents of the current folder,
@@ -1289,15 +1409,16 @@ gtk_file_chooser_set_current_folder (GtkFileChooser *chooser,
  * Note that this is the folder that the file chooser is currently displaying
  * (e.g. "/home/username/Documents"), which is <emphasis>not the same</emphasis>
  * as the currently-selected folder if the chooser is in
- * %GTK_FILE_CHOOSER_SELECT_FOLDER mode
+ * %GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER mode
  * (e.g. "/home/username/Documents/selected-folder/".  To get the
  * currently-selected folder in that mode, use gtk_file_chooser_get_uri() as the
  * usual way to get the selection.
  * 
- * Return value: the full path of the current folder, or %NULL if the current
- * path cannot be represented as a local filename.  Free with g_free().  This
- * function will also return %NULL if the file chooser was unable to load the
- * last folder that was requested from it; for example, as would be for calling
+ * Return value: (type filename): the full path of the current folder,
+ * or %NULL if the current path cannot be represented as a local
+ * filename.  Free with g_free().  This function will also return
+ * %NULL if the file chooser was unable to load the last folder that
+ * was requested from it; for example, as would be for calling
  * gtk_file_chooser_set_current_folder() on a nonexistent folder.
  *
  * Since: 2.4
@@ -1323,7 +1444,7 @@ gtk_file_chooser_get_current_folder (GtkFileChooser *chooser)
 /**
  * gtk_file_chooser_set_current_name:
  * @chooser: a #GtkFileChooser
- * @name: the filename to use, as a UTF-8 string
+ * @name: (type filename): the filename to use, as a UTF-8 string
  * 
  * Sets the current name in the file selector, as if entered
  * by the user. Note that the name passed in here is a UTF-8
@@ -1359,7 +1480,9 @@ gtk_file_chooser_set_current_name  (GtkFileChooser *chooser,
  * folder.
  * 
  * Return value: The currently selected URI, or %NULL
- *  if no file is selected. Free with g_free()
+ *  if no file is selected. If gtk_file_chooser_set_local_only() is set to %TRUE
+ * (the default) a local URI will be returned for any FUSE locations.
+ * Free with g_free()
  *
  * Since: 2.4
  **/
@@ -1374,7 +1497,11 @@ gtk_file_chooser_get_uri (GtkFileChooser *chooser)
   file = gtk_file_chooser_get_file (chooser);
   if (file)
     {
-      result = g_file_get_uri (file);
+      if (gtk_file_chooser_get_local_only (chooser))
+	  result = file_to_uri_with_native_path (file);
+      else 
+          result = g_file_get_uri (file);
+
       g_object_unref (file);
     }
 
@@ -1545,7 +1672,11 @@ gtk_file_chooser_get_uris (GtkFileChooser *chooser)
 
   files = gtk_file_chooser_get_files (chooser);
 
-  result = files_to_strings (files, g_file_get_uri);
+  if (gtk_file_chooser_get_local_only (chooser))
+    result = files_to_strings (files, file_to_uri_with_native_path);
+  else
+    result = files_to_strings (files, g_file_get_uri);
+
   g_slist_foreach (files, (GFunc) g_object_unref, NULL);
   g_slist_free (files);
 
@@ -1586,14 +1717,14 @@ gtk_file_chooser_set_current_folder_uri (GtkFileChooser *chooser,
 /**
  * gtk_file_chooser_get_current_folder_uri:
  * @chooser: a #GtkFileChooser
- * 
+ *
  * Gets the current folder of @chooser as an URI.
  * See gtk_file_chooser_set_current_folder_uri().
  *
  * Note that this is the folder that the file chooser is currently displaying
  * (e.g. "file:///home/username/Documents"), which is <emphasis>not the same</emphasis>
  * as the currently-selected folder if the chooser is in
- * %GTK_FILE_CHOOSER_SELECT_FOLDER mode
+ * %GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER mode
  * (e.g. "file:///home/username/Documents/selected-folder/".  To get the
  * currently-selected folder in that mode, use gtk_file_chooser_get_uri() as the
  * usual way to get the selection.
@@ -1628,7 +1759,7 @@ gtk_file_chooser_get_current_folder_uri (GtkFileChooser *chooser)
  * @chooser: a #GtkFileChooser
  * @file: the #GFile for the new folder
  * @error: (allow-none): location to store error, or %NULL.
- * 
+ *
  * Sets the current folder for @chooser from a #GFile.
  * Internal function, see gtk_file_chooser_set_current_folder_uri().
  *
@@ -1652,11 +1783,11 @@ gtk_file_chooser_set_current_folder_file (GtkFileChooser  *chooser,
 /**
  * gtk_file_chooser_get_current_folder_file:
  * @chooser: a #GtkFileChooser
- * 
+ *
  * Gets the current folder of @chooser as #GFile.
  * See gtk_file_chooser_get_current_folder_uri().
- * 
- * Return value: the #GFile for the current folder.
+ *
+ * Return value: (transfer full): the #GFile for the current folder.
  *
  * Since: 2.14
  */
@@ -1665,7 +1796,7 @@ gtk_file_chooser_get_current_folder_file (GtkFileChooser *chooser)
 {
   g_return_val_if_fail (GTK_IS_FILE_CHOOSER (chooser), NULL);
 
-  return GTK_FILE_CHOOSER_GET_IFACE (chooser)->get_current_folder (chooser);  
+  return GTK_FILE_CHOOSER_GET_IFACE (chooser)->get_current_folder (chooser);
 }
 
 /**
@@ -1721,9 +1852,10 @@ gtk_file_chooser_unselect_file (GtkFileChooser *chooser,
  * Lists all the selected files and subfolders in the current folder of @chooser
  * as #GFile. An internal function, see gtk_file_chooser_get_uris().
  *
- * Return value: (element-type utf8) (transfer full): a #GSList containing a #GFile for each selected
- *   file and subfolder in the current folder.  Free the returned list
- *   with g_slist_free(), and the files with g_object_unref().
+ * Return value: (element-type GFile) (transfer full): a #GSList
+ *   containing a #GFile for each selected file and subfolder in the
+ *   current folder.  Free the returned list with g_slist_free(), and
+ *   the files with g_object_unref().
  *
  * Since: 2.14
  **/
@@ -1804,8 +1936,8 @@ gtk_file_chooser_set_file (GtkFileChooser  *chooser,
  * If the file chooser is in folder mode, this function returns the selected
  * folder.
  *
- * Returns: a selected #GFile. You own the returned file; use
- *          g_object_unref() to release it.
+ * Returns: (transfer full): a selected #GFile. You own the returned file;
+ *     use g_object_unref() to release it.
  *
  * Since: 2.14
  **/
@@ -1885,11 +2017,11 @@ gtk_file_chooser_set_preview_widget (GtkFileChooser *chooser,
 /**
  * gtk_file_chooser_get_preview_widget:
  * @chooser: a #GtkFileChooser
- * 
+ *
  * Gets the current preview widget; see
  * gtk_file_chooser_set_preview_widget().
- * 
- * Return value: the current preview widget, or %NULL
+ *
+ * Return value: (transfer none): the current preview widget, or %NULL
  *
  * Since: 2.4
  **/
@@ -2007,12 +2139,12 @@ gtk_file_chooser_get_use_preview_label (GtkFileChooser *chooser)
 /**
  * gtk_file_chooser_get_preview_file:
  * @chooser: a #GtkFileChooser
- * 
+ *
  * Gets the #GFile that should be previewed in a custom preview
  * Internal function, see gtk_file_chooser_get_preview_uri().
- * 
- * Return value: the #GFile for the file to preview, or %NULL if no file
- *  is selected. Free with g_object_unref().
+ *
+ * Return value: (transfer full): the #GFile for the file to preview,
+ *     or %NULL if no file is selected. Free with g_object_unref().
  *
  * Since: 2.14
  **/
@@ -2081,8 +2213,8 @@ _gtk_file_chooser_remove_shortcut_folder (GtkFileChooser  *chooser,
  * Gets the filename that should be previewed in a custom preview
  * widget. See gtk_file_chooser_set_preview_widget().
  * 
- * Return value: the filename to preview, or %NULL if no file
- *  is selected, or if the selected file cannot be represented
+ * Return value: (type filename): the filename to preview, or %NULL if
+ *  no file is selected, or if the selected file cannot be represented
  *  as a local filename. Free with g_free()
  *
  * Since: 2.4
@@ -2156,11 +2288,11 @@ gtk_file_chooser_set_extra_widget (GtkFileChooser *chooser,
 /**
  * gtk_file_chooser_get_extra_widget:
  * @chooser: a #GtkFileChooser
- * 
+ *
  * Gets the current preview widget; see
  * gtk_file_chooser_set_extra_widget().
- * 
- * Return value: the current extra widget, or %NULL
+ *
+ * Return value: (transfer none): the current extra widget, or %NULL
  *
  * Since: 2.4
  **/
@@ -2231,10 +2363,10 @@ gtk_file_chooser_remove_filter (GtkFileChooser *chooser,
  * Lists the current set of user-selectable filters; see
  * gtk_file_chooser_add_filter(), gtk_file_chooser_remove_filter().
  *
- * Return value: (element-type utf8) (transfer container): a #GSList containing the current set of
- *  user selectable filters. The contents of the list are
- *  owned by GTK+, but you must free the list itself with
- *  g_slist_free() when you are done with it.
+ * Return value: (element-type GtkFileFilter) (transfer container): a
+ *  #GSList containing the current set of user selectable filters. The
+ *  contents of the list are owned by GTK+, but you must free the list
+ *  itself with g_slist_free() when you are done with it.
  *
  * Since: 2.4
  **/
@@ -2273,10 +2405,10 @@ gtk_file_chooser_set_filter (GtkFileChooser *chooser,
 /**
  * gtk_file_chooser_get_filter:
  * @chooser: a #GtkFileChooser
- * 
+ *
  * Gets the current filter; see gtk_file_chooser_set_filter().
- * 
- * Return value: the current filter, or %NULL
+ *
+ * Return value: (transfer none): the current filter, or %NULL
  *
  * Since: 2.4
  **/
@@ -2301,7 +2433,7 @@ gtk_file_chooser_get_filter (GtkFileChooser *chooser)
 /**
  * gtk_file_chooser_add_shortcut_folder:
  * @chooser: a #GtkFileChooser
- * @folder: filename of the folder to add
+ * @folder: (type filename): filename of the folder to add
  * @error: (allow-none): location to store error, or %NULL
  * 
  * Adds a folder to be displayed with the shortcut folders in a file chooser.
@@ -2335,7 +2467,7 @@ gtk_file_chooser_add_shortcut_folder (GtkFileChooser    *chooser,
 /**
  * gtk_file_chooser_remove_shortcut_folder:
  * @chooser: a #GtkFileChooser
- * @folder: filename of the folder to remove
+ * @folder: (type filename): filename of the folder to remove
  * @error: (allow-none): location to store error, or %NULL
  * 
  * Removes a folder from a file chooser's list of shortcut folders.
@@ -2372,8 +2504,9 @@ gtk_file_chooser_remove_shortcut_folder (GtkFileChooser    *chooser,
  * Queries the list of shortcut folders in the file chooser, as set by
  * gtk_file_chooser_add_shortcut_folder().
  *
- * Return value: (element-type utf8) (transfer full): A list of folder filenames, or %NULL if there are no shortcut
- * folders.  Free the returned list with g_slist_free(), and the filenames with
+ * Return value: (element-type filename) (transfer full): A list of
+ * folder filenames, or %NULL if there are no shortcut folders.  Free
+ * the returned list with g_slist_free(), and the filenames with
  * g_free().
  *
  * Since: 2.4
@@ -2469,9 +2602,9 @@ gtk_file_chooser_remove_shortcut_folder_uri (GtkFileChooser    *chooser,
  * Queries the list of shortcut folders in the file chooser, as set by
  * gtk_file_chooser_add_shortcut_folder_uri().
  *
- * Return value: (element-type utf8) (transfer full): A list of folder URIs, or %NULL if there are no shortcut
- * folders.  Free the returned list with g_slist_free(), and the URIs with
- * g_free().
+ * Return value: (element-type utf8) (transfer full): A list of folder
+ * URIs, or %NULL if there are no shortcut folders.  Free the returned
+ * list with g_slist_free(), and the URIs with g_free().
  *
  * Since: 2.4
  **/

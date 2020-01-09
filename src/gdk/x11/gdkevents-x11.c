@@ -142,7 +142,12 @@ gdk_display_source_new (GdkDisplay *display)
 {
   GSource *source = g_source_new (&event_funcs, sizeof (GdkDisplaySource));
   GdkDisplaySource *display_source = (GdkDisplaySource *)source;
+  char *name;
   
+  name = g_strdup_printf ("GDK X11 Event source (%s)",
+			  gdk_display_get_name (display));
+  g_source_set_name (source, name);
+  g_free (name);
   display_source->display = display;
   
   return source;
@@ -472,6 +477,21 @@ do_net_wm_state_changes (GdkWindow *window)
                                      0,
                                      GDK_WINDOW_STATE_MAXIMIZED);
     }
+
+  if (old_state & GDK_WINDOW_STATE_ICONIFIED)
+    {
+      if (!toplevel->have_hidden)
+        gdk_synthesize_window_state (window,
+                                     GDK_WINDOW_STATE_ICONIFIED,
+                                     0);
+    }
+  else
+    {
+      if (toplevel->have_hidden)
+        gdk_synthesize_window_state (window,
+                                     0,
+                                     GDK_WINDOW_STATE_ICONIFIED);
+    }
 }
 
 static void
@@ -529,6 +549,7 @@ gdk_check_wm_state_changed (GdkWindow *window)
   toplevel->have_maxvert = FALSE;
   toplevel->have_maxhorz = FALSE;
   toplevel->have_fullscreen = FALSE;
+  toplevel->have_hidden = FALSE;
 
   type = None;
   gdk_error_trap_push ();
@@ -544,6 +565,7 @@ gdk_check_wm_state_changed (GdkWindow *window)
       Atom maxvert_atom = gdk_x11_get_xatom_by_name_for_display (display, "_NET_WM_STATE_MAXIMIZED_VERT");
       Atom maxhorz_atom	= gdk_x11_get_xatom_by_name_for_display (display, "_NET_WM_STATE_MAXIMIZED_HORZ");
       Atom fullscreen_atom = gdk_x11_get_xatom_by_name_for_display (display, "_NET_WM_STATE_FULLSCREEN");
+      Atom hidden_atom = gdk_x11_get_xatom_by_name_for_display (display, "_NET_WM_STATE_HIDDEN");
 
       atoms = (Atom *)data;
 
@@ -558,6 +580,8 @@ gdk_check_wm_state_changed (GdkWindow *window)
             toplevel->have_maxhorz = TRUE;
           else if (atoms[i] == fullscreen_atom)
             toplevel->have_fullscreen = TRUE;
+          else if (atoms[i] == hidden_atom)
+            toplevel->have_hidden = TRUE;
           
           ++i;
         }
@@ -1762,21 +1786,28 @@ gdk_event_translate (GdkDisplay *display,
       event->any.type = GDK_UNMAP;
       event->any.window = window;      
 
-      /* If we are shown (not withdrawn) and get an unmap, it means we
-       * were iconified in the X sense. If we are withdrawn, and get
-       * an unmap, it means we hid the window ourselves, so we
-       * will have already flipped the iconified bit off.
+      /* If the WM supports the _NET_WM_STATE_HIDDEN hint, we do not want to
+       * interpret UnmapNotify events as implying iconic state.
+       * http://bugzilla.gnome.org/show_bug.cgi?id=590726.
        */
-      if (window)
-	{
-	  if (GDK_WINDOW_IS_MAPPED (window))
-	    gdk_synthesize_window_state (window,
-					 0,
-					 GDK_WINDOW_STATE_ICONIFIED);
+      if (screen &&
+          !gdk_x11_screen_supports_net_wm_hint (screen,
+                                                gdk_atom_intern_static_string ("_NET_WM_STATE_HIDDEN")))
+        {
+          /* If we are shown (not withdrawn) and get an unmap, it means we were
+           * iconified in the X sense. If we are withdrawn, and get an unmap, it
+           * means we hid the window ourselves, so we will have already flipped
+           * the iconified bit off.
+           */
+          if (window && GDK_WINDOW_IS_MAPPED (window))
+            gdk_synthesize_window_state (window,
+                                         0,
+                                         GDK_WINDOW_STATE_ICONIFIED);
+        }
 
-	  _gdk_xgrab_check_unmap (window, xevent->xany.serial);
-	}
-      
+      if (window)
+        _gdk_xgrab_check_unmap (window, xevent->xany.serial);
+
       break;
       
     case MapNotify:
@@ -2875,6 +2906,8 @@ gdk_x11_screen_supports_net_wm_hint (GdkScreen *screen,
  * gdk_x11_screen_supports_net_wm_hint() for complete details.
  * 
  * Return value: %TRUE if the window manager supports @property
+ *
+ * Deprecated:2.24: Use gdk_x11_screen_supports_net_wm_hint() instead
  **/
 gboolean
 gdk_net_wm_supports (GdkAtom property)

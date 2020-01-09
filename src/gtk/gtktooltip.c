@@ -20,6 +20,10 @@
  */
 
 #include "config.h"
+
+#include <math.h>
+#include <string.h>
+
 #include "gtktooltip.h"
 #include "gtkintl.h"
 #include "gtkwindow.h"
@@ -30,8 +34,6 @@
 #include "gtkalignment.h"
 
 #include "gtkalias.h"
-
-#include <string.h>
 
 #undef DEBUG_TOOLTIP
 
@@ -95,6 +97,7 @@ static void       gtk_tooltip_display_closed       (GdkDisplay      *display,
 						    GtkTooltip      *tooltip);
 static void       gtk_tooltip_set_last_window      (GtkTooltip      *tooltip,
 						    GdkWindow       *window);
+static void       update_shape                     (GtkTooltip      *tooltip);
 
 
 G_DEFINE_TYPE (GtkTooltip, gtk_tooltip, G_TYPE_OBJECT);
@@ -107,6 +110,39 @@ gtk_tooltip_class_init (GtkTooltipClass *klass)
   object_class = G_OBJECT_CLASS (klass);
 
   object_class->dispose = gtk_tooltip_dispose;
+}
+
+static void
+on_composited_changed (GtkWidget  *window,
+                       GtkTooltip *tooltip)
+{
+  update_shape (tooltip);
+}
+
+static void
+on_screen_changed (GtkWidget  *window,
+                   GdkScreen  *previous,
+                   GtkTooltip *tooltip)
+{
+  GdkScreen *screen;
+  GdkColormap *cmap;
+
+  screen = gtk_widget_get_screen (window);
+
+  cmap = NULL;
+  if (gdk_screen_is_composited (screen))
+    cmap = gdk_screen_get_rgba_colormap (screen);
+  if (cmap == NULL)
+    cmap = gdk_screen_get_rgb_colormap (screen);
+
+  gtk_widget_set_colormap (window, cmap);
+}
+
+static void
+on_realized (GtkWidget  *window,
+             GtkTooltip *tooltip)
+{
+  update_shape (tooltip);
 }
 
 static void
@@ -127,8 +163,12 @@ gtk_tooltip_init (GtkTooltip *tooltip)
   tooltip->last_window = NULL;
 
   tooltip->window = g_object_ref (gtk_window_new (GTK_WINDOW_POPUP));
+
+  on_screen_changed (tooltip->window, NULL, tooltip);
+
   gtk_window_set_type_hint (GTK_WINDOW (tooltip->window),
 			    GDK_WINDOW_TYPE_HINT_TOOLTIP);
+
   gtk_widget_set_app_paintable (tooltip->window, TRUE);
   gtk_window_set_resizable (GTK_WINDOW (tooltip->window), FALSE);
   gtk_widget_set_name (tooltip->window, "gtk-tooltip");
@@ -161,6 +201,13 @@ gtk_tooltip_init (GtkTooltip *tooltip)
   gtk_label_set_line_wrap (GTK_LABEL (tooltip->label), TRUE);
   gtk_box_pack_start (GTK_BOX (tooltip->box), tooltip->label,
 		      FALSE, FALSE, 0);
+
+  g_signal_connect (tooltip->window, "composited-changed",
+                    G_CALLBACK (on_composited_changed), tooltip);
+  g_signal_connect (tooltip->window, "screen-changed",
+                    G_CALLBACK (on_screen_changed), tooltip);
+  g_signal_connect (tooltip->window, "realize",
+                    G_CALLBACK (on_realized), tooltip);
 
   tooltip->custom_widget = NULL;
 }
@@ -472,9 +519,9 @@ gtk_tooltip_trigger_tooltip_query (GdkDisplay *display)
   event.motion.y = y;
   event.motion.is_hint = FALSE;
 
-  gdk_window_get_origin (window, &x, &y);
-  event.motion.x_root = event.motion.x + x;
-  event.motion.y_root = event.motion.y + y;
+  gdk_window_get_root_coords (window, x, y, &x, &y);
+  event.motion.x_root = x;
+  event.motion.y_root = y;
 
   _gtk_tooltip_handle_event (&event);
 }
@@ -508,19 +555,164 @@ gtk_tooltip_window_style_set (GtkTooltip *tooltip)
   gtk_widget_queue_draw (tooltip->window);
 }
 
+static void
+draw_round_rect (cairo_t *cr,
+                 gdouble  aspect,
+                 gdouble  x,
+                 gdouble  y,
+                 gdouble  corner_radius,
+                 gdouble  width,
+                 gdouble  height)
+{
+  gdouble radius = corner_radius / aspect;
+
+  cairo_move_to (cr, x + radius, y);
+
+  /* top-right, left of the corner */
+  cairo_line_to (cr, x + width - radius, y);
+
+  /* top-right, below the corner */
+  cairo_arc (cr,
+             x + width - radius, y + radius, radius,
+             -90.0f * G_PI / 180.0f, 0.0f * G_PI / 180.0f);
+
+  /* bottom-right, above the corner */
+  cairo_line_to (cr, x + width, y + height - radius);
+
+  /* bottom-right, left of the corner */
+  cairo_arc (cr,
+             x + width - radius, y + height - radius, radius,
+             0.0f * G_PI / 180.0f, 90.0f * G_PI / 180.0f);
+
+  /* bottom-left, right of the corner */
+  cairo_line_to (cr, x + radius, y + height);
+
+  /* bottom-left, above the corner */
+  cairo_arc (cr,
+             x + radius, y + height - radius, radius,
+             90.0f * G_PI / 180.0f, 180.0f * G_PI / 180.0f);
+
+  /* top-left, below the corner */
+  cairo_line_to (cr, x, y + radius);
+
+  /* top-left, right of the corner */
+  cairo_arc (cr,
+             x + radius, y + radius, radius,
+             180.0f * G_PI / 180.0f, 270.0f * G_PI / 180.0f);
+
+  cairo_close_path (cr);
+}
+
+static void
+fill_background (GtkWidget  *widget,
+                 cairo_t    *cr,
+                 GdkColor   *bg_color,
+                 GdkColor   *border_color,
+                 guchar      alpha)
+{
+  gint tooltip_radius;
+
+  if (!gtk_widget_is_composited (widget))
+    alpha = 255;
+
+  gtk_widget_style_get (widget,
+                        "tooltip-radius", &tooltip_radius,
+                        NULL);
+
+  cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint (cr);
+  cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+
+  draw_round_rect (cr,
+                   1.0, 0.5, 0.5, tooltip_radius,
+                   widget->allocation.width - 1,
+                   widget->allocation.height - 1);
+
+  cairo_set_source_rgba (cr,
+                         (float) bg_color->red / 65535.0,
+                         (float) bg_color->green / 65535.0,
+                         (float) bg_color->blue / 65535.0,
+                         (float) alpha / 255.0);
+  cairo_fill_preserve (cr);
+
+  cairo_set_source_rgba (cr,
+                         (float) border_color->red / 65535.0,
+                         (float) border_color->green / 65535.0,
+                         (float) border_color->blue / 65535.0,
+                         (float) alpha / 255.0);
+  cairo_set_line_width (cr, 1.0);
+  cairo_stroke (cr);
+}
+
+static void
+update_shape (GtkTooltip *tooltip)
+{
+  GdkBitmap *mask;
+  cairo_t *cr;
+  gint width, height, tooltip_radius;
+
+  gtk_widget_style_get (tooltip->window,
+                        "tooltip-radius", &tooltip_radius,
+                        NULL);
+
+  if (tooltip_radius == 0 ||
+      gtk_widget_is_composited (tooltip->window))
+    {
+      gtk_widget_shape_combine_mask (tooltip->window, NULL, 0, 0);
+      return;
+    }
+
+  gtk_window_get_size (GTK_WINDOW (tooltip->window), &width, &height);
+  mask = (GdkBitmap *) gdk_pixmap_new (NULL, width, height, 1);
+  cr = gdk_cairo_create (mask);
+
+  fill_background (tooltip->window, cr,
+                   &tooltip->window->style->black,
+                   &tooltip->window->style->black,
+                   255);
+  gtk_widget_shape_combine_mask (tooltip->window, mask, 0, 0);
+
+  cairo_destroy (cr);
+  g_object_unref (mask);
+}
+
 static gboolean
 gtk_tooltip_paint_window (GtkTooltip *tooltip)
 {
-  gtk_paint_flat_box (tooltip->window->style,
-		      tooltip->window->window,
-		      GTK_STATE_NORMAL,
-		      GTK_SHADOW_OUT,
-		      NULL,
-		      tooltip->window,
-		      "tooltip",
-		      0, 0,
-		      tooltip->window->allocation.width,
-		      tooltip->window->allocation.height);
+  guchar tooltip_alpha;
+  gint tooltip_radius;
+
+  gtk_widget_style_get (tooltip->window,
+                        "tooltip-alpha", &tooltip_alpha,
+                        "tooltip-radius", &tooltip_radius,
+                        NULL);
+
+  if (tooltip_alpha != 255 || tooltip_radius != 0)
+    {
+      cairo_t *cr;
+
+      cr = gdk_cairo_create (tooltip->window->window);
+      fill_background (tooltip->window, cr,
+                       &tooltip->window->style->bg [GTK_STATE_NORMAL],
+                       &tooltip->window->style->bg [GTK_STATE_SELECTED],
+                       tooltip_alpha);
+      cairo_destroy (cr);
+
+      update_shape (tooltip);
+    }
+  else
+    {
+      gtk_paint_flat_box (tooltip->window->style,
+                          tooltip->window->window,
+                          GTK_STATE_NORMAL,
+                          GTK_SHADOW_OUT,
+                          NULL,
+                          tooltip->window,
+                          "tooltip",
+                          0, 0,
+                          tooltip->window->allocation.width,
+                          tooltip->window->allocation.height);
+    }
 
   return FALSE;
 }
@@ -645,13 +837,17 @@ window_to_alloc (GtkWidget *dest_widget,
 /* Translates coordinates from window relative (x, y) to
  * allocation relative (x, y) of the returned widget.
  */
-static GtkWidget *
-find_widget_under_pointer (GdkWindow *window,
-			   gint      *x,
-			   gint      *y)
+GtkWidget *
+_gtk_widget_find_at_coords (GdkWindow *window,
+                            gint       window_x,
+                            gint       window_y,
+                            gint      *widget_x,
+                            gint      *widget_y)
 {
   GtkWidget *event_widget;
   struct ChildLocation child_loc = { NULL, NULL, 0, 0 };
+
+  g_return_val_if_fail (GDK_IS_WINDOW (window), NULL);
 
   gdk_window_get_user_data (window, (void **)&event_widget);
 
@@ -661,12 +857,12 @@ find_widget_under_pointer (GdkWindow *window,
 #ifdef DEBUG_TOOLTIP
   g_print ("event window %p (belonging to %p (%s))  (%d, %d)\n",
 	   window, event_widget, gtk_widget_get_name (event_widget),
-	   *x, *y);
+	   window_x, window_y);
 #endif
 
   /* Coordinates are relative to event window */
-  child_loc.x = *x;
-  child_loc.y = *y;
+  child_loc.x = window_x;
+  child_loc.y = window_y;
 
   /* We go down the window hierarchy to the widget->window,
    * coordinates stay relative to the current window.
@@ -674,13 +870,15 @@ find_widget_under_pointer (GdkWindow *window,
    */
   while (window && window != event_widget->window)
     {
-      gint px, py;
+      gdouble px, py;
 
-      gdk_window_get_position (window, &px, &py);
-      child_loc.x += px;
-      child_loc.y += py;
+      gdk_window_coords_to_parent (window,
+                                   child_loc.x, child_loc.y,
+                                   &px, &py);
+      child_loc.x = px;
+      child_loc.y = py;
 
-      window = gdk_window_get_parent (window);
+      window = gdk_window_get_effective_parent (window);
     }
 
   /* Failing to find widget->window can happen for e.g. a detached handle box;
@@ -721,14 +919,13 @@ find_widget_under_pointer (GdkWindow *window,
       gtk_widget_translate_coordinates (container, event_widget,
 					child_loc.x, child_loc.y,
 					&child_loc.x, &child_loc.y);
-
     }
 
   /* We return (x, y) relative to the allocation of event_widget. */
-  if (x)
-    *x = child_loc.x;
-  if (y)
-    *y = child_loc.y;
+  if (widget_x)
+    *widget_x = child_loc.x;
+  if (widget_y)
+    *widget_y = child_loc.y;
 
   return event_widget;
 }
@@ -746,11 +943,9 @@ find_topmost_widget_coords_from_event (GdkEvent *event,
   GtkWidget *tmp;
 
   gdk_event_get_coords (event, &dx, &dy);
-  tx = dx;
-  ty = dy;
 
   /* Returns coordinates relative to tmp's allocation. */
-  tmp = find_widget_under_pointer (event->any.window, &tx, &ty);
+  tmp = _gtk_widget_find_at_coords (event->any.window, dx, dy, &tx, &ty);
 
   if (!tmp)
     return NULL;
@@ -860,6 +1055,39 @@ gtk_tooltip_run_requery (GtkWidget  **widget,
 }
 
 static void
+get_bounding_box (GtkWidget    *widget,
+                  GdkRectangle *bounds)
+{
+  GdkWindow *window;
+  gint x, y;
+  gint w, h;
+  gint x1, y1;
+  gint x2, y2;
+  gint x3, y3;
+  gint x4, y4;
+
+  window = gtk_widget_get_parent_window (widget);
+
+  x = widget->allocation.x;
+  y = widget->allocation.y;
+  w = widget->allocation.width;
+  h = widget->allocation.height;
+
+  gdk_window_get_root_coords (window, x, y, &x1, &y1);
+  gdk_window_get_root_coords (window, x + w, y, &x2, &y2);
+  gdk_window_get_root_coords (window, x, y + h, &x3, &y3);
+  gdk_window_get_root_coords (window, x + w, y + h, &x4, &y4);
+
+#define MIN4(a,b,c,d) MIN(MIN(a,b),MIN(c,d))
+#define MAX4(a,b,c,d) MAX(MAX(a,b),MAX(c,d))
+
+  bounds->x = floor (MIN4 (x1, x2, x3, x4));
+  bounds->y = floor (MIN4 (y1, y2, y3, y4));
+  bounds->width = ceil (MAX4 (x1, x2, x3, x4)) - bounds->x;
+  bounds->height = ceil (MAX4 (y1, y2, y3, y4)) - bounds->y;
+}
+
+static void
 gtk_tooltip_position (GtkTooltip *tooltip,
 		      GdkDisplay *display,
 		      GtkWidget  *new_tooltip_widget)
@@ -873,18 +1101,15 @@ gtk_tooltip_position (GtkTooltip *tooltip,
   /* FIXME: should we swap this when RTL is enabled? */
   if (tooltip->keyboard_mode_enabled)
     {
-      gdk_window_get_origin (new_tooltip_widget->window, &x, &y);
-      if (!gtk_widget_get_has_window (new_tooltip_widget))
-        {
-	  x += new_tooltip_widget->allocation.x;
-	  y += new_tooltip_widget->allocation.y;
-	}
+      GdkRectangle bounds;
+
+      get_bounding_box (new_tooltip_widget, &bounds);
 
       /* For keyboard mode we position the tooltip below the widget,
        * right of the center of the widget.
        */
-      x += new_tooltip_widget->allocation.width / 2;
-      y += new_tooltip_widget->allocation.height + 4;
+      x = bounds.x + bounds.width / 2;
+      y = bounds.y + bounds.height + 4;
     }
   else
     {
@@ -960,17 +1185,22 @@ gtk_tooltip_show_tooltip (GdkDisplay *display)
     }
   else
     {
+      gint tx, ty;
+
       window = tooltip->last_window;
 
       if (!GDK_IS_WINDOW (window))
 	return;
 
-      gdk_window_get_origin (window, &x, &y);
-      x = tooltip->last_x - x;
-      y = tooltip->last_y - y;
+      gdk_window_get_pointer (window, &x, &y, NULL);
 
-      pointer_widget = tooltip_widget = find_widget_under_pointer (window,
-								   &x, &y);
+      gdk_window_get_root_coords (window, x, y, &tx, &ty);
+      tooltip->last_x = tx;
+      tooltip->last_y = ty;
+
+      pointer_widget = tooltip_widget = _gtk_widget_find_at_coords (window,
+                                                                    x, y,
+                                                                    &x, &y);
     }
 
   if (!tooltip_widget)
@@ -1258,7 +1488,7 @@ tooltips_enabled (GdkWindow *window)
   GdkScreen *screen;
   GtkSettings *settings;
 
-  screen = gdk_drawable_get_screen (window);
+  screen = gdk_window_get_screen (window);
   settings = gtk_settings_get_for_screen (screen);
 
   g_object_get (settings,
@@ -1283,16 +1513,13 @@ _gtk_tooltip_handle_event (GdkEvent *event)
 
   /* Returns coordinates relative to has_tooltip_widget's allocation. */
   has_tooltip_widget = find_topmost_widget_coords_from_event (event, &x, &y);
-  display = gdk_drawable_get_display (event->any.window);
+  display = gdk_window_get_display (event->any.window);
   current_tooltip = g_object_get_data (G_OBJECT (display),
 				       "gdk-display-current-tooltip");
 
   if (current_tooltip)
     {
       gtk_tooltip_set_last_window (current_tooltip, event->any.window);
-      gdk_event_get_root_coords (event,
-				&current_tooltip->last_x,
-				&current_tooltip->last_y);
     }
 
   if (current_tooltip && current_tooltip->keyboard_mode_enabled)
@@ -1398,9 +1625,6 @@ _gtk_tooltip_handle_event (GdkEvent *event)
 			      current_tooltip);
 
 	    gtk_tooltip_set_last_window (current_tooltip, event->any.window);
-	    gdk_event_get_root_coords (event,
-				       &current_tooltip->last_x,
-				       &current_tooltip->last_y);
 
 	    gtk_tooltip_start_delay (display);
 	  }

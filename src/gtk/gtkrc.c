@@ -450,7 +450,7 @@ gtk_rc_get_im_module_file (void)
       if (im_module_file)
 	result = g_strdup (im_module_file);
       else
-	result = g_build_filename (GTK_SYSCONFDIR, "gtk-2.0", "gtk.immodules", NULL);
+        result = gtk_rc_make_default_dir ("immodules.cache");
     }
 
   return result;
@@ -522,8 +522,22 @@ gtk_rc_add_initial_default_files (void)
   else
     {
       const gchar *home;
-      str = g_build_filename (GTK_SYSCONFDIR, "gtk-2.0", "gtkrc", NULL);
+      const gchar * const *config_dirs;
+      const gchar *config_dir;
 
+      str = g_build_filename (GTK_DATA_PREFIX, "share", "gtk-2.0", "gtkrc", NULL);
+      gtk_rc_add_default_file (str);
+      g_free (str);
+
+      config_dirs = g_get_system_config_dirs ();
+      for (config_dir = *config_dirs; *config_dirs != NULL; config_dirs++)
+        {
+          str = g_build_filename (config_dir, "gtk-2.0", "gtkrc", NULL);
+          gtk_rc_add_default_file (str);
+          g_free (str);
+        }
+
+      str = g_build_filename (GTK_SYSCONFDIR, "gtk-2.0", "gtkrc", NULL);
       gtk_rc_add_default_file (str);
       g_free (str);
 
@@ -601,13 +615,14 @@ gtk_rc_set_default_files (gchar **filenames)
 
 /**
  * gtk_rc_get_default_files:
- * 
+ *
  * Retrieves the current list of RC files that will be parsed
  * at the end of gtk_init().
- * 
- * Return value: A %NULL-terminated array of filenames. This memory
- * is owned by GTK+ and must not be freed by the application.
- * If you want to store this information, you should make a copy.
+ *
+ * Return value: (transfer none)  (array zero-terminated=1) (element-type filename):
+ *     A %NULL-terminated array of filenames.
+ *     This memory is owned by GTK+ and must not be freed by the application.
+ *     If you want to store this information, you should make a copy.
  **/
 gchar **
 gtk_rc_get_default_files (void)
@@ -1250,12 +1265,12 @@ gtk_rc_style_new (void)
 /**
  * gtk_rc_style_copy:
  * @orig: the style to copy
- * 
+ *
  * Makes a copy of the specified #GtkRcStyle. This function
  * will correctly copy an RC style that is a member of a class
  * derived from #GtkRcStyle.
- * 
- * Return value: the resulting #GtkRcStyle
+ *
+ * Return value: (transfer full): the resulting #GtkRcStyle
  **/
 GtkRcStyle *
 gtk_rc_style_copy (GtkRcStyle *orig)
@@ -1935,7 +1950,7 @@ sort_and_dereference_sets (GSList *styles)
  * created styles, so a new style may not be
  * created.)
  * 
- * Returns: the resulting style. No refcount is added
+ * Returns: (transfer none): the resulting style. No refcount is added
  *   to the returned style, so if you want to save this
  *   style around, you should add a reference yourself.
  **/
@@ -2028,12 +2043,12 @@ gtk_rc_get_style (GtkWidget *widget)
 /**
  * gtk_rc_get_style_by_paths:
  * @settings: a #GtkSettings object
- * @widget_path: (allow-none): the widget path to use when looking up the style, or %NULL
- *               if no matching against the widget path should be done
- * @class_path: (allow-none): the class path to use when looking up the style, or %NULL
- *               if no matching against the class path should be done.
+ * @widget_path: (allow-none): the widget path to use when looking up the
+ *     style, or %NULL if no matching against the widget path should be done
+ * @class_path: (allow-none): the class path to use when looking up the style,
+ *     or %NULL if no matching against the class path should be done.
  * @type: a type that will be used along with parent types of this type
- *        when matching against class styles, or #G_TYPE_NONE
+ *     when matching against class styles, or #G_TYPE_NONE
  *
  * Creates up a #GtkStyle from styles defined in a RC file by providing
  * the raw components used in matching. This function may be useful
@@ -2050,11 +2065,11 @@ gtk_rc_get_style (GtkWidget *widget)
  *                             G_OBJECT_TYPE (widget));
  * ]|
  * 
- * Return value: A style created by matching with the supplied paths,
- *   or %NULL if nothing matching was specified and the default style should
- *   be used. The returned value is owned by GTK+ as part of an internal cache,
- *   so you must call g_object_ref() on the returned value if you want to
- *   keep a reference to it.
+ * Return value: (transfer none): A style created by matching with the
+ *     supplied paths, or %NULL if nothing matching was specified and the
+ *     default style should be used. The returned value is owned by GTK+
+ *     as part of an internal cache, so you must call g_object_ref() on
+ *     the returned value if you want to keep a reference to it.
  **/
 GtkStyle *
 gtk_rc_get_style_by_paths (GtkSettings *settings,
@@ -2284,8 +2299,8 @@ gtk_rc_parse_any (GtkRcContext *context,
 			msg = g_strconcat ("e.g. `", sym, "'", NULL);
 		    }
 
-		  if (scanner->token > GTK_RC_TOKEN_INVALID &&
-		      scanner->token < GTK_RC_TOKEN_LAST)
+		  if (scanner->token > (guint) GTK_RC_TOKEN_INVALID &&
+		      scanner->token < (guint) GTK_RC_TOKEN_LAST)
 		    {
 		      symbol_name = "???";
 		      for (i = 0; i < G_N_ELEMENTS (symbols); i++)
@@ -2519,7 +2534,14 @@ rc_parse_token_or_compound (GScanner   *scanner,
       g_string_append_printf (gstring, " 0x%lx", scanner->value.v_int);
       break;
     case G_TOKEN_FLOAT:
-      g_string_append_printf (gstring, " %f", scanner->value.v_float);
+      {
+	gchar    fbuf[G_ASCII_DTOSTR_BUF_SIZE];
+	g_ascii_formatd (fbuf,
+			 sizeof (fbuf),
+			 "%f",
+			 scanner->value.v_float);
+	g_string_append_printf (gstring, " %s", (char*)fbuf);
+      }
       break;
     case G_TOKEN_STRING:
       string = g_strescape (scanner->value.v_string, NULL);
@@ -3371,7 +3393,7 @@ static guint
 gtk_rc_parse_xthickness (GScanner   *scanner,
 			 GtkRcStyle *style)
 {
-  if (g_scanner_get_next_token (scanner) != GTK_RC_TOKEN_XTHICKNESS)
+  if (g_scanner_get_next_token (scanner) != (guint) GTK_RC_TOKEN_XTHICKNESS)
     return GTK_RC_TOKEN_XTHICKNESS;
 
   if (g_scanner_get_next_token (scanner) != G_TOKEN_EQUAL_SIGN)
@@ -3389,7 +3411,7 @@ static guint
 gtk_rc_parse_ythickness (GScanner   *scanner,
 			 GtkRcStyle *style)
 {
-  if (g_scanner_get_next_token (scanner) != GTK_RC_TOKEN_YTHICKNESS)
+  if (g_scanner_get_next_token (scanner) != (guint) GTK_RC_TOKEN_YTHICKNESS)
     return GTK_RC_TOKEN_YTHICKNESS;
 
   if (g_scanner_get_next_token (scanner) != G_TOKEN_EQUAL_SIGN)
@@ -3847,7 +3869,8 @@ gtk_rc_parse_priority (GScanner	           *scanner,
 /**
  * gtk_rc_parse_color:
  * @scanner: a #GScanner
- * @color: a pointer to a #GdkColor structure in which to store the result
+ * @color: (out): a pointer to a #GdkColor structure in which to store
+ *     the result
  *
  * Parses a color in the <link linkend="color=format">format</link> expected
  * in a RC file. 
@@ -3869,7 +3892,8 @@ gtk_rc_parse_color (GScanner *scanner,
  * gtk_rc_parse_color_full:
  * @scanner: a #GScanner
  * @style: (allow-none): a #GtkRcStyle, or %NULL
- * @color: a pointer to a #GdkColor structure in which to store the result
+ * @color: (out): a pointer to a #GdkColor structure in which to store
+ *     the result
  *
  * Parses a color in the <link linkend="color=format">format</link> expected
  * in a RC file. If @style is not %NULL, it will be consulted to resolve

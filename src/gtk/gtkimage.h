@@ -24,13 +24,13 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
-#error "Only <gtk/gtk.h> can be included directly."
-#endif
-
 #ifndef __GTK_IMAGE_H__
 #define __GTK_IMAGE_H__
 
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gio/gio.h>
 #include <gtk/gtkmisc.h>
@@ -251,7 +251,7 @@ void       gtk_image_get_icon_set (GtkImage         *image,
                                    GtkIconSize      *size);
 GdkPixbufAnimation* gtk_image_get_animation (GtkImage *image);
 void       gtk_image_get_icon_name (GtkImage              *image,
-				    G_CONST_RETURN gchar **icon_name,
+				    const gchar          **icon_name,
 				    GtkIconSize           *size);
 void       gtk_image_get_gicon     (GtkImage              *image,
 				    GIcon                **gicon,

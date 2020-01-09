@@ -252,17 +252,20 @@ gdk_window_impl_quartz_begin_paint_region (GdkPaintable    *paintable,
 
   gdk_region_get_rectangles (clipped_and_offset_region, &rects, &n_rects);
 
+  if (n_rects == 0)
+    goto done;
+
   if (bg_pixmap == NULL)
     {
       CGContextRef cg_context;
-      CGFloat r, g, b, a;
+      CGColorRef color;
       gint i;
 
       cg_context = gdk_quartz_drawable_get_context (GDK_DRAWABLE (impl), FALSE);
-      _gdk_quartz_colormap_get_rgba_from_pixel (gdk_drawable_get_colormap (window),
-                                                private->bg_color.pixel,
-                                                &r, &g, &b, &a);
-      CGContextSetRGBFillColor (cg_context, r, g, b, a);
+      color = _gdk_quartz_colormap_get_cgcolor_from_pixel (window,
+                                                           private->bg_color.pixel);
+      CGContextSetFillColorWithColor (cg_context, color);
+      CGColorRelease (color);
  
       for (i = 0; i < n_rects; i++)
         {
@@ -370,12 +373,37 @@ _gdk_quartz_window_set_needs_display_in_rect (GdkWindow    *window,
 }
 
 void
-_gdk_windowing_window_process_updates_recurse (GdkWindow *window,
-                                               GdkRegion *region)
+_gdk_quartz_window_set_needs_display_in_region (GdkWindow    *window,
+                                                GdkRegion    *region)
 {
+  GdkWindowObject *private;
+  GdkWindowImplQuartz *impl;
   int i, n_rects;
   GdkRectangle *rects;
 
+  private = GDK_WINDOW_OBJECT (window);
+  impl = GDK_WINDOW_IMPL_QUARTZ (private->impl);
+
+  if (!impl->needs_display_region)
+    impl->needs_display_region = gdk_region_new ();
+
+  gdk_region_union (impl->needs_display_region, region);
+
+  gdk_region_get_rectangles (region, &rects, &n_rects);
+
+  for (i = 0; i < n_rects; i++)
+    [impl->view setNeedsDisplayInRect:NSMakeRect (rects[i].x, rects[i].y,
+                                                  rects[i].width,
+                                                  rects[i].height)];
+
+  g_free (rects);
+
+}
+
+void
+_gdk_windowing_window_process_updates_recurse (GdkWindow *window,
+                                               GdkRegion *region)
+{
   /* Make sure to only flush each toplevel at most once if we're called
    * from process_all_updates.
    */
@@ -383,8 +411,8 @@ _gdk_windowing_window_process_updates_recurse (GdkWindow *window,
     {
       GdkWindow *toplevel;
 
-      toplevel = gdk_window_get_toplevel (window);
-      if (toplevel)
+      toplevel = gdk_window_get_effective_toplevel (window);
+      if (toplevel && WINDOW_IS_TOPLEVEL (toplevel))
         {
           GdkWindowObject *toplevel_private;
           GdkWindowImplQuartz *toplevel_impl;
@@ -406,12 +434,10 @@ _gdk_windowing_window_process_updates_recurse (GdkWindow *window,
         }
     }
 
-  gdk_region_get_rectangles (region, &rects, &n_rects);
-
-  for (i = 0; i < n_rects; i++)
-    _gdk_quartz_window_set_needs_display_in_rect (window, &rects[i]);
-
-  g_free (rects);
+  if (WINDOW_IS_TOPLEVEL (window))
+    _gdk_quartz_window_set_needs_display_in_region (window, region);
+  else
+    _gdk_window_process_updates_recurse (window, region);
 
   /* NOTE: I'm not sure if we should displayIfNeeded here. It slows down a
    * lot (since it triggers the beam syncing) and things seem to work
@@ -580,7 +606,7 @@ _gdk_quartz_window_debug_highlight (GdkWindow *window, gint number)
       return;
     }
 
-  toplevel = gdk_window_get_toplevel (window);
+  toplevel = gdk_window_get_effective_toplevel (window);
   get_ancestor_coordinates_from_child (window, 0, 0, toplevel, &x, &y);
 
   gdk_window_get_origin (toplevel, &tx, &ty);
@@ -813,7 +839,7 @@ _gdk_quartz_window_did_resign_main (GdkWindow *window)
   if (new_window &&
       new_window != window &&
       GDK_WINDOW_IS_MAPPED (new_window) &&
-      GDK_WINDOW_OBJECT (new_window)->window_type != GDK_WINDOW_TEMP)
+      WINDOW_IS_TOPLEVEL (new_window))
     {
       GdkWindowObject *private = (GdkWindowObject *) new_window;
       GdkWindowImplQuartz *impl = GDK_WINDOW_IMPL_QUARTZ (private->impl);
@@ -1177,7 +1203,7 @@ gdk_window_quartz_show (GdkWindow *window, gboolean already_mapped)
   else
     focus_on_map = TRUE;
 
-  if (impl->toplevel)
+  if (impl->toplevel && WINDOW_IS_TOPLEVEL (window))
     {
       gboolean make_key;
 
@@ -1272,7 +1298,7 @@ gdk_window_quartz_hide (GdkWindow *window)
 
   impl = GDK_WINDOW_IMPL_QUARTZ (private->impl);
 
-  if (impl->toplevel) 
+  if (window && WINDOW_IS_TOPLEVEL (window))
     {
      /* Update main window. */
       main_window_stack = g_slist_remove (main_window_stack, window);
@@ -1679,7 +1705,18 @@ gdk_window_quartz_restack_toplevel (GdkWindow *window,
 				    GdkWindow *sibling,
 				    gboolean   above)
 {
-  /* FIXME: Implement this */
+  GdkWindowImplQuartz *impl;
+  gint sibling_num;
+
+  impl = GDK_WINDOW_IMPL_QUARTZ (((GdkWindowObject *)sibling)->impl);
+  sibling_num = [impl->toplevel windowNumber];
+
+  impl = GDK_WINDOW_IMPL_QUARTZ (((GdkWindowObject *)window)->impl);
+
+  if (above)
+    [impl->toplevel orderWindow:NSWindowAbove relativeTo:sibling_num];
+  else
+    [impl->toplevel orderWindow:NSWindowBelow relativeTo:sibling_num];
 }
 
 static void
@@ -1914,7 +1951,7 @@ gdk_window_quartz_get_pointer_helper (GdkWindow       *window,
       return NULL;
     }
   
-  toplevel = GDK_WINDOW_OBJECT (gdk_window_get_toplevel (window));
+  toplevel = GDK_WINDOW_OBJECT (gdk_window_get_effective_toplevel (window));
 
   *mask = _gdk_quartz_events_get_current_event_mask ();
 
@@ -2354,34 +2391,39 @@ gdk_window_set_hints (GdkWindow *window,
   /* FIXME: Implement */
 }
 
-static
-gint window_type_hint_to_level (GdkWindowTypeHint hint)
+static gint
+window_type_hint_to_level (GdkWindowTypeHint hint)
 {
+  /*  the order in this switch statement corresponds to the actual
+   *  stacking order: the first group is top, the last group is bottom
+   */
   switch (hint)
     {
-    case GDK_WINDOW_TYPE_HINT_DOCK:
-    case GDK_WINDOW_TYPE_HINT_UTILITY:
-      return NSFloatingWindowLevel;
+    case GDK_WINDOW_TYPE_HINT_POPUP_MENU:
+    case GDK_WINDOW_TYPE_HINT_COMBO:
+    case GDK_WINDOW_TYPE_HINT_DND:
+    case GDK_WINDOW_TYPE_HINT_TOOLTIP:
+      return NSPopUpMenuWindowLevel;
+
+    case GDK_WINDOW_TYPE_HINT_NOTIFICATION:
+    case GDK_WINDOW_TYPE_HINT_SPLASHSCREEN:
+      return NSStatusWindowLevel;
 
     case GDK_WINDOW_TYPE_HINT_MENU: /* Torn-off menu */
     case GDK_WINDOW_TYPE_HINT_DROPDOWN_MENU: /* Menu from menubar */
       return NSTornOffMenuWindowLevel;
 
-    case GDK_WINDOW_TYPE_HINT_NOTIFICATION:
-    case GDK_WINDOW_TYPE_HINT_TOOLTIP:
-      return NSStatusWindowLevel;
+    case GDK_WINDOW_TYPE_HINT_DOCK:
+      return NSFloatingWindowLevel; /* NSDockWindowLevel is deprecated, and not replaced */
 
-    case GDK_WINDOW_TYPE_HINT_SPLASHSCREEN:
-    case GDK_WINDOW_TYPE_HINT_POPUP_MENU:
-    case GDK_WINDOW_TYPE_HINT_COMBO:
-    case GDK_WINDOW_TYPE_HINT_DND:
-      return NSPopUpMenuWindowLevel;
-
-    case GDK_WINDOW_TYPE_HINT_NORMAL:  /* Normal toplevel window */
+    case GDK_WINDOW_TYPE_HINT_UTILITY:
     case GDK_WINDOW_TYPE_HINT_DIALOG:  /* Dialog window */
+    case GDK_WINDOW_TYPE_HINT_NORMAL:  /* Normal toplevel window */
     case GDK_WINDOW_TYPE_HINT_TOOLBAR: /* Window used to implement toolbars */
-    case GDK_WINDOW_TYPE_HINT_DESKTOP: /* N/A */
-      break;
+      return NSNormalWindowLevel;
+
+    case GDK_WINDOW_TYPE_HINT_DESKTOP:
+      return kCGDesktopWindowLevelKey; /* doesn't map to any real Cocoa model */
 
     default:
       break;
@@ -2390,7 +2432,7 @@ gint window_type_hint_to_level (GdkWindowTypeHint hint)
   return NSNormalWindowLevel;
 }
 
-static gboolean 
+static gboolean
 window_type_hint_to_shadow (GdkWindowTypeHint hint)
 {
   switch (hint)
@@ -2420,13 +2462,31 @@ window_type_hint_to_shadow (GdkWindowTypeHint hint)
   return FALSE;
 }
 
+static gboolean
+window_type_hint_to_hides_on_deactivate (GdkWindowTypeHint hint)
+{
+  switch (hint)
+    {
+    case GDK_WINDOW_TYPE_HINT_UTILITY:
+    case GDK_WINDOW_TYPE_HINT_MENU: /* Torn-off menu */
+    case GDK_WINDOW_TYPE_HINT_SPLASHSCREEN:
+    case GDK_WINDOW_TYPE_HINT_NOTIFICATION:
+    case GDK_WINDOW_TYPE_HINT_TOOLTIP:
+      return TRUE;
+
+    default:
+      break;
+    }
+
+  return FALSE;
+}
 
 void
 gdk_window_set_type_hint (GdkWindow        *window,
 			  GdkWindowTypeHint hint)
 {
   GdkWindowImplQuartz *impl;
-  
+
   if (GDK_WINDOW_DESTROYED (window) ||
       !WINDOW_IS_TOPLEVEL (window))
     return;
@@ -2441,6 +2501,7 @@ gdk_window_set_type_hint (GdkWindow        *window,
 
   [impl->toplevel setHasShadow: window_type_hint_to_shadow (hint)];
   [impl->toplevel setLevel: window_type_hint_to_level (hint)];
+  [impl->toplevel setHidesOnDeactivate: window_type_hint_to_hides_on_deactivate (hint)];
 }
 
 GdkWindowTypeHint
@@ -2571,7 +2632,7 @@ gdk_window_get_frame_extents (GdkWindow    *window,
   rect->width = 1;
   rect->height = 1;
   
-  toplevel = gdk_window_get_toplevel (window);
+  toplevel = gdk_window_get_effective_toplevel (window);
   impl = GDK_WINDOW_IMPL_QUARTZ (GDK_WINDOW_OBJECT (toplevel)->impl);
 
   ns_rect = [impl->toplevel frame];
@@ -2583,6 +2644,14 @@ gdk_window_get_frame_extents (GdkWindow    *window,
   rect->width = ns_rect.size.width;
   rect->height = ns_rect.size.height;
 }
+
+/* Fake protocol to make gcc think that it's OK to call setStyleMask
+   even if it isn't. We check to make sure before actually calling
+   it. */
+
+@protocol CanSetStyleMask
+- (void)setStyleMask:(int)mask;
+@end
 
 void
 gdk_window_set_decorations (GdkWindow       *window,
@@ -2614,15 +2683,11 @@ gdk_window_set_decorations (GdkWindow       *window,
 
   old_mask = [impl->toplevel styleMask];
 
-  /* Note, there doesn't seem to be a way to change this without
-   * recreating the toplevel. There might be bad side-effects of doing
-   * that, but it seems alright.
-   */
   if (old_mask != new_mask)
     {
       NSRect rect;
 
-      old_view = [impl->toplevel contentView];
+      old_view = [[impl->toplevel contentView] retain];
 
       rect = [impl->toplevel frame];
 
@@ -2641,22 +2706,67 @@ gdk_window_set_decorations (GdkWindow       *window,
           rect = [NSWindow contentRectForFrameRect:rect styleMask:old_mask];
         }
 
-      impl->toplevel = [impl->toplevel initWithContentRect:rect
-                                                 styleMask:new_mask
-                                                   backing:NSBackingStoreBuffered
-                                                     defer:NO];
+      /* Note, before OS 10.6 there doesn't seem to be a way to change this
+       * without recreating the toplevel. From 10.6 onward, a simple call to
+       * setStyleMask takes care of most of this, except for ensuring that the
+       * title is set.
+       */
+      if ([impl->toplevel respondsToSelector:@selector(setStyleMask:)])
+        {
+          NSString *title = [impl->toplevel title];
 
-      [impl->toplevel setHasShadow: window_type_hint_to_shadow (impl->type_hint)];
-      [impl->toplevel setLevel: window_type_hint_to_level (impl->type_hint)];
+          [(id<CanSetStyleMask>)impl->toplevel setStyleMask:new_mask];
 
-      [impl->toplevel setContentView:old_view];
-      [impl->toplevel setFrame:rect display:YES];
+          /* It appears that unsetting and then resetting NSTitledWindowMask
+           * does not reset the title in the title bar as might be expected.
+           *
+           * In theory we only need to set this if new_mask includes
+           * NSTitledWindowMask. This behaved extremely oddly when
+           * conditionalized upon that and since it has no side effects (i.e.
+           * if NSTitledWindowMask is not requested, the title will not be
+           * displayed) just do it unconditionally. We also must null check
+           * 'title' before setting it to avoid crashing.
+           */
+          if (title)
+            [impl->toplevel setTitle:title];
+        }
+      else
+        {
+          NSString *title = [impl->toplevel title];
+          NSColor *bg = [impl->toplevel backgroundColor];
+          NSScreen *screen = [impl->toplevel screen];
+
+          /* Make sure the old window is closed, recall that releasedWhenClosed
+           * is set on GdkQuartzWindows.
+           */
+          [impl->toplevel close];
+
+          impl->toplevel = [[GdkQuartzWindow alloc] initWithContentRect:rect
+                                                              styleMask:new_mask
+                                                                backing:NSBackingStoreBuffered
+                                                                  defer:NO
+                                                                 screen:screen];
+          [impl->toplevel setHasShadow: window_type_hint_to_shadow (impl->type_hint)];
+          [impl->toplevel setLevel: window_type_hint_to_level (impl->type_hint)];
+          if (title)
+            [impl->toplevel setTitle:title];
+          [impl->toplevel setBackgroundColor:bg];
+          [impl->toplevel setHidesOnDeactivate: window_type_hint_to_hides_on_deactivate (impl->type_hint)];
+          [impl->toplevel setContentView:old_view];
+        }
+
+      if (new_mask == NSBorderlessWindowMask)
+        [impl->toplevel setContentSize:rect.size];
+      else
+        [impl->toplevel setFrame:rect display:YES];
 
       /* Invalidate the window shadow for non-opaque views that have shadow
        * enabled, to get the shadow shape updated.
        */
       if (![old_view isOpaque] && [impl->toplevel hasShadow])
         [(GdkQuartzView*)old_view setNeedsInvalidateShadow:YES];
+
+      [old_view release];
     }
 
   GDK_QUARTZ_RELEASE_POOL;
@@ -2846,6 +2956,7 @@ gdk_window_fullscreen (GdkWindow *window)
 {
   FullscreenSavedGeometry *geometry;
   GdkWindowObject *private = (GdkWindowObject *) window;
+  GdkWindowImplQuartz *impl = GDK_WINDOW_IMPL_QUARTZ (private->impl);
   NSRect frame;
 
   if (GDK_WINDOW_DESTROYED (window) ||
@@ -2871,10 +2982,14 @@ gdk_window_fullscreen (GdkWindow *window)
 
       gdk_window_set_decorations (window, 0);
 
-      frame = [[NSScreen mainScreen] frame];
+      frame = [[impl->toplevel screen] frame];
       move_resize_window_internal (window,
                                    0, 0, 
                                    frame.size.width, frame.size.height);
+      [impl->toplevel setContentSize:frame.size];
+      [impl->toplevel makeKeyAndOrderFront:impl->toplevel];
+
+      clear_toplevel_order ();
     }
 
   SetSystemUIMode (kUIModeAllHidden, kUIOptionAutoShowMenuBar);
@@ -2885,6 +3000,8 @@ gdk_window_fullscreen (GdkWindow *window)
 void
 gdk_window_unfullscreen (GdkWindow *window)
 {
+  GdkWindowObject *private = (GdkWindowObject *) window;
+  GdkWindowImplQuartz *impl = GDK_WINDOW_IMPL_QUARTZ (private->impl);
   FullscreenSavedGeometry *geometry;
 
   if (GDK_WINDOW_DESTROYED (window) ||
@@ -2905,6 +3022,9 @@ gdk_window_unfullscreen (GdkWindow *window)
       gdk_window_set_decorations (window, geometry->decor);
 
       g_object_set_data (G_OBJECT (window), FULLSCREEN_DATA, NULL);
+
+      [impl->toplevel makeKeyAndOrderFront:impl->toplevel];
+      clear_toplevel_order ();
 
       gdk_synthesize_window_state (window, GDK_WINDOW_STATE_FULLSCREEN, 0);
     }

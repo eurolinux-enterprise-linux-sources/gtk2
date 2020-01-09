@@ -576,6 +576,23 @@ maybe_cache_icon_data (Image       *image,
     }
 }
 
+/**
+ * Finds all dir separators and replaces them with '/'.
+ * This makes sure that only /-separated paths are written in cache files,
+ * maintaining compatibility with theme index files that use slashes as
+ * directory separators on all platforms.
+ */
+static void
+replace_backslashes_with_slashes (gchar *path)
+{
+  size_t i;
+  if (path == NULL)
+    return;
+  for (i = 0; path[i]; i++)
+    if (G_IS_DIR_SEPARATOR (path[i]))
+      path[i] = '/';
+}
+
 static GList *
 scan_directory (const gchar *base_path, 
 		const gchar *subdir, 
@@ -590,7 +607,7 @@ scan_directory (const gchar *base_path,
   gboolean dir_added = FALSE;
   guint dir_index = 0xffff;
   
-  dir_path = g_build_filename (base_path, subdir, NULL);
+  dir_path = g_build_path ("/", base_path, subdir, NULL);
 
   /* FIXME: Use the gerror */
   dir = g_dir_open (dir_path, 0, NULL);
@@ -609,13 +626,14 @@ scan_directory (const gchar *base_path,
       gchar *basename, *dot;
 
       path = g_build_filename (dir_path, name, NULL);
+
       retval = g_file_test (path, G_FILE_TEST_IS_DIR);
       if (retval)
 	{
 	  gchar *subsubdir;
 
 	  if (subdir)
-	    subsubdir = g_build_filename (subdir, name, NULL);
+	    subsubdir = g_build_path ("/", subdir, name, NULL);
 	  else
 	    subsubdir = g_strdup (name);
 	  directories = scan_directory (base_path, subsubdir, files, 
@@ -1424,6 +1442,32 @@ validate_file (const gchar *file)
   return TRUE;
 }
 
+/**
+ * safe_fclose:
+ * @f: A FILE* stream, must have underlying fd
+ *
+ * Unix defaults for data preservation after system crash 
+ * are unspecified, and many systems will eat your data
+ * in this situation unless you explicitly fsync().
+ *
+ * Returns: %TRUE on success, %FALSE on failure, and will set errno()
+ */
+static gboolean
+safe_fclose (FILE *f)
+{
+  int fd = fileno (f);
+  g_assert (fd >= 0);
+  if (fflush (f) == EOF)
+    return FALSE;
+#ifndef G_OS_WIN32
+  if (fsync (fd) < 0)
+    return FALSE;
+#endif
+  if (fclose (f) == EOF)
+    return FALSE;
+  return TRUE;
+}
+
 static void
 build_cache (const gchar *path)
 {
@@ -1432,7 +1476,6 @@ build_cache (const gchar *path)
   gchar *bak_cache_path = NULL;
 #endif
   GHashTable *files;
-  gboolean retval;
   FILE *cache;
   struct stat path_stat, cache_stat;
   struct utimbuf utime_buf;
@@ -1490,18 +1533,23 @@ opentmp:
     }
     
   /* FIXME: Handle failure */
-  retval = write_file (cache, files, directories);
-  fclose (cache);
-
-  g_list_foreach (directories, (GFunc)g_free, NULL);
-  g_list_free (directories);
-  
-  if (!retval)
+  if (!write_file (cache, files, directories))
     {
       g_unlink (tmp_cache_path);
       exit (1);
     }
 
+  if (!safe_fclose (cache))
+    {
+      g_printerr (_("Failed to write cache file: %s\n"), g_strerror (errno));
+      g_unlink (tmp_cache_path);
+      exit (1);
+    }
+  cache = NULL;
+
+  g_list_foreach (directories, (GFunc)g_free, NULL);
+  g_list_free (directories);
+  
   if (!validate_file (tmp_cache_path))
     {
       g_printerr (_("The generated cache was invalid.\n"));
@@ -1714,6 +1762,7 @@ main (int argc, char **argv)
     return 0;
 
   g_type_init ();
+  replace_backslashes_with_slashes (path);
   build_cache (path);
 
   if (strcmp (var_name, "-") != 0)

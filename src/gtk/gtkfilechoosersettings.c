@@ -40,7 +40,6 @@
 #define SETTINGS_GROUP		"Filechooser Settings"
 #define LOCATION_MODE_KEY	"LocationMode"
 #define SHOW_HIDDEN_KEY		"ShowHidden"
-#define EXPAND_FOLDERS_KEY	"ExpandFolders"
 #define SHOW_SIZE_COLUMN_KEY    "ShowSizeColumn"
 #define GEOMETRY_X_KEY		"GeometryX"
 #define GEOMETRY_Y_KEY		"GeometryY"
@@ -48,12 +47,16 @@
 #define GEOMETRY_HEIGHT_KEY	"GeometryHeight"
 #define SORT_COLUMN_KEY         "SortColumn"
 #define SORT_ORDER_KEY          "SortOrder"
+#define STARTUP_MODE_KEY        "StartupMode"
 
 #define COLUMN_NAME_STRING      "name"
 #define COLUMN_MTIME_STRING     "modified"
 #define COLUMN_SIZE_STRING      "size"
 #define SORT_ASCENDING_STRING   "ascending"
 #define SORT_DESCENDING_STRING  "descending"
+
+#define STARTUP_MODE_RECENT_STRING "recent"
+#define STARTUP_MODE_CWD_STRING    "cwd"
 
 #define MODE_PATH_BAR          "path-bar"
 #define MODE_FILENAME_ENTRY    "filename-entry"
@@ -113,6 +116,7 @@ ensure_settings_read (GtkFileChooserSettings *settings)
   GKeyFile *key_file;
   gchar *location_mode_str, *filename;
   gchar *sort_column, *sort_order;
+  gchar *startup_mode;
   gboolean value;
 
   if (settings->settings_read)
@@ -163,15 +167,6 @@ ensure_settings_read (GtkFileChooserSettings *settings)
     warn_if_invalid_key_and_clear_error (SHOW_HIDDEN_KEY, &error);
   else
     settings->show_hidden = value != FALSE;
-
-  /* Expand folders */
-
-  value = g_key_file_get_boolean (key_file, SETTINGS_GROUP,
-				  EXPAND_FOLDERS_KEY, &error);
-  if (error)
-    warn_if_invalid_key_and_clear_error (EXPAND_FOLDERS_KEY, &error);
-  else
-    settings->expand_folders = value != FALSE;
 
   /* Show size column */
 
@@ -225,6 +220,23 @@ ensure_settings_read (GtkFileChooserSettings *settings)
       g_free (sort_order);
     }
 
+  /* Startup mode */
+
+  startup_mode = g_key_file_get_string (key_file, SETTINGS_GROUP,
+					STARTUP_MODE_KEY, NULL);
+  if (startup_mode)
+    {
+      if (EQ (STARTUP_MODE_RECENT_STRING, startup_mode))
+	settings->startup_mode = STARTUP_MODE_RECENT;
+      else if (EQ (STARTUP_MODE_CWD_STRING, startup_mode))
+	settings->startup_mode = STARTUP_MODE_CWD;
+      else
+	g_warning ("Unknown startup mode '%s' encountered in filechooser settings",
+		   startup_mode);
+
+      g_free (startup_mode);
+    }
+
  out:
 
   g_key_file_free (key_file);
@@ -247,12 +259,12 @@ _gtk_file_chooser_settings_init (GtkFileChooserSettings *settings)
   settings->sort_order = GTK_SORT_ASCENDING;
   settings->sort_column = FILE_LIST_COL_NAME;
   settings->show_hidden = FALSE;
-  settings->expand_folders = FALSE;
   settings->show_size_column = TRUE;
   settings->geometry_x	    = -1;
   settings->geometry_y	    = -1;
   settings->geometry_width  = -1;
   settings->geometry_height = -1;
+  settings->startup_mode = STARTUP_MODE_RECENT;
 }
 
 GtkFileChooserSettings *
@@ -289,13 +301,6 @@ _gtk_file_chooser_settings_set_show_hidden (GtkFileChooserSettings *settings,
   settings->show_hidden = show_hidden != FALSE;
 }
 
-gboolean
-_gtk_file_chooser_settings_get_expand_folders (GtkFileChooserSettings *settings)
-{
-  ensure_settings_read (settings);
-  return settings->expand_folders;
-}
-
 void
 _gtk_file_chooser_settings_set_show_size_column (GtkFileChooserSettings *settings,
 					         gboolean show_column)
@@ -308,13 +313,6 @@ _gtk_file_chooser_settings_get_show_size_column (GtkFileChooserSettings *setting
 {
   ensure_settings_read (settings);
   return settings->show_size_column;
-}
-
-void
-_gtk_file_chooser_settings_set_expand_folders (GtkFileChooserSettings *settings,
-					       gboolean expand_folders)
-{
-  settings->expand_folders = expand_folders != FALSE;
 }
 
 void
@@ -373,6 +371,20 @@ _gtk_file_chooser_settings_set_sort_order (GtkFileChooserSettings *settings,
   settings->sort_order = sort_order;
 }
 
+void
+_gtk_file_chooser_settings_set_startup_mode (GtkFileChooserSettings *settings,
+					     StartupMode             startup_mode)
+{
+  settings->startup_mode = startup_mode;
+}
+
+StartupMode
+_gtk_file_chooser_settings_get_startup_mode (GtkFileChooserSettings *settings)
+{
+  ensure_settings_read (settings);
+  return settings->startup_mode;
+}
+
 gboolean
 _gtk_file_chooser_settings_save (GtkFileChooserSettings *settings,
 				 GError                **error)
@@ -383,6 +395,7 @@ _gtk_file_chooser_settings_save (GtkFileChooserSettings *settings,
   gchar *contents;
   gchar *sort_column;
   gchar *sort_order;
+  gchar *startup_mode;
   gsize len;
   gboolean retval;
   GKeyFile *key_file;
@@ -438,6 +451,21 @@ _gtk_file_chooser_settings_save (GtkFileChooserSettings *settings,
       sort_order = NULL;
     }
 
+  switch (settings->startup_mode)
+    {
+    case STARTUP_MODE_RECENT:
+      startup_mode = STARTUP_MODE_RECENT_STRING;
+      break;
+
+    case STARTUP_MODE_CWD:
+      startup_mode = STARTUP_MODE_CWD_STRING;
+      break;
+
+    default:
+      g_assert_not_reached ();
+      startup_mode = NULL;
+    }
+
   key_file = g_key_file_new ();
 
   /* Initialise with the on-disk keyfile, so we keep unknown options */
@@ -447,8 +475,6 @@ _gtk_file_chooser_settings_save (GtkFileChooserSettings *settings,
 			 LOCATION_MODE_KEY, location_mode_str);
   g_key_file_set_boolean (key_file, SETTINGS_GROUP,
 			  SHOW_HIDDEN_KEY, settings->show_hidden);
-  g_key_file_set_boolean (key_file, SETTINGS_GROUP,
-			  EXPAND_FOLDERS_KEY, settings->expand_folders);
   g_key_file_set_boolean (key_file, SETTINGS_GROUP,
 			  SHOW_SIZE_COLUMN_KEY, settings->show_size_column);
   g_key_file_set_integer (key_file, SETTINGS_GROUP,
@@ -463,6 +489,8 @@ _gtk_file_chooser_settings_save (GtkFileChooserSettings *settings,
 			 SORT_COLUMN_KEY, sort_column);
   g_key_file_set_string (key_file, SETTINGS_GROUP,
 			 SORT_ORDER_KEY, sort_order);
+  g_key_file_set_string (key_file, SETTINGS_GROUP,
+			 STARTUP_MODE_KEY, startup_mode);
 
   contents = g_key_file_to_data (key_file, &len, error);
   g_key_file_free (key_file);

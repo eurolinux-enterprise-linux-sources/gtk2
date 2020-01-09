@@ -388,6 +388,13 @@ gtk_progress_bar_get_property (GObject      *object,
     }
 }
 
+/**
+ * gtk_progress_bar_new:
+ *
+ * Creates a new #GtkProgressBar.
+ *
+ * Returns: a #GtkProgressBar.
+ */
 GtkWidget*
 gtk_progress_bar_new (void)
 {
@@ -456,8 +463,8 @@ gtk_progress_bar_real_update (GtkProgress *progress)
 		      widget->allocation.width -
 		      widget->style->xthickness)
 		    {
-		      pbar->activity_pos = widget->allocation.width -
-			widget->style->xthickness - size;
+		      pbar->activity_pos = MAX (0, widget->allocation.width -
+			widget->style->xthickness - size);
 		      pbar->activity_dir = 1;
 		    }
 		}
@@ -486,8 +493,8 @@ gtk_progress_bar_real_update (GtkProgress *progress)
 		      widget->allocation.height -
 		      widget->style->ythickness)
 		    {
-		      pbar->activity_pos = widget->allocation.height -
-			widget->style->ythickness - size;
+		      pbar->activity_pos = MAX (0, widget->allocation.height -
+			widget->style->ythickness - size);
 		      pbar->activity_dir = 1;
 		    }
 		}
@@ -1246,7 +1253,7 @@ gtk_progress_bar_set_orientation (GtkProgressBar           *pbar,
  * Return value: text, or %NULL; this string is owned by the widget
  * and should not be modified or freed.
  **/
-G_CONST_RETURN gchar*
+const gchar*
 gtk_progress_bar_get_text (GtkProgressBar *pbar)
 {
   g_return_val_if_fail (GTK_IS_PROGRESS_BAR (pbar), NULL);

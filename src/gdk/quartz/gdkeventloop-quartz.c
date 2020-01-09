@@ -124,7 +124,7 @@ static NSAutoreleasePool *autorelease_pool;
  * a run loop iteration, so we need to detect that and avoid triggering
  * our "run the GLib main looop while the run loop is active machinery.
  */
-static gboolean getting_events;
+static gint getting_events = 0;
 
 /************************************************************
  *********              Select Thread               *********
@@ -207,9 +207,12 @@ signal_main_thread (void)
    */
   if (!run_loop_polling_async)
     CFRunLoopSourceSignal (select_main_thread_source);
-  
-  if (CFRunLoopIsWaiting (main_thread_run_loop))
-    CFRunLoopWakeUp (main_thread_run_loop);
+
+  /* Don't check for CFRunLoopIsWaiting() here because it causes a
+   * race condition (the loop could go into waiting state right after
+   * we checked).
+   */
+  CFRunLoopWakeUp (main_thread_run_loop);
 }
 
 static void *
@@ -614,7 +617,32 @@ gdk_event_prepare (GSource *source,
   gboolean retval;
 
   GDK_THREADS_ENTER ();
-  
+
+  /* The prepare stage is the stage before the main loop starts polling
+   * and dispatching events. The autorelease poll is drained here for
+   * the preceding main loop iteration or, in case of the first iteration,
+   * for the operations carried out between event loop initialization and
+   * this first iteration.
+   *
+   * The autorelease poll must only be drained when the following conditions
+   * apply:
+   *  - We are at the base CFRunLoop level (indicated by current_loop_level),
+   *  - We are at the base g_main_loop level (indicated by
+   *    g_main_depth())
+   *  - We are at the base poll_func level (indicated by getting events).
+   *
+   * Messing with the autorelease pool at any level of nesting can cause access
+   * to deallocated memory because autorelease_pool is static and releasing a
+   * pool will cause all pools allocated inside of it to be released as well.
+   */
+  if (current_loop_level == 0 && g_main_depth() == 0 && getting_events == 0)
+    {
+      if (autorelease_pool)
+        [autorelease_pool drain];
+
+      autorelease_pool = [[NSAutoreleasePool alloc] init];
+    }
+
   *timeout = -1;
 
   retval = (_gdk_event_queue_find_first (_gdk_display) != NULL ||
@@ -632,21 +660,6 @@ gdk_event_check (GSource *source)
 
   GDK_THREADS_ENTER ();
 
-  /* XXX: This check isn't right it won't handle a recursive GLib main
-   * loop run within an outer CFRunLoop run. Such loops will pile up
-   * memory. Fixing this requires setting a flag *only* when we call
-   * g_main_context_check() from within the run loop iteraton code,
-   * and also maintaining our own stack of run loops... allocating and
-   * releasing NSAutoReleasePools not properly nested with CFRunLoop
-   * runs seems to cause problems.
-   */
-  if (current_loop_level == 0)
-    {
-      if (autorelease_pool)
-	[autorelease_pool release];
-      autorelease_pool = [[NSAutoreleasePool alloc] init];
-    }
-  
   retval = (_gdk_event_queue_find_first (_gdk_display) != NULL ||
 	    _gdk_quartz_event_loop_check_pending ());
 
@@ -701,6 +714,10 @@ poll_func (GPollFD *ufds,
   NSDate *limit_date;
   gint n_ready;
 
+  static GPollFD *last_ufds;
+
+  last_ufds = ufds;
+
   n_ready = select_thread_start_poll (ufds, nfds, timeout_);
   if (n_ready > 0)
     timeout_ = 0;
@@ -712,14 +729,23 @@ poll_func (GPollFD *ufds,
   else
     limit_date = [NSDate dateWithTimeIntervalSinceNow:timeout_/1000.0];
 
-  getting_events = TRUE;
+  getting_events++;
   event = [NSApp nextEventMatchingMask: NSAnyEventMask
 	                     untilDate: limit_date
 	                        inMode: NSDefaultRunLoopMode
                                dequeue: YES];
-  getting_events = FALSE;
+  getting_events--;
 
-  if (n_ready < 0)
+  /* We check if last_ufds did not change since the time this function was
+   * called. It is possible that a recursive main loop (and thus recursive
+   * invocation of this poll function) is triggered while in
+   * nextEventMatchingMask:. If during that time new fds are added,
+   * the cached fds array might be replaced in g_main_context_iterate().
+   * So, we should avoid accessing the old fd array (still pointed at by
+   * ufds) here in that case, since it might have been freed. We avoid this
+   * by not calling the collect stage.
+   */
+  if (last_ufds == ufds && n_ready < 0)
     n_ready = select_thread_collect_poll (ufds, nfds);
       
   if (event &&
@@ -778,8 +804,6 @@ query_main_context (GMainContext *context,
 static void
 run_loop_entry (void)
 {
-  current_loop_level++;
-
   if (acquired_loop_level == -1)
     {
       if (g_main_context_acquire (NULL))
@@ -928,16 +952,13 @@ run_loop_after_waiting (void)
 static void
 run_loop_exit (void)
 {
-  g_return_if_fail (current_loop_level > 0);
-
-  if (current_loop_level == acquired_loop_level)
+  /* + 1 because we decrement current_loop_level separately in observer_callback() */
+  if ((current_loop_level + 1) == acquired_loop_level)
     {
       g_main_context_release (NULL);
       acquired_loop_level = -1;
       GDK_NOTE (EVENTLOOP, g_print ("EventLoop: Ended tracking run loop activity\n"));
     }
-  
-  current_loop_level--;
 }
 
 static void
@@ -945,9 +966,22 @@ run_loop_observer_callback (CFRunLoopObserverRef observer,
 			    CFRunLoopActivity    activity,
 			    void                *info)
 {
-  if (getting_events) /* Activity we triggered */
+  switch (activity)
+    {
+    case kCFRunLoopEntry:
+      current_loop_level++;
+      break;
+    case kCFRunLoopExit:
+      g_return_if_fail (current_loop_level > 0);
+      current_loop_level--;
+      break;
+    default:
+      break;
+    }
+
+  if (getting_events > 0) /* Activity we triggered */
     return;
-  
+
   switch (activity)
     {
     case kCFRunLoopEntry:
@@ -987,6 +1021,7 @@ _gdk_quartz_event_loop_init (void)
   event_poll_fd.fd = -1;
 
   source = g_source_new (&event_funcs, sizeof (GSource));
+  g_source_set_name (source, "GDK Quartz event source"); 
   g_source_add_poll (source, &event_poll_fd);
   g_source_set_priority (source, GDK_PRIORITY_EVENTS);
   g_source_set_can_recurse (source, TRUE);
