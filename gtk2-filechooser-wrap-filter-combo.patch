@@ -1,0 +1,30 @@
+--- gtk+-2.18.9/gtk/gtkfilechooserdefault.c	2012-01-25 13:42:32.434927492 -0500
++++ gtk+-2.18.9.patched/gtk/gtkfilechooserdefault.c	2012-01-25 14:25:29.064930634 -0500
+@@ -2503,9 +2503,27 @@
+ static GtkWidget *
+ filter_create (GtkFileChooserDefault *impl)
+ {
++  GList *renderer_list;
++  GtkCellRenderer *renderer;
++
+   impl->filter_combo = gtk_combo_box_new_text ();
+   gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (impl->filter_combo), FALSE);
+ 
++  /* we just created it, so the only cell renderer in the combo box
++   * is the text renderer.
++   */
++  renderer_list = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (impl->filter_combo));
++  if (renderer_list != NULL)
++    {
++      /* set a wrap width of 500px, to avoid applications that set a very long
++       * file filter to overflow the screen
++       */
++      renderer = renderer_list->data;
++      g_object_set (renderer, "wrap-width", 500,
++		    NULL);
++      g_list_free (renderer_list);
++    }
++
+   g_signal_connect (impl->filter_combo, "changed",
+ 		    G_CALLBACK (filter_combo_changed), impl);
+ 

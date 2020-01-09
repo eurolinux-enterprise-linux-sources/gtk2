@@ -1,0 +1,61 @@
+From 41391f544c33dc093b6a393521897fb3fdae38ef Mon Sep 17 00:00:00 2001
+From: Juan Pablo Ugarte <juanpablougarte@gmail.com>
+Date: Wed, 29 Jun 2011 11:45:33 -0300
+Subject: [PATCH] Make GtkBuilder do not delay construct properties that can
+ be resolved (so construct is respected when possible) and
+ skip construct only props that can not.
+
+Conflicts:
+
+	gtk/gtkbuilder.c
+---
+ gtk/gtkbuilder.c |   20 ++++++++++----------
+ 1 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/gtk/gtkbuilder.c b/gtk/gtkbuilder.c
+index 9dff20e..d7419e6 100644
+--- a/gtk/gtkbuilder.c
++++ b/gtk/gtkbuilder.c
+@@ -280,29 +280,29 @@ gtk_builder_get_parameters (GtkBuilder  *builder,
+       if (G_IS_PARAM_SPEC_OBJECT (pspec) &&
+           (G_PARAM_SPEC_VALUE_TYPE (pspec) != GDK_TYPE_PIXBUF))
+         {
+-          if (pspec->flags & G_PARAM_CONSTRUCT_ONLY)
++          GObject *object = gtk_builder_get_object (builder, prop->data);
++
++          if (object)
+             {
+-              GObject *object;
+-              object = gtk_builder_get_object (builder, prop->data);
+-              if (!object)
++              g_value_init (&parameter.value, G_OBJECT_TYPE (object));
++              g_value_set_object (&parameter.value, object);
++            }
++          else
++            {
++              if (pspec->flags & G_PARAM_CONSTRUCT_ONLY)
+                 {
+                   g_warning ("Failed to get constuct only property "
+                              "%s of %s with value `%s'",
+                              prop->name, object_name, prop->data);
+                   continue;
+                 }
+-              g_value_init (&parameter.value, G_OBJECT_TYPE (object));
+-              g_value_set_object (&parameter.value, object);
+-            }
+-          else
+-            {
++              /* Delay setting property */
+               property = g_slice_new (DelayedProperty);
+               property->object = g_strdup (object_name);
+               property->name = g_strdup (prop->name);
+               property->value = g_strdup (prop->data);
+               builder->priv->delayed_properties =
+                 g_slist_prepend (builder->priv->delayed_properties, property);
+-
+               continue;
+             }
+         }
+-- 
+1.7.7.6
+
