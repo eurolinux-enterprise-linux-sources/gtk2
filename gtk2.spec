@@ -8,7 +8,6 @@
 %define atk_version %{atk_base_version}-2
 %define cairo_base_version 1.6.0
 %define cairo_version %{cairo_base_version}-1
-%define libpng_version 2:1.2.2-16
 %define xrandr_version 1.2.99.4-2
 %define gobject_introspection_version 0.9.3
 %define gir_repository_version 0.6.5-5
@@ -17,18 +16,17 @@
 
 Summary: The GIMP ToolKit (GTK+), a library for creating GUIs for X
 Name: gtk2
-Version: 2.24.28
-Release: 8%{?dist}
+Version: 2.24.31
+Release: 1%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
 #VCS: git:git://git.gnome.org/gtk+#gtk-2-24
-Source: http://download.gnome.org/sources/gtk+/2.24/gtk+-%{version}.tar.bz2
+Source: http://download.gnome.org/sources/gtk+/2.24/gtk+-%{version}.tar.xz
 Source2: update-gtk-immodules
 Source3: im-cedilla.conf
 Source4: update-gtk-immodules.1
 
-# Biarch changes
 Patch1: system-python.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=583273
 Patch2: icon-padding.patch
@@ -36,33 +34,29 @@ Patch2: icon-padding.patch
 Patch8: tooltip-positioning.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=611313
 Patch15: window-dragging.patch
-# coverity fix
-Patch20: 0001-Fix-a-wrong-function-call.patch
 
-BuildRequires: atk-devel >= %{atk_version}
-BuildRequires: glib2-devel >= %{glib2_version}
-BuildRequires: cairo-devel
-BuildRequires: gdk-pixbuf2-devel
-BuildRequires: pango-devel >= %{pango_version}
-BuildRequires: libtiff-devel
-BuildRequires: libjpeg-devel
-BuildRequires: jasper-devel
-BuildRequires: libXi-devel
-BuildRequires: libpng-devel >= %{libpng_version}
+BuildRequires: pkgconfig(atk) >= %{atk_version}
+BuildRequires: pkgconfig(glib-2.0) >= %{glib2_version}
+BuildRequires: pkgconfig(gobject-introspection-1.0) >= %{gobject_introspection_version}
+BuildRequires: pkgconfig(cairo)
+BuildRequires: pkgconfig(gdk-pixbuf-2.0)
+BuildRequires: pkgconfig(pango) >= %{pango_version}
+BuildRequires: pkgconfig(xi)
+BuildRequires: pkgconfig(xrandr)
+BuildRequires: pkgconfig(xrender)
+BuildRequires: pkgconfig(xcursor)
+BuildRequires: pkgconfig(xfixes)
+BuildRequires: pkgconfig(xinerama)
+BuildRequires: pkgconfig(xcomposite)
+BuildRequires: pkgconfig(xdamage)
 BuildRequires: gettext
 BuildRequires: cups-devel
-BuildRequires: cairo-devel >= %{cairo_version}
-BuildRequires: libXrandr-devel >= %{xrandr_version}
-BuildRequires: libXrender-devel
-BuildRequires: libXcursor-devel
-BuildRequires: libXfixes-devel
-BuildRequires: libXinerama-devel
-BuildRequires: libXcomposite-devel
-BuildRequires: libXdamage-devel
-BuildRequires: gobject-introspection-devel >= %{gobject_introspection_version}
 # Bootstrap requirements
 BuildRequires: gtk-doc
-BuildRequires: automake autoconf libtool pkgconfig
+BuildRequires: automake
+BuildRequires: autoconf
+BuildRequires: libtool
+BuildRequires: pkgconfig
 
 # Conflicts with packages containing theme engines
 # built against the 2.4.0 ABI
@@ -75,12 +69,13 @@ Obsoletes: gail < 2.13.0-1
 
 # required for icon theme apis to work
 Requires: hicolor-icon-theme
+# built as a subpackage of gtk3
+Requires: gtk-update-icon-cache
 
-# We need to prereq these so we can run gtk-query-immodules-2.0
-Requires(post): glib2 >= %{glib2_version}
-Requires(post): atk >= %{atk_version}
-Requires(post): pango >= %{pango_version}
-# and these for gdk-pixbuf-query-loaders
+Requires: glib2 >= %{glib2_version}
+Requires: atk >= %{atk_version}
+Requires: pango >= %{pango_version}
+# We need to prereq these so we can run gdk-pixbuf-query-loaders
 Requires(post): libtiff >= 3.6.1
 Requires: libXrandr >= %{xrandr_version}
 
@@ -121,7 +116,6 @@ Requires: cairo-devel >= %{cairo_version}
 Requires: libX11-devel, libXcursor-devel, libXinerama-devel
 Requires: libXext-devel, libXi-devel, libXrandr-devel
 Requires: libXfixes-devel, libXcomposite-devel
-Requires: libpng-devel
 Requires: pkgconfig
 
 Provides: gail-devel = %{version}-%{release}
@@ -149,10 +143,8 @@ This package contains developer documentation for the GTK+ widget toolkit.
 %patch2 -p1 -b .icon-padding
 %patch8 -p1 -b .tooltip-positioning
 %patch15 -p1 -b .window-dragging
-%patch20 -p1
 
 %build
-
 export CFLAGS='-fno-strict-aliasing %optflags'
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; CONFIGFLAGS=--enable-gtk-doc; fi;
  %configure $CONFIGFLAGS \
@@ -207,7 +199,6 @@ gzip -c %{SOURCE4} > $RPM_BUILD_ROOT%{_mandir}/man1/update-gtk-immodules.1.gz
 %find_lang gtk20
 %find_lang gtk20-properties
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/gtk-2.0
 #
 # Make cleaned-up versions of tutorials, examples, and faq for installation
 #
@@ -228,7 +219,7 @@ done
 # for places where we have two copies of the GTK+ package installed.
 # (we might have x86_64 and i686 packages on the same system, for example.)
 case "$host" in
-  alpha*|ia64*|ppc64*|powerpc64*|s390x*|x86_64*|aarch64*)
+  alpha*|ia64*|ppc64*|powerpc64*|s390x*|x86_64*|aarch64*|mips64*)
    mv $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0 $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0-64
    ;;
   *)
@@ -247,6 +238,8 @@ cp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/X11/xinit/xinput.d
 rm $RPM_BUILD_ROOT%{_libdir}/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/*/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/%{bin_version}/*/*.la
+rm $RPM_BUILD_ROOT%{_bindir}/gtk-update-icon-cache
+rm $RPM_BUILD_ROOT%{_mandir}/man1/gtk-update-icon-cache.1*
 
 touch $RPM_BUILD_ROOT%{_libdir}/gtk-2.0/%{bin_version}/immodules.cache
 
@@ -277,10 +270,10 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 
 %files -f gtk20.lang
-%doc AUTHORS COPYING NEWS README
+%license COPYING
+%doc AUTHORS NEWS README
 %{_bindir}/gtk-query-immodules-2.0*
 %{_bindir}/update-gtk-immodules
-%{_bindir}/gtk-update-icon-cache
 %{_libdir}/libgtk-x11-2.0.so.*
 %{_libdir}/libgdk-x11-2.0.so.*
 %{_libdir}/libgailutil.so.*
@@ -292,6 +285,7 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %{_libdir}/gtk-2.0/%{bin_version}/printbackends
 %{_libdir}/gtk-2.0/modules
 %{_libdir}/gtk-2.0/immodules
+%dir %{_datadir}/gtk-2.0
 %{_datadir}/themes/Default
 %{_datadir}/themes/Emacs
 %{_datadir}/themes/Raleigh
@@ -299,7 +293,6 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %{_libdir}/girepository-1.0
 %{_mandir}/man1/gtk-query-immodules-2.0*
 %{_mandir}/man1/update-gtk-immodules.1.gz
-%{_mandir}/man1/gtk-update-icon-cache.1.gz
 
 %files immodules
 %{_libdir}/gtk-2.0/%{bin_version}/immodules/im-am-et.so
@@ -327,7 +320,7 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %{_bindir}/gtk-builder-convert
 %{_libdir}/pkgconfig/*
 %{_bindir}/gtk-demo
-%{_datadir}/gtk-2.0
+%{_datadir}/gtk-2.0/demo
 %{_datadir}/gir-1.0
 %{_mandir}/man1/gtk-builder-convert.1.gz
 
@@ -338,6 +331,10 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %doc tmpdocs/examples
 
 %changelog
+* Sun Sep 11 2016 Kalev Lember <klember@redhat.com> - 2.24.31-1
+- Update to 2.24.31
+- Resolves: #1386979
+
 * Fri Jul 17 2015 Matthias Clasen <mclasen@redhat.com> - 2.24.28-8
 - Fix a coverty spotted bug
 Related: #1221171
