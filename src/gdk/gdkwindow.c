@@ -1931,21 +1931,61 @@ gdk_window_ensure_native (GdkWindow *window)
   return TRUE;
 }
 
+/**
+ * _gdk_event_filter_unref:
+ * @window: (allow-none): A #GdkWindow, or %NULL to be the global window
+ * @filter: A window filter
+ *
+ * Release a reference to @filter.  Note this function may
+ * mutate the list storage, so you need to handle this
+ * if iterating over a list of filters.
+ */
+void
+_gdk_event_filter_unref (GdkWindow       *window,
+                         GdkEventFilter  *filter)
+{
+  GList **filters;
+  GList *tmp_list;
+
+  if (window == NULL)
+    filters = &_gdk_default_filters;
+  else
+    {
+      GdkWindowObject *private;
+      private = (GdkWindowObject *) window;
+      filters = &private->filters;
+    }
+
+  tmp_list = *filters;
+  while (tmp_list)
+    {
+      GdkEventFilter *iter_filter = tmp_list->data;
+      GList *node;
+
+      node = tmp_list;
+      tmp_list = tmp_list->next;
+
+      if (iter_filter != filter)
+        continue;
+
+      g_assert (iter_filter->ref_count > 0);
+
+      filter->ref_count--;
+      if (filter->ref_count != 0)
+        continue;
+
+      *filters = g_list_remove_link (*filters, node);
+      g_free (filter);
+      g_list_free_1 (node);
+    }
+}
+
 static void
 window_remove_filters (GdkWindow *window)
 {
   GdkWindowObject *obj = (GdkWindowObject*) window;
-
-  if (obj->filters)
-    {
-      GList *tmp_list;
-
-      for (tmp_list = obj->filters; tmp_list; tmp_list = tmp_list->next)
-	g_free (tmp_list->data);
-
-      g_list_free (obj->filters);
-      obj->filters = NULL;
-    }
+  while (obj->filters)
+    _gdk_event_filter_unref (window, obj->filters->data);
 }
 
 /**
@@ -2545,13 +2585,18 @@ gdk_window_add_filter (GdkWindow     *window,
     {
       filter = (GdkEventFilter *)tmp_list->data;
       if ((filter->function == function) && (filter->data == data))
-	return;
+        {
+          filter->ref_count++;
+          return;
+        }
       tmp_list = tmp_list->next;
     }
 
   filter = g_new (GdkEventFilter, 1);
   filter->function = function;
   filter->data = data;
+  filter->ref_count = 1;
+  filter->flags = 0;
 
   if (private)
     private->filters = g_list_append (private->filters, filter);
@@ -2593,16 +2638,12 @@ gdk_window_remove_filter (GdkWindow     *window,
       tmp_list = tmp_list->next;
 
       if ((filter->function == function) && (filter->data == data))
-	{
-	  if (private)
-	    private->filters = g_list_remove_link (private->filters, node);
-	  else
-	    _gdk_default_filters = g_list_remove_link (_gdk_default_filters, node);
-	  g_list_free_1 (node);
-	  g_free (filter);
+        {
+          filter->flags |= GDK_EVENT_FILTER_REMOVED;
+	  _gdk_event_filter_unref (window, filter);
 
-	  return;
-	}
+          return;
+        }
     }
 }
 
@@ -2984,15 +3025,10 @@ gdk_window_begin_paint_region (GdkWindow       *window,
 
   if (implicit_paint)
     {
-      int width, height;
-
       paint->uses_implicit = TRUE;
       paint->pixmap = g_object_ref (implicit_paint->pixmap);
       paint->x_offset = -private->abs_x + implicit_paint->x_offset;
       paint->y_offset = -private->abs_y + implicit_paint->y_offset;
-
-      gdk_drawable_get_size (paint->pixmap, &width, &height);
-      paint->surface = _gdk_drawable_create_cairo_surface (paint->pixmap, width, height);
     }
   else
     {
@@ -3002,8 +3038,9 @@ gdk_window_begin_paint_region (GdkWindow       *window,
       paint->pixmap =
 	gdk_pixmap_new (window,
 			MAX (clip_box.width, 1), MAX (clip_box.height, 1), -1);
-      paint->surface = _gdk_drawable_ref_cairo_surface (paint->pixmap);
     }
+
+  paint->surface = _gdk_drawable_ref_cairo_surface (paint->pixmap);
 
   if (paint->surface)
     cairo_surface_set_device_offset (paint->surface,
@@ -5242,6 +5279,15 @@ gdk_window_add_update_window (GdkWindow *window)
   GSList *prev = NULL;
   gboolean has_ancestor_in_list = FALSE;
 
+  /*  Check whether "window" is already in "update_windows" list.
+   *  It could be added during execution of gtk_widget_destroy() when
+   *  setting focus widget to NULL and redrawing old focus widget.
+   *  See bug 711552.
+   */
+  tmp = g_slist_find (update_windows, window);
+  if (tmp != NULL)
+    return;
+
   for (tmp = update_windows; tmp; tmp = tmp->next)
     {
       GdkWindowObject *parent = GDK_WINDOW_OBJECT (window)->parent;
@@ -5267,7 +5313,7 @@ gdk_window_add_update_window (GdkWindow *window)
 	      prev = tmp;
 	    }
 	  /* here, tmp got advanced past all lower stacked siblings */
-	  tmp = g_slist_prepend (tmp, window);
+	  tmp = g_slist_prepend (tmp, g_object_ref (window));
 	  if (prev)
 	    prev->next = tmp;
 	  else
@@ -5280,7 +5326,7 @@ gdk_window_add_update_window (GdkWindow *window)
        */
       if (has_ancestor_in_list && gdk_window_is_ancestor (tmp->data, window))
 	{
-	  tmp = g_slist_prepend (tmp, window);
+	  tmp = g_slist_prepend (tmp, g_object_ref (window));
 
 	  if (prev)
 	    prev->next = tmp;
@@ -5294,7 +5340,7 @@ gdk_window_add_update_window (GdkWindow *window)
        */
       if (! tmp->next && has_ancestor_in_list)
 	{
-	  tmp = g_slist_append (tmp, window);
+	  tmp = g_slist_append (tmp, g_object_ref (window));
 	  return;
 	}
 
@@ -5305,13 +5351,20 @@ gdk_window_add_update_window (GdkWindow *window)
    *  hierarchy than what is already in the list) or the list is
    *  empty, prepend
    */
-  update_windows = g_slist_prepend (update_windows, window);
+  update_windows = g_slist_prepend (update_windows, g_object_ref (window));
 }
 
 static void
 gdk_window_remove_update_window (GdkWindow *window)
 {
-  update_windows = g_slist_remove (update_windows, window);
+  GSList *link;
+
+  link = g_slist_find (update_windows, window);
+  if (link != NULL)
+    {
+      update_windows = g_slist_delete_link (update_windows, link);
+      g_object_unref (window);
+    }
 }
 
 static gboolean
@@ -5686,8 +5739,6 @@ gdk_window_process_all_updates (void)
   update_idle = 0;
 
   _gdk_windowing_before_process_all_updates ();
-
-  g_slist_foreach (old_update_windows, (GFunc)g_object_ref, NULL);
 
   while (tmp_list)
     {
@@ -8733,6 +8784,8 @@ do_child_shapes (GdkWindow *window,
     gdk_region_subtract (region, private->shape);
 
   gdk_window_shape_combine_region (window, region, 0, 0);
+
+  cairo_region_destroy (region);
 }
 
 /**

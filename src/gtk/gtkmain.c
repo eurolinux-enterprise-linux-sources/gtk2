@@ -99,7 +99,7 @@ _gtk_get_libdir (void)
   if (gtk_libdir == NULL)
     {
       gchar *root = g_win32_get_package_installation_directory_of_module (gtk_dll);
-      gchar *slash = strrchr (root, '\\');
+      gchar *slash = root ? strrchr (root, '\\') : NULL;
       if (slash != NULL &&
           g_ascii_strcasecmp (slash + 1, ".libs") == 0)
 	gtk_libdir = GTK_LIBDIR;
@@ -690,9 +690,20 @@ do_pre_parse_initialization (int    *argc,
     }
 #endif	/* G_ENABLE_DEBUG */
 
-  env_string = g_getenv ("GTK_MODULES");
+  env_string = g_getenv ("GTK2_MODULES");
   if (env_string)
     gtk_modules_string = g_string_new (env_string);
+
+  env_string = g_getenv ("GTK_MODULES");
+  if (env_string)
+    {
+      if (gtk_modules_string)
+        g_string_append_c (gtk_modules_string, G_SEARCHPATH_SEPARATOR);
+      else
+        gtk_modules_string = g_string_new (NULL);
+
+      g_string_append (gtk_modules_string, env_string);
+    }
 }
 
 static void

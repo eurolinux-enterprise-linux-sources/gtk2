@@ -9837,6 +9837,13 @@ gtk_tree_view_move_cursor_page_up_down (GtkTreeView *tree_view,
     _gtk_rbtree_find_offset (tree_view->priv->tree, y,
 			     &cursor_tree, &cursor_node);
 
+  if (cursor_tree == NULL)
+    {
+      /* FIXME: we lost the cursor.  Should we try to get one? */
+      gtk_tree_path_free (old_cursor_path);
+      return;
+    }
+
   if (tree_view->priv->cursor_offset > BACKGROUND_HEIGHT (cursor_node))
     {
       _gtk_rbtree_next_full (cursor_tree, cursor_node,
@@ -11866,7 +11873,13 @@ gtk_tree_view_expand_all (GtkTreeView *tree_view)
 static gboolean
 expand_collapse_timeout (gpointer data)
 {
-  return do_expand_collapse (data);
+  GtkTreeView *tree_view = GTK_TREE_VIEW (data);
+  gboolean retval = do_expand_collapse (data);
+
+  if (! retval)
+    remove_expand_collapse_timeout (tree_view);
+
+  return retval;
 }
 
 static void

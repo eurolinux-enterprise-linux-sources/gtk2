@@ -1069,7 +1069,7 @@ fill_key_event_string (GdkEvent *event)
 static GdkFilterReturn
 apply_event_filters (GdkWindow  *window,
 		     MSG        *msg,
-		     GList      *filters)
+		     GList      **filters)
 {
   GdkFilterReturn result = GDK_FILTER_CONTINUE;
   GdkEvent *event;
@@ -1087,15 +1087,36 @@ apply_event_filters (GdkWindow  *window,
    */
   node = _gdk_event_queue_append (_gdk_display, event);
   
-  tmp_list = filters;
+  tmp_list = *filters;
   while (tmp_list)
     {
       GdkEventFilter *filter = (GdkEventFilter *) tmp_list->data;
-      
-      tmp_list = tmp_list->next;
+      GList *node;
+
+      if ((filter->flags & GDK_EVENT_FILTER_REMOVED) != 0)
+        {
+          tmp_list = tmp_list->next;
+          continue;
+        }
+
+      filter->ref_count++;
       result = filter->function (msg, event, filter->data);
-      if (result !=  GDK_FILTER_CONTINUE)
-	break;
+
+      /* get the next node after running the function since the
+         function may add or remove a next node */
+      node = tmp_list;
+      tmp_list = tmp_list->next;
+
+      filter->ref_count--;
+      if (filter->ref_count == 0)
+        {
+          *filters = g_list_remove_link (*filters, node);
+          g_list_free_1 (node);
+          g_free (filter);
+        }
+
+      if (result != GDK_FILTER_CONTINUE)
+        break;
     }
 
   if (result == GDK_FILTER_CONTINUE || result == GDK_FILTER_REMOVE)
@@ -2075,7 +2096,7 @@ gdk_event_translate (MSG  *msg,
     {
       /* Apply global filters */
 
-      GdkFilterReturn result = apply_event_filters (NULL, msg, _gdk_default_filters);
+      GdkFilterReturn result = apply_event_filters (NULL, msg, &_gdk_default_filters);
       
       /* If result is GDK_FILTER_CONTINUE, we continue as if nothing
        * happened. If it is GDK_FILTER_REMOVE or GDK_FILTER_TRANSLATE,
@@ -2121,7 +2142,7 @@ gdk_event_translate (MSG  *msg,
     {
       /* Apply per-window filters */
 
-      GdkFilterReturn result = apply_event_filters (window, msg, ((GdkWindowObject *) window)->filters);
+      GdkFilterReturn result = apply_event_filters (window, msg, &((GdkWindowObject *) window)->filters);
 
       if (result == GDK_FILTER_REMOVE || result == GDK_FILTER_TRANSLATE)
 	{
@@ -2642,6 +2663,7 @@ gdk_event_translate (MSG  *msg,
       break;
 
     case WM_MOUSEWHEEL:
+    case WM_MOUSEHWHEEL:
       GDK_NOTE (EVENTS, g_print (" %d", (short) HIWORD (msg->wParam)));
 
       /* WM_MOUSEWHEEL is delivered to the focus window. Work around
@@ -2692,8 +2714,13 @@ gdk_event_translate (MSG  *msg,
 
       event = gdk_event_new (GDK_SCROLL);
       event->scroll.window = window;
-      event->scroll.direction = (((short) HIWORD (msg->wParam)) > 0) ?
-	GDK_SCROLL_UP : GDK_SCROLL_DOWN;
+
+      if (msg->message == WM_MOUSEWHEEL)
+	  event->scroll.direction = (((short) HIWORD (msg->wParam)) > 0) ?
+	    GDK_SCROLL_UP : GDK_SCROLL_DOWN;
+      else if (msg->message == WM_MOUSEHWHEEL)
+	  event->scroll.direction = (((short) HIWORD (msg->wParam)) > 0) ?
+	    GDK_SCROLL_RIGHT : GDK_SCROLL_LEFT;
       event->scroll.time = _gdk_win32_get_next_tick (msg->time);
       event->scroll.x = (gint16) point.x;
       event->scroll.y = (gint16) point.y;
@@ -3303,6 +3330,11 @@ gdk_event_translate (MSG  *msg,
 	  mmi->ptMaxTrackSize.x = maxw > 0 && maxw < G_MAXSHORT ? maxw : G_MAXSHORT;
 	  mmi->ptMaxTrackSize.y = maxh > 0 && maxh < G_MAXSHORT ? maxh : G_MAXSHORT;
 	}
+      else
+	{
+	  mmi->ptMaxTrackSize.x = 30000;
+	  mmi->ptMaxTrackSize.y = 30000;
+	}
 
       if (impl->hint_flags & (GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE))
 	{
@@ -3315,8 +3347,7 @@ gdk_event_translate (MSG  *msg,
 				     mmi->ptMaxSize.x, mmi->ptMaxSize.y));
 	  return_val = TRUE;
 	}
-      mmi->ptMaxTrackSize.x = 30000;
-      mmi->ptMaxTrackSize.y = 30000;
+
       return_val = TRUE;
       break;
 

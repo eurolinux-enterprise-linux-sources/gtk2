@@ -13,8 +13,8 @@ AC_PREREQ(2.62)
 
 m4_define([gtk_major_version], [2])
 m4_define([gtk_minor_version], [24])
-m4_define([gtk_micro_version], [22])
-m4_define([gtk_interface_age], [22])
+m4_define([gtk_micro_version], [28])
+m4_define([gtk_interface_age], [28])
 m4_define([gtk_binary_age],
           [m4_eval(100 * gtk_minor_version + gtk_micro_version)])
 m4_define([gtk_version],
@@ -190,7 +190,7 @@ m4_ifdef([LT_OUTPUT], [LT_OUTPUT])
 AC_SYS_LARGEFILE
 
 AM_PROG_AS
-AC_PATH_PROG(NM, nm, nm)
+AC_PATH_TOOL(NM, nm, nm)
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE([enable])
@@ -620,8 +620,6 @@ GLIB_REQUIRED_VERSION_MAJOR_MINOR=`echo glib_required_version | sed "s/\.@<:@^.@
 if test "x$GLIB_VERSION_MAJOR_MINOR" = "x$GLIB_REQUIRED_VERSION_MAJOR_MINOR"; then
   CFLAGS="-DG_DISABLE_DEPRECATED $CFLAGS"
 fi
-
-CFLAGS="-DGDK_PIXBUF_DISABLE_DEPRECATED $CFLAGS"
 
 
 dnl
@@ -1453,7 +1451,7 @@ AC_ARG_ENABLE(cups,
 if test "x$enable_cups" = "xno"; then
   AM_CONDITIONAL(HAVE_CUPS, false)
 else
-  AC_PATH_PROG(CUPS_CONFIG, cups-config, no)
+  AC_PATH_TOOL(CUPS_CONFIG, cups-config, no)
   if test "x$CUPS_CONFIG" = "xno"; then
     if test "x$enable_cups" = "xauto"; then
       AM_CONDITIONAL(HAVE_CUPS, false)
@@ -1741,6 +1739,8 @@ build/Makefile
 build/win32/Makefile
 build/win32/vs9/Makefile
 build/win32/vs10/Makefile
+build/win32/vs11/Makefile
+build/win32/vs12/Makefile
 gdk/Makefile
 gdk/x11/Makefile
 gdk/win32/Makefile

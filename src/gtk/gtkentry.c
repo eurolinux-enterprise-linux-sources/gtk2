@@ -1298,12 +1298,12 @@ gtk_entry_class_init (GtkEntryClass *class)
    * GtkEntry::activate:
    * @entry: The entry on which the signal is emitted
    *
-   * A  <link linkend="keybinding-signals">keybinding signal</link>
-   * which gets emitted when the user activates the entry.
-   * 
-   * Applications should not connect to it, but may emit it with
-   * g_signal_emit_by_name() if they need to control activation 
-   * programmatically.
+   * The ::activate signal is emitted when the the user hits
+   * the Enter key.
+   *
+   * While this signal is used as a <link linkend="keybinding-signals">keybinding signal</link>,
+   * it is also commonly used by applications to intercept
+   * activation of entries.
    *
    * The default bindings for this signal are all forms of the Enter key.
    */
@@ -9607,7 +9607,10 @@ gtk_entry_completion_changed (GtkWidget *entry,
 
   /* (re)install completion timeout */
   if (completion->priv->completion_timeout)
-    g_source_remove (completion->priv->completion_timeout);
+    {
+      g_source_remove (completion->priv->completion_timeout);
+      completion->priv->completion_timeout = 0;
+    }
 
   if (!gtk_entry_get_text (GTK_ENTRY (entry)))
     return;

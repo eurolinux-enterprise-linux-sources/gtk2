@@ -1,3 +1,104 @@
+Overview of Changes from GTK+ 2.24.27 to 2.24.28
+================================================
+
+* Bug fixes:
+ 693738 gtk print dialog shows "Getting printer information failed"...
+ 746064 "sticky" window state reported wrongly on X11
+ 746269 Segfault in gtk_tree_view_move_cursor_page_up_down
+ 748014 W32: Tilting mousewheel left/right does not scroll horizontally
+
+
+Overview of Changes from GTK+ 2.24.26 to 2.24.27
+================================================
+
+* Bug fixes:
+ 696505 Segfault on Windows x64: gtkstatusicon.c tries to put 64-bit...
+ 745052 Icon theme code assumes directories with mtime 0 don't exist
+        Don't leak pixel data in some error paths
+ 745536 gdk: Fix GdkWindowFilter internal refcounting
+
+
+Overview of Changes from GTK+ 2.24.25 to 2.24.26
+================================================
+
+* Bug fixes:
+ 635380 gdk_event_apply_filters is unsafe against changes ...
+ 738837 region leak
+ 741060 Graphical artifacts drawn on Win32 since 4ecbef0791d4
+ 741959 text input broken on OS X 10.5 from 2.24.19 onwards
+ 743544 gtk2 autogen.sh fails with automake 1.15
+ 743917 Gtk modules must be compatible with both gtk 2 and 3
+        gailbutton: Avoid a possible NULL dereference
+        label: Avoid a possible NULL dereference
+
+
+Overview of Changes from GTK+ 2.24.24 to 2.24.25
+================================================
+
+* Bug fixes:
+ 689138 GtkButton: do not prelight in touchscreen mode
+ 705054 Embed manifest into gtk-update-icon-cache.exe
+ 729924 Crash while trying to print
+ 731582 Please use AC_PATH_TOOL to improve cross-compile...
+ 733689 Editing a GtkEntry with completion, causes CRITI...
+ 734563 Fails to install due to typo in modules/input/Ma...
+ 734879 gdk_test_simulate_key() has no implementation on...
+ 735005 gdk_drawable_get_screen() used for mask, which i...
+ 735428 gtk_main() tries to unlock an unlocked mutex
+Avoid a crash when using the pixbuf engine outside GTK+
+ 
+* Other changes:
+ - Build fixes for MS Visual C 2010 and later
+
+* Translation updates:
+ Hungarian
+
+
+Overview of Changes from GTK+ 2.24.23 to 2.24.24
+================================================
+
+* Bug fixes:
+ 686170 gdk/win32: VK_SNAPSHOT maps to GDK_Print
+ 693200 Printing via evince crashes badly when /tmp is not writable
+ 696232 win32: do not crash on invalid utf8 conversion
+ 711177 Print to file fails with default settings
+ 711553 gdk/win32: remove extra allocation for \r removal
+ 721895 Remove GtkIconCache
+ 723366 GtkFileChooser crashes due to a signal connection left behind...
+ 728745 win32: add more clipboard data checks to avoid crash
+ 731967 Pixmap leak with GtkNotebook under mingw 
+
+* Other changes:
+- This release changes the default behavior of gtk-update-icon-cache
+  to not include image data into the icon cache. Use the new
+  --include-image-data flag to get the old behavior back.
+
+* Translation updates:
+ Hebrew
+ Polish
+
+
+Overview of Changes from GTK+ 2.24.22 to 2.24.23
+================================================
+
+* Bug fixes:
+ 634146 Calls to g_win32_get_package_installation_directory_of_module()...
+ 651224 null pointer dereferenced due to multiple bugs in gtkclipboard-...
+ 665507 Pixmap via cairo DIB breaks gdk_gc_set_stipple() use
+ 671538 memory and gdi leaks on windows xp
+ 701751 GtkProgressBar causes warnings
+ 704937 IME input method does not handle dead keys
+ 705367 kqueue file monitor consumes file descriptors
+ 708119 Wrong gdk_pixmap_new() parameters in documentation
+ 708783 printing crashes gtk based apps (firefox, chromium, gimp, ...)
+ 710936 GtkFileChooser: Incorrect Japanese message for an error dialog...
+ 711110 GDK_HINT_MAX_SIZE ignored on Win32
+ 711298 "Edit Scheduled Transaction" window way too modal
+ 711552 Crash when processing list of GdkWindows
+ 712536 Themes with specified gap_file, gap_start_file or gap_end_file...
+ 722496 GtkFileChooser: fix documentation
+
+
 Overview of Changes from GTK+ 2.24.21 to 2.24.22
 ================================================
 

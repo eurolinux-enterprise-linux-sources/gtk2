@@ -1,0 +1,27 @@
+From 7ee8b1fd9af52842e87c26465b9aa8921e62ec90 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Fri, 17 Jul 2015 21:20:10 -0400
+Subject: [PATCH 1/2] Fix a wrong function call
+
+cairo_region_destroy can't handle GdkRegions. We need to call
+gdk_region_destroy. Found by coverity.
+---
+ gdk/gdkwindow.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gdk/gdkwindow.c b/gdk/gdkwindow.c
+index a0500ce..eb0a56d 100644
+--- a/gdk/gdkwindow.c
++++ b/gdk/gdkwindow.c
+@@ -8785,7 +8785,7 @@ do_child_shapes (GdkWindow *window,
+ 
+   gdk_window_shape_combine_region (window, region, 0, 0);
+ 
+-  cairo_region_destroy (region);
++  gdk_region_destroy (region);
+ }
+ 
+ /**
+-- 
+2.4.5
+

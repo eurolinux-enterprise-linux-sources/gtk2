@@ -17,8 +17,8 @@
 
 Summary: The GIMP ToolKit (GTK+), a library for creating GUIs for X
 Name: gtk2
-Version: 2.24.22
-Release: 5%{?dist}.1
+Version: 2.24.28
+Release: 8%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
@@ -36,11 +36,8 @@ Patch2: icon-padding.patch
 Patch8: tooltip-positioning.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=611313
 Patch15: window-dragging.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1054751
-Patch31: 0001-gdkwindow-Handle-references-in-update_windows-list-c.patch
-Patch32: 0002-gdkwindow-Don-t-add-the-same-window-to-update_window.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=1130207
-Patch33: 0001-Print-to-a-file-in-the-current-directory-by-default.patch
+# coverity fix
+Patch20: 0001-Fix-a-wrong-function-call.patch
 
 BuildRequires: atk-devel >= %{atk_version}
 BuildRequires: glib2-devel >= %{glib2_version}
@@ -152,11 +149,11 @@ This package contains developer documentation for the GTK+ widget toolkit.
 %patch2 -p1 -b .icon-padding
 %patch8 -p1 -b .tooltip-positioning
 %patch15 -p1 -b .window-dragging
-%patch31 -p1 -b .gdkwindow-Handle-references
-%patch32 -p1 -b .gdkwindow-Don-t-add
-%patch33 -p1 -b .print-to-file
+%patch20 -p1
 
 %build
+
+export CFLAGS='-fno-strict-aliasing %optflags'
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; CONFIGFLAGS=--enable-gtk-doc; fi;
  %configure $CONFIGFLAGS \
 	--enable-man		\
@@ -341,10 +338,22 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %doc tmpdocs/examples
 
 %changelog
-* Mon Aug 18 2014 Marek Kasik <mkasik@redhat.com> - 2.24.22-5.el7_0.1
+* Fri Jul 17 2015 Matthias Clasen <mclasen@redhat.com> - 2.24.28-8
+- Fix a coverty spotted bug
+Related: #1221171
+
+* Thu May 14 2015 Matthias Clasen <mclasen@redhat.com> - 2.24.28-7
+- Build with -fno-strict-aliasing
+Related: #1221171
+
+* Thu May 14 2015 Matthias Clasen <mclasen@redhat.com> - 2.24.28-1
+- Update to 2.24.28
+Resolves: #1221171
+
+* Thu Jul 31 2014 Marek Kasik <mkasik@redhat.com> - 2.24.22-6
 - Propagate filename if directory was not specified
 - when printing to a file
-- Resolves: #1130207
+- Resolves: #1109100
 
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2.24.22-5
 - Mass rebuild 2014-01-24
