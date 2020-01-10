@@ -40,7 +40,7 @@ fi
 FILE=/etc/gtk-2.0/$host/gtk.immodules
 
 case "$host" in
-  alpha*|ia64*|powerpc64*|s390x*|x86_64*)
+  alpha*|ia64*|powerpc64*|s390x*|x86_64*|aarch64*)
    /usr/bin/gtk-query-immodules-2.0-64 > $FILE
    ;;
   *)

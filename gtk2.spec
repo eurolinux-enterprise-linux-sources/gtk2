@@ -18,7 +18,7 @@
 Summary: The GIMP ToolKit (GTK+), a library for creating GUIs for X
 Name: gtk2
 Version: 2.24.22
-Release: 1%{?dist}
+Release: 5%{?dist}
 License: LGPLv2+
 Group: System Environment/Libraries
 URL: http://www.gtk.org
@@ -36,6 +36,9 @@ Patch2: icon-padding.patch
 Patch8: tooltip-positioning.patch
 # https://bugzilla.gnome.org/show_bug.cgi?id=611313
 Patch15: window-dragging.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1054751
+Patch31: 0001-gdkwindow-Handle-references-in-update_windows-list-c.patch
+Patch32: 0002-gdkwindow-Don-t-add-the-same-window-to-update_window.patch
 
 BuildRequires: atk-devel >= %{atk_version}
 BuildRequires: glib2-devel >= %{glib2_version}
@@ -147,6 +150,8 @@ This package contains developer documentation for the GTK+ widget toolkit.
 %patch2 -p1 -b .icon-padding
 %patch8 -p1 -b .tooltip-positioning
 %patch15 -p1 -b .window-dragging
+%patch31 -p1 -b .gdkwindow-Handle-references
+%patch32 -p1 -b .gdkwindow-Don-t-add
 
 %build
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; CONFIGFLAGS=--enable-gtk-doc; fi;
@@ -223,7 +228,7 @@ done
 # for places where we have two copies of the GTK+ package installed.
 # (we might have x86_64 and i686 packages on the same system, for example.)
 case "$host" in
-  alpha*|ia64*|ppc64*|powerpc64*|s390x*|x86_64*)
+  alpha*|ia64*|ppc64*|powerpc64*|s390x*|x86_64*|aarch64*)
    mv $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0 $RPM_BUILD_ROOT%{_bindir}/gtk-query-immodules-2.0-64
    ;;
   *)
@@ -333,6 +338,20 @@ gtk-query-immodules-2.0-%{__isa_bits} --update-cache
 %doc tmpdocs/examples
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2.24.22-5
+- Mass rebuild 2014-01-24
+
+* Fri Jan 17 2014 Benjamin Otte <otte@gnome.org> 2.24.22-4
+- Mass rebuild 2013-12-27
+- Resolves: #1054751
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 2.24.22-3
+- Mass rebuild 2013-12-27
+
+* Mon Nov 11 2013 Matthias Clasen <mclasen@redhat.com> - 2.24.22-2
+- Fix build on aarch64
+- Resolves: #1028579
+
 * Tue Oct 29 2013 Matthias Clasen <mclasen@redhat.com> - 2.24.22-1
 - Update to 2.24.22
 - Resolves: #1018303
